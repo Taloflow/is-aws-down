@@ -1,4 +1,4 @@
-# Cloud health monitoring service
+# Cloud health monitoring service and metrics API
 
 Check if a cloud service in a region is working by monitoring the uptime of sample applications. We are using below sample applications to monitor AWS service in us-east-1 region.
 

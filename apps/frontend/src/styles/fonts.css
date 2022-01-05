@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Basis Grotesque';
+    src: local('Basis Grotesque Bold'), local('BasisGrotesque-Bold'),
+        url('https://front-end-for-is-aws-down.pages.dev/fonts/BasisGrotesquePro-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Basis Grotesque';
+    src: local('Basis Grotesque Light'), local('BasisGrotesque-Light'),
+        url('https://front-end-for-is-aws-down.pages.dev/fonts/BasisGrotesquePro-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Basis Grotesque';
+    src: local('Basis Grotesque Medium'), local('BasisGrotesque-Medium'),
+        url('https://front-end-for-is-aws-down.pages.dev/fonts/basis-grotesque-medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Basis Grotesque';
+    src: local('Basis Grotesque'), local('BasisGrotesque-Regular'),
+        url('https://front-end-for-is-aws-down.pages.dev/fonts/BasisGrotesquePro-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+

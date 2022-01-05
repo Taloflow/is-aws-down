@@ -17,7 +17,7 @@ ENV TM_BEZZOS_QUOTES_URL https://us-east-1-quote-generator.taloflow.ai/quote
 ENV TM_S3_FILE_URL https://taloflow-aws-health-check.s3.amazonaws.com/if-i-get-requested-s3-is-up.jpg
 ENV TM_REGION us-east-1
 ENV TM_SQS_SLEEP 60
-ENV TM_VOTING_EC2_INSTANCE_ID i-078ce0500dbbe660e
+ENV TM_VOTING_EC2_INSTANCE_ID i-xxxxxxxxxxxxxx
 ENV TM_EC2_ENDPOINT_URL https://ec2.us-east-1.amazonaws.com
 ENV TM_DYNAMODB_ENDPOINT_URL https://dynamodb.us-east-1.amazonaws.com
 ENV TM_LAMBDA_ENDPOINT_URL https://lambda.us-east-1.amazonaws.com

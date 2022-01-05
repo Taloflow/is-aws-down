@@ -92,8 +92,207 @@ sudo docker run -d --name dramatiq --restart unless-stopped dramatiq
 
 # Build docker image for API
 # Update ENV variables in api.DockerFile
+# The ENV variables VIRTUAL_HOST and LETSENCRYPT_HOST should point to the domain name for the API. 
 sudo docker build -f api.DockerFile -t api .
 
 # Start API server
 sudo docker run -d --name api -p :80 --restart unless-stopped api
+```
+
+
+### API
+
+#### Topic
+
+An example topic
+```
+{
+	id: e84193f1-6299-4580-87ec-789b3ae3294b, // primary key for topics table
+    created: 2021-12-28T00:36:04.520156,      // iso timestamp
+    last_upd: 2021-12-28T00:36:04.520156,     
+    is_active: true,                          
+    title: "I want to quit working computers and become a ...",
+    choices: [
+       {
+        id: 3df20871-0744-4f25-9b77-9c22218bc0f8,
+        description: "Woodworker",
+        votes: 33
+       },
+       {
+        id: e801c63c-a7f8-4f8d-bd05-e492a857bd59,
+        description: "Woodworker",
+        votes: 67
+       }
+    ]
+}
+```
+
+#### Methods
+
+You can see the docs and execute against live DB using the swagger spec at API_URL/docs.  Below is a worked out example of a topic creation, update and vote. 
+
+**POST /topics:** Create a topic
+
+Request json format
+```
+{
+  "is_active": true,
+  "title": "I want to quit working computers and become a ...",
+  "choices": [
+    {
+      "description": "Woodworker"
+    },
+    {
+      "description": "Baker"
+    },
+    {
+      "description": "Farmer"
+    }
+  ]
+}
+```
+
+Successful response: HTTP 201 Created
+
+```
+{
+  "id": "ecea1557-4763-4f7b-b218-8af55294667c",
+  "created": "2021-12-28T00:48:55.871230",
+  "last_upd": "2021-12-28T00:48:55.871238",
+  "is_active": true,
+  "title": "I want to quit working computers and become a ...",
+  "choices": [
+    {
+      "id": "6042f664-fac3-4c4a-bf3d-9646b33f9d73",
+      "description": "Woodworker",
+      "votes": null
+    },
+    {
+      "id": "77c4a8ff-48cf-4f47-9c89-007ccfe487fe",
+      "description": "Baker",
+      "votes": null
+    },
+    {
+      "id": "5e3fc1b1-6a6d-4aa8-b8e2-4454aeadb1d5",
+      "description": "Farmer",
+      "votes": null
+    }
+  ]
+}
+```
+
+**PUT /topics/{id}:** Update existing topics.
+
+You can update:
+
+    * title
+    * is_active
+    * choices.description
+
+PUT /topics/ecea1557-4763-4f7b-b218-8af55294667c
+
+```
+{
+  "is_active": false,
+  "title": "I want to quit working computers and become a:",
+  "choices": [
+    {
+      "id": "6042f664-fac3-4c4a-bf3d-9646b33f9d73",
+      "description": "Woodworker"
+    },
+    {
+      "id": "77c4a8ff-48cf-4f47-9c89-007ccfe487fe",
+      "description": "Baker"
+    },
+    {
+      "id": "5e3fc1b1-6a6d-4aa8-b8e2-4454aeadb1d5",
+      "description": "Organic Farmer"
+    },
+    {
+      "description": "Chef"
+    }
+  ]
+}
+```
+
+Here
+
+    * Successful response: HTTP 200. Body will be null as this is PUT
+    * Choices array will be replaced by the array you provide:
+        * Chef will be assigned an id as we are adding a new one. 
+        * Keep the other ids exactly as you received from GET /topics as votes may already have been recorded against them.
+
+
+**GET /topics:** get all topics. 
+**GET /topics/{id}:** Get specific topic by id.
+
+For both methods, add a url param include_votes=true if you require votes to be calculated for each topic.
+
+GET /topics?include_votes=true
+
+```
+[
+  {
+    "created": "2021-12-28T00:48:55.871230",
+    "is_active": false,
+    "id": "ecea1557-4763-4f7b-b218-8af55294667c",
+    "last_upd": "2021-12-28T00:48:55.871238",
+    "choices": [
+      {
+        "description": "Woodworker",
+        "votes": 0,
+        "id": "6042f664-fac3-4c4a-bf3d-9646b33f9d73"
+      },
+      {
+        "description": "Baker",
+        "votes": 0,
+        "id": "77c4a8ff-48cf-4f47-9c89-007ccfe487fe"
+      },
+      {
+        "description": "Organic Farmer",
+        "votes": 0,
+        "id": "5e3fc1b1-6a6d-4aa8-b8e2-4454aeadb1d5"
+      },
+      {
+        "description": "Chef",
+        "votes": 0,
+        "id": "f3d75639-691a-47a5-8b46-beeb12ea2d3e"
+      }
+    ],
+    "title": "I want to quit working computers and become a:"
+  }
+]
+```
+
+**POST /votes**: Records a vote against a topic_id, choice_id.
+
+```
+{
+  "topic_id": "ecea1557-4763-4f7b-b218-8af55294667c",
+  "choice_id": "6042f664-fac3-4c4a-bf3d-9646b33f9d73"
+}
+```
+
+Successful response: HTTP 202 Accepted. This will be queued at SQS to be picked up and processed by task processor into DynamoDB.
+
+```
+{
+  "id": "5f88882c-a3a3-417d-aab9-75ba337ceb47",
+  "topic_id": "ecea1557-4763-4f7b-b218-8af55294667c",
+  "choice_id": "6042f664-fac3-4c4a-bf3d-9646b33f9d73",
+  "queued_at": "2021-12-28T01:15:40.314062"
+}
+```
+
+Here you get HTTP 202 as we are deliberately involving SQS. The vote record is enqueued in SQS for asynchronous processing. 
+
+When the processing is complete and record is in DynamoDB, you can see it by GET /votes/{id}. The request will return HTTP 200 when the vote has reached db.
+
+```
+{
+  "created": "2021-12-28T01:15:40.399351",
+  "topic_id": "ecea1557-4763-4f7b-b218-8af55294667c",
+  "id": "5f88882c-a3a3-417d-aab9-75ba337ceb47",
+  "choice_id": "6042f664-fac3-4c4a-bf3d-9646b33f9d73"
+}
 ```

@@ -1,0 +1,58 @@
+topics = {
+    "KeySchema": [
+        {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+        }
+    ],
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "id",
+            "AttributeType": "S"
+        }],
+    "BillingMode": "PAY_PER_REQUEST",
+    "TableName": "topics"
+}
+
+votes = {
+    "KeySchema": [
+        {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+        }
+    ],
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "id",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "topic_id",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "created",
+            "AttributeType": "S"
+        }
+    ],
+    "GlobalSecondaryIndexes": [
+        {
+            "IndexName": "GroupByTopicOrderByCreated",
+            "KeySchema": [
+                {
+                    "AttributeName": "topic_id",
+                    "KeyType": "HASH"
+                },
+                {
+                    "AttributeName": "created",
+                    "KeyType": "RANGE"
+                }
+            ],
+            "Projection": {
+              "ProjectionType": "ALL"
+            }
+        }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "TableName": "votes"
+}

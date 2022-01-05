@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "voting_game"
+version = "0.1.0"
+description = "An voting application to monitor up time of EC2, SQS and DynamoDB"
+authors = ["anu@taloflow.ai"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.70.1"
+uvicorn = {extras = ["standard"], version = "^0.16.0"}
+pydantic = "^1.8.2"
+boto3 = "^1.20.26"
+dramatiq = {extras = ["watch"], version = "^1.12.1"}
+dramatiq-sqs = "^0.1.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.6"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

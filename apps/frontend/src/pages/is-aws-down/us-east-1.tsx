@@ -4,9 +4,7 @@ import { VotingGameContainer } from "../../components/healthCheckApplications/vo
 import { S3 } from "../../components/healthCheckApplications/s3";
 import { QuoteGenerator } from "../../components/healthCheckApplications/QuoteGenerator";
 import { ShadeGenerator } from "../../components/healthCheckApplications/shadeGenerator";
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../app/hooks";
-import { setBaseURL } from "../../features/votingGame/votingGameSlice";
+import { useState } from "react";
 import { HNAlert } from "../../components/healthCheckPageElements/HNAlert";
 import { Navbar } from "../../components/healthCheckPageElements/navbar";
 import { InView } from "react-intersection-observer";
@@ -16,6 +14,9 @@ import { AWSIsUpOrDown } from "../../components/healthCheckPageElements/awsIsUpO
 import { CTA } from "../../components/healthCheckPageElements/CTA";
 
 export default function USEastOne() {
+  // I have all these pieces of state at the page level to:
+  // 1. Let the navbar highlight when something is in view
+  // 2. Only poll some of the applications when the component is in view
   const [statsIsVisible, setStatsIsVisible] = useState(false);
   const [votingIsVisible, setVotingIsVisible] = useState(false);
   const [S3IsVisible, setS3IsVisible] = useState(false);

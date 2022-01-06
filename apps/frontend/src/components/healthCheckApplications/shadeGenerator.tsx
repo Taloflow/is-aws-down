@@ -76,7 +76,7 @@ export const ShadeGenerator = (props: ShadeProps) => {
       <TruncatedTextContainer>
         <BodyText>
           {props.SubHeadline}{" "}
-          <a href="https://example.com">Tell us what it is here.</a>
+          <a href="https://github.com/Taloflow/is-aws-down/discussions/6">Tell us what it is here.</a>
         </BodyText>
       </TruncatedTextContainer>
       <div className={"relative"}>

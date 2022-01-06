@@ -63,7 +63,7 @@ export const Navbar = (props: NavBarProps) => {
               className={
                 "no-underline bg-white rounded-lg text-brand-accent text-sm md:text-lg font-bold px-4 py-2"
               }
-              href={"https://github.com"}
+              href={"https://github.com/Taloflow/is-aws-down/discussions"}
               target={"_blank"}
             >
               Github Discussion Page

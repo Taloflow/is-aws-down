@@ -1,7 +1,7 @@
 import random
 import os
 from functools import cache
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -25,7 +25,10 @@ app.add_middleware(
 
 
 @app.get('/quote')
-def get_quote(trim: bool=True, book=Depends(get_book)):
+def get_quote(response: Response, trim: bool=True, book=Depends(get_book)):
+    response.headers['Cache-Control'] = ('public, max-age=1, s-maxage=1'
+                                         ', stale-while-revalidate=120'
+                                         ', stale-if-error=120')
     random_index = random.randint(0, len(book)-1)
     quote = book[random_index]
     r = quote[:140] if trim else quote

@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, Request, status, HTTPException
+from fastapi import Depends, FastAPI, Request, status, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
@@ -82,13 +82,21 @@ def put_topics(topic: SecureTopic, id: str, db=Depends(get_db)):
 
 
 @app.get('/topics')
-def get_topics(include_votes: bool=False, db=Depends(get_db)):
+def get_topics(response: Response, include_votes: bool=False,
+               db=Depends(get_db)):
+    response.headers['Cache-Control'] = ('public, max-age=1, s-maxage=1'
+                                         ', stale-while-revalidate=120'
+                                         ', stale-if-error=120')
     r = db.query_topics(include_votes=include_votes)
     return r
 
 
 @app.get('/topics/{id}')
-def get_topics_by_id(id: str, include_votes: bool=False, db=Depends(get_db)):
+def get_topics_by_id(response: Response, id: str, include_votes: bool=False,
+                     db=Depends(get_db)):
+    response.headers['Cache-Control'] = ('public, max-age=1, s-maxage=1'
+                                         ', stale-while-revalidate=120'
+                                         ', stale-if-error=120')
     r = db.query_topics(id=id, include_votes=include_votes)
     return r
 
@@ -105,13 +113,19 @@ def enqueue_votes(vote: base.Vote, db=Depends(get_db)):
 
 
 @app.get('/votes/{id}')
-def get_votes_by_id(id: str, db=Depends(get_db)):
+def get_votes_by_id(response: Response, id: str, db=Depends(get_db)):
+    response.headers['Cache-Control'] = ('public, max-age=5, s-maxage=5'
+                                         ', stale-while-revalidate=120'
+                                         ', stale-if-error=120')
     r = db.query_votes(id=id)
     return r
 
 
 @app.get('/votes')
-def get_votes_by_topic(topic_id: str, db=Depends(get_db)):
+def get_votes_by_topic(response: Response, topic_id: str, db=Depends(get_db)):
+    response.headers['Cache-Control'] = ('public, max-age=5, s-maxage=5'
+                                         ', stale-while-revalidate=120'
+                                         ', stale-if-error=120')
     r = db.query_votes(topic_id=topic_id)
     return r
 

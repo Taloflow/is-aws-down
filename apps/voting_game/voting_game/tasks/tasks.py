@@ -46,7 +46,7 @@ db = dynamodb.DynamoDBModel(
 def process_vote(id, topic_id, choice_id):
     try:
         vote = base.Vote(id=id, topic_id=topic_id, choice_id=choice_id)
-        db.insert_votes(vote)
+        db.cast_vote(vote)
     except Exception:
         logger.exception(f'Error inserting vote {vote}')
         raise

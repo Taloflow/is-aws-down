@@ -1,9 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
 import * as snippet from "@segment/snippet";
 import { Router } from "next/router";
 
-const isProduction = process.env.NODE_ENV === "production";
 
 const DEFAULT_WRITE_KEY = "pXZJ3AzXJmrxGPRiWNqSpEDQdobjqWkf";
 
@@ -26,13 +24,8 @@ Router.events.on("routeChangeComplete", (url) => {
   window.analytics.page(url);
 });
 
-Router.events.on("routeChangeStart", (url) => {
-  console.log("change route");
-  window.alert("helloooo");
-  // @ts-ignore
-  window.analytics.page(url);
-});
 
+// @ts-ignore - No idea why I'm getting an error for this
 export default class MyDocument extends Document {
   render(): JSX.Element {
     return (

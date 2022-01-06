@@ -37,7 +37,6 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
     if (!data) {
       return;
     }
-    console.log("data is", data);
     let hadIssuesInLastHour = [] as string[];
     let hadIssuesInLastDay = [] as string[];
     data.map((downChecks) => {

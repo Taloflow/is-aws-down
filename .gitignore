@@ -130,3 +130,22 @@ dmypy.json
 
 # vim swap files
 *.swp
+
+# Editor
+.idea/
+.idea
+
+# Front End Build
+/.next/
+/out/
+.firebase/
+.out/
+/.pnp
+.pnp.js
+/build
+
+# misc
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

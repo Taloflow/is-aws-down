@@ -1,7 +1,10 @@
-# Is Us East 1 down?
+# Is AWS Down?
 
-There is no good way to tell if US East 1 is down. Current methods include asking around if others have issues or relying on Down Detector.
-A solution to find if AWS East 1 is working is to run sample applications in the region and report on their uptime. This repo contains source code for the sample applications we run to generate our [monitoring dashboard](https://www.taloflow.ai/is-aws-down/us-east-1)
+There is no good way to tell if AWS is down. Current methods include asking around if others have issues or relying on Down Detector.
+
+A potential simple solution to find if AWS is up, or having service degredation is run sample applications in the region and report on their uptime and latency. 
+
+This repo contains source code for the sample applications we run to generate our [monitoring dashboard for US East 1](https://www.taloflow.ai/is-aws-down/us-east-1). We then monitor the uptime of these services either through the AWS API, or making a request to the service directly.
 
 ## Repo structure:
 
@@ -13,4 +16,4 @@ A solution to find if AWS East 1 is working is to run sample applications in the
 
 ## Future plans and extensibility
 
-The current plan is to monitor US-East-1 first but monitor more regions and cloud providers in the future - dozens of regions for GCP, Azure, AWS etc.
+The current plan is to monitor US-East-1 first but monitor more regions and cloud providers in the future.

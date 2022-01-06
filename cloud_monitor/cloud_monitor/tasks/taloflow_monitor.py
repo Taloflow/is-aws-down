@@ -272,14 +272,6 @@ def get_vote(api_url, vote_id=None, **kwargs):
 
         if r.status_code == 200:
             value = 1
-
-            r2 = requests.delete(url)
-            logger.info(f'Response from DELETE vote => {r2.status_code}')
-
-            if r2.status_code != 200:
-                logger.info(r2.text)
-                raise RuntimeError('Unexpected reponse from DELETE vote')
-
         else:
             raise RuntimeError('Unexpected response from get_vote')
     except Exception:

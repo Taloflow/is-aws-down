@@ -15,11 +15,16 @@ def db():
         region_name=os.environ['AWS_REGION'],
         endpoint_url=os.environ['DYNAMODB_ENDPOINT_URL_TESTS']
     )
-    db.create_table_topics()
-    db.create_table_votes()
+
+    try:
+        db.create_table_topics()
+        db.create_table_votes()
+    except Exception:
+        pass
+
     yield db
-    db.delete_table_topics()
-    db.delete_table_votes()
+    # db.delete_table_topics()
+    # db.delete_table_votes()
 
 
 class TestDynamoDBModel(object):
@@ -55,12 +60,31 @@ class TestDynamoDBModel(object):
         vote_2 = base.Vote(topic_id=topic.id, choice_id=choice_2.id)
         vote_3 = base.Vote(topic_id=topic.id, choice_id=choice_2.id)
 
-        db.insert_votes(vote_1)
-        db.insert_votes(vote_2)
-        db.insert_votes(vote_3)
+        db.cast_vote(vote_1)
+        db.cast_vote(vote_2)
+        db.cast_vote(vote_3)
 
         r4 = db.query_topics(id=topic.id, include_votes=True)
         print(r4)
         assert r4['choices'][2]['votes'] == 0
-        assert r4['choices'][0]['votes'] == 33
-        assert r4['choices'][1]['votes'] == 67
+        assert r4['choices'][1]['votes'] == 2
+        assert r4['choices'][0]['votes'] == 0
+
+        db.cast_vote(vote_1)
+        r5 = db.query_topics(id=topic.id, include_votes=True)
+        print(r5)
+        assert r5['choices'][2]['votes'] == 0
+        assert r5['choices'][1]['votes'] == 1
+        assert r5['choices'][0]['votes'] == 1
+
+        vote_4 = base.Vote(topic_id=topic.id, choice_id=choice_3.id)
+        db.cast_vote(vote_4)
+        r6 = db.query_topics(id=topic.id, include_votes=True)
+        print(r6)
+        assert r6['choices'][2]['votes'] == 1
+
+        assert ((r6['choices'][1]['votes'] == 1
+                and r6['choices'][0]['votes'] == 0)
+                or
+                (r6['choices'][1]['votes'] == 0
+                 and r6['choices'][0]['votes'] == 1))

@@ -1,0 +1,4 @@
+/fonts/*
+Access-Control-Allow-Origin: *
+test-header: foo-bar
+x-frame-options: DENY

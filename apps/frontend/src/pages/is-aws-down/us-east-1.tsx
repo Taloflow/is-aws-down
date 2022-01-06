@@ -56,7 +56,8 @@ export default function USEastOne() {
           <IdHref name={"stats"} />
           <HealthCheckDashboardContainer
             AnalyticsSource={"GCP"}
-            EndPoint={"https://aws-health-check-api-gmoizr7c4q-uc.a.run.app"}
+            EndPoint={"https://gcp-dashboard-generator.taloflow.ai"}
+            // EndPoint={"https://aws-health-check-api-gmoizr7c4q-uc.a.run.app"}
             ShouldPoll={statsIsVisible}
           />
         </section>

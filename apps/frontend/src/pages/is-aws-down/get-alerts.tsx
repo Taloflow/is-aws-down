@@ -90,7 +90,7 @@ export default function GetAlerts() {
           </BodyText>
           <BodyText extraClasses={"font-medium"}>
             Sign up to get alerted when this launches below.{" "}
-            <a href={"https://gitub.com"}>Add a feature request here.</a>
+            <a href={"https://github.com/Taloflow/is-aws-down/discussions"}>Add a feature request here.</a>
           </BodyText>
         </StandardCard>
       </section>

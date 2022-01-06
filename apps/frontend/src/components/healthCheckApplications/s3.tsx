@@ -76,7 +76,7 @@ export const S3 = (props: S3Props) => {
             <LargeParagraphText>
               This image is served from {props.ServiceName} in {props.Region}{" "}
               Suggest a new image on our{" "}
-              <a href={"https://taloflow.ai"} target={"_blank"}>
+              <a href={"https://github.com/Taloflow/is-aws-down/discussions"} target={"_blank"}>
                 github community
               </a>
               .

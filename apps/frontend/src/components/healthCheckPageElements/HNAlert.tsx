@@ -26,7 +26,7 @@ export const HNAlert = () => {
           <BodyText>
             If you have any suggestions for how to make this tool more useful
             for keeping big cloud honest, please head to our{" "}
-            <a href={"https://github.com"}>Github discussion page</a>.
+            <a href={"https://github.com/Taloflow/is-aws-down/discussions"}>Github discussion page</a>.
           </BodyText>
         </div>
       </StandardCard>

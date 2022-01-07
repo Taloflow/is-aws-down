@@ -163,7 +163,7 @@ def get_topic(api_url, **kwargs):
         r = requests.get(url, params={'include_votes': 'false'})
         t2 = datetime.utcnow()
 
-        logger.info(f'Response from create_topic GET => {r.status_code}')
+        logger.info(f'Response from get_topic GET => {r.status_code}')
 
         if r.status_code == 200:
             value = 1
@@ -240,8 +240,8 @@ def post_vote(api_url, topic_id=None, choice_id=None, **kwargs):
 def get_vote(api_url, vote_id=None, **kwargs):
     """
     Queries given vote id to see if it has been processed from SQS into
-    DynamoDB. Then remove the vote from db to prevent the table becoming too
-    large because of health check api.
+    DynamoDB.
+
 
     Parameters
     ----------
@@ -399,8 +399,7 @@ def monitor_voting_app():
     region = os.environ['TM_REGION']
     app_name = 'SQS + EC2 Voting Game'
     api_monitor_funcs = [(get_topic, ['EC2', 'DynamoDB']),
-                         (post_vote, ['EC2', 'SQS']),
-                         (get_vote, ['EC2', 'SQS', 'DynamoDB'])]
+                         (post_vote, ['EC2', 'SQS'])]
     metrics = run_monitor_funcs(api_monitor_funcs, app_name, region, api_url)
     return metrics
 

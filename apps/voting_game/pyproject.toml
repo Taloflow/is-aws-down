@@ -2,7 +2,7 @@
 name = "voting_game"
 version = "0.1.0"
 description = "An voting application to monitor up time of EC2, SQS and DynamoDB"
-authors = ["anu@taloflow.ai"]
+authors = ["Anu Joy <anu@taloflow.ai>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"

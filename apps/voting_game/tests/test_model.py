@@ -23,8 +23,8 @@ def db():
         pass
 
     yield db
-    # db.delete_table_topics()
-    # db.delete_table_votes()
+    db.delete_table_topics()
+    db.delete_table_votes()
 
 
 class TestDynamoDBModel(object):

@@ -17,7 +17,6 @@ import os
 import requests
 import json
 import random
-import time
 import boto3
 from datetime import timedelta, datetime
 
@@ -235,55 +234,6 @@ def post_vote(api_url, topic_id=None, choice_id=None, **kwargs):
             round(response_time),
             value,
             {'vote_id': vote_id})
-
-
-def get_vote(api_url, vote_id=None, **kwargs):
-    """
-    Queries given vote id to see if it has been processed from SQS into
-    DynamoDB.
-
-
-    Parameters
-    ----------
-    api_url: voting game api url
-    vote_id: id
-
-    Returns
-    -------
-    a tuple (timestamp, response_time, 0 or 1, {})
-    """
-    logger.info(f'Test get_topic')
-
-    sleep_time = int(os.environ['TM_SQS_SLEEP'])
-    logger.info(f'Sleeping for {sleep_time} seconds for SQS vote processor')
-    time.sleep(sleep_time)
-
-    url = f'{api_url}/votes/{vote_id}'
-
-    t1 = datetime.utcnow()
-    t2 = t1 + timedelta(seconds=1800)
-    value = 0
-
-    try:
-        r = requests.get(url)
-        t2 = datetime.utcnow()
-
-        logger.info(f'Response from get_vote GET => {r.status_code}')
-
-        if r.status_code == 200:
-            value = 1
-        else:
-            raise RuntimeError('Unexpected response from get_vote')
-    except Exception:
-        logger.exception('Error in get_vote. Indicates issues with EC2 '
-                         'SQS or DynamoDB')
-    finally:
-        response_time = (t2 - t1) / timedelta(milliseconds=1)
-
-    return (t1,
-            round(response_time),
-            value,
-            {})
 
 
 def _simple_get(api_url, name, services=(), **kwargs):

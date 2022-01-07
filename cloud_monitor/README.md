@@ -12,6 +12,14 @@ Check if a cloud service in a region is working by monitoring the uptime of samp
 ```bash 
 # install poetry and then
 poetry shell
+
+# psycopg2 requries pg_config path to compile. In a linux system install libpq-dev
+apt-get install -y libpq-dev
+
+# If you are using Postgres.app for Mac include pgsql bin in your PATH
+export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/13/bin
+
+# install dependencies
 poetry install
 
 # update set_env.bash with your environment variables

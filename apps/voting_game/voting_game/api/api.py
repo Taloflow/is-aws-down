@@ -128,13 +128,3 @@ def get_votes_by_topic(response: Response, topic_id: str, db=Depends(get_db)):
                                          ', stale-if-error=120')
     r = db.query_votes(topic_id=topic_id)
     return r
-
-
-@app.delete('/votes/{id}')
-def delete_votes_by_id(id: str, db=Depends(get_db)):
-    r = db.delete_votes(id=id)
-
-    if r['ResponseMetadata']['HTTPStatusCode'] == 200:
-        return r
-
-    raise HTTPException(status_code=500, detail="Error in delete vote")

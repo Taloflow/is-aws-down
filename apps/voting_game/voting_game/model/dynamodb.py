@@ -12,7 +12,7 @@ logger = logging.getLogger()
 
 class DynamoDBModel(object):
     def __init__(self, aws_access_key_id=None, aws_secret_access_key=None,
-                 region_name=None, endpoint_url=None):
+                 aws_session_token=None, region_name=None, endpoint_url=None):
         extra_args = {}
         if endpoint_url:
             extra_args['endpoint_url'] = endpoint_url
@@ -21,6 +21,7 @@ class DynamoDBModel(object):
             'dynamodb',
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
+            aws_session_token=aws_session_token,
             region_name=region_name,
             **extra_args
         )

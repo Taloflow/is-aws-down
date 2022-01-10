@@ -16,6 +16,7 @@ type ShadeProps = {
   Title: string;
   SubHeadline: string;
   Endpoint: string;
+  ShouldRun: boolean;
 };
 
 export const ShadeGenerator = (props: ShadeProps) => {
@@ -38,10 +39,10 @@ export const ShadeGenerator = (props: ShadeProps) => {
 
   // To make sure this get the quote only on first run, we check that the quote is empty
   useEffect(() => {
-    if (shade === "") {
+    if (shade === "" && props.ShouldRun) {
       getShade();
     }
-  }, []);
+  }, [props.ShouldRun]);
 
   if (hasFailed) {
     return (
@@ -76,7 +77,9 @@ export const ShadeGenerator = (props: ShadeProps) => {
       <TruncatedTextContainer>
         <BodyText>
           {props.SubHeadline}{" "}
-          <a href="https://github.com/Taloflow/is-aws-down/discussions/6">Tell us what it is here.</a>
+          <a href="https://github.com/Taloflow/is-aws-down/discussions/6">
+            Tell us what it is here.
+          </a>
         </BodyText>
       </TruncatedTextContainer>
       <div className={"relative"}>

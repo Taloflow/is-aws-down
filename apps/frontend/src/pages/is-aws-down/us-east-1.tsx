@@ -98,11 +98,10 @@ export default function USEastOne() {
 
         <div className={"flex sm:flex-row flex-col mt-16 sm:mt-36 pb-64"}>
           <IdHref name={"is-ec2-down"} />
-
           <div className={"flex-1"}>
             <InView
               as="div"
-              rootMargin={"-340px"}
+              rootMargin={"-25%"}
               onChange={(inview, entry) => setEc2IsVisible(inview)}
             >
               <QuoteGenerator
@@ -110,7 +109,8 @@ export default function USEastOne() {
                 SubHeadline={
                   "From his book “Invent and Wander: The Collected Writings of Jeff Bezos”"
                 }
-                Endpoint={"https://us-east-1-quote-generator.taloflow.ai/quote"}
+                Endpoint={"https://d1e63eaqx0w02n.cloudfront.net/quote"}
+                Shouldrun={Ec2IsVisible}
               />
             </InView>
           </div>
@@ -118,7 +118,7 @@ export default function USEastOne() {
           <InView
             as="div"
             className={"flex-1"}
-            rootMargin={"-340px"}
+            rootMargin={"-25%"}
             onChange={(inview, entry) => setLambdaIsVisible(inview)}
           >
             <div className={"sm:ml-8 mt-8 sm:mt-0"}>
@@ -131,6 +131,7 @@ export default function USEastOne() {
                 Endpoint={
                   "https://6bitdsm1cl.execute-api.us-east-1.amazonaws.com/prod/shades"
                 }
+                ShouldRun={LambdaIsVisible}
               />
             </div>
           </InView>

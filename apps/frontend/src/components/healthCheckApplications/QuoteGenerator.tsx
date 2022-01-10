@@ -12,6 +12,7 @@ type QuoteProps = {
   Title: string;
   SubHeadline: string;
   Endpoint: string;
+  Shouldrun: boolean;
 };
 
 export const QuoteGenerator = (props: QuoteProps) => {
@@ -34,36 +35,44 @@ export const QuoteGenerator = (props: QuoteProps) => {
 
   // To make sure this get the quote only on first run, we check that the quote is empty
   useEffect(() => {
-    if (quote === "") {
+    if (quote === "" && props.Shouldrun) {
       getQuote();
     }
-  }, []);
+  }, [props.Shouldrun]);
 
   if (hasFailed) {
     return (
-      <FailureState>
+      <>
         <LargeParagraphText>
-          <span className={"text-danger text-center block"}>
-            {" "}
-            The EC2 Quote Generator has failed. EC2 might be having issues.
-          </span>
+          <span className={"font-bold"}>{props.Title}</span>
         </LargeParagraphText>
-        <div className={"flex w-full justify-center items-center mt-4"}>
-          <div className={"mt-4"} onClick={() => getQuote()}>
-            <RefreshButton Text={"Try Again"} />
-            {isLoading && (
-              <div className={"absolute bottom-4 right-4 h-8 w-8"}>
-                <Spinner />
-              </div>
-            )}
+        <TruncatedTextContainer>
+          <BodyText>{props.SubHeadline}</BodyText>
+        </TruncatedTextContainer>
+        <FailureState>
+          <LargeParagraphText>
+            <span className={"text-danger text-center block"}>
+              {" "}
+              The EC2 Quote Generator has failed. EC2 might be having issues.
+            </span>
+          </LargeParagraphText>
+          <div className={"flex w-full justify-center items-center mt-4"}>
+            <div className={"mt-4"} onClick={() => getQuote()}>
+              <RefreshButton Text={"Try Again"} />
+              {isLoading && (
+                <div className={"absolute bottom-4 right-4 h-8 w-8"}>
+                  <Spinner />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        {isLoading && (
-          <div className={"absolute bottom-4 right-4 h-8 w-8"}>
-            <Spinner />
-          </div>
-        )}
-      </FailureState>
+          {isLoading && (
+            <div className={"absolute bottom-4 right-4 h-8 w-8"}>
+              <Spinner />
+            </div>
+          )}
+        </FailureState>
+      </>
     );
   }
   return (
@@ -93,9 +102,9 @@ export const QuoteGenerator = (props: QuoteProps) => {
             </svg>
           </div>
           <div className={"flex flex-col"}>
-            <LargeParagraphText>{quote}...</LargeParagraphText>
+            <LargeParagraphText>{quote}</LargeParagraphText>
             <div onClick={() => getQuote()} className={"mt-4"}>
-              <RefreshButton Text={"New Quote"} />
+              <RefreshButton Text={"Get Quote"} />
             </div>
             {isLoading && (
               <div className={"absolute bottom-4 right-4 h-8 w-8"}>

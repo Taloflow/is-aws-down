@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Provider store={store}>
         <Head>
-          <title>AWS Us East 1 Status | Taloflow</title>
+          <title>AWS US-East-1 Status | Taloflow</title>
           <link
             href="https://uploads-ssl.webflow.com/5c553e9fc3ddd3400fe58821/5c5dde805cf96a735a45c676_taloflow-favicon.png"
             rel="shortcut icon"

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useGetAllMetricsQuery } from "../../features/metricGraph/metricsGraphAPI";
 import { useAppSelector } from "../../app/hooks";
 import { selectMetricGraph } from "../../features/metricGraph/metricGraphSlice";
-import { Spinner } from "../blocks/spinner";
 import { DefaultLoading } from "../general/defaultLoading";
 
 type TitleOfPageProps = {
@@ -55,6 +54,7 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
     });
     hadIssuesInLastHour = [...new Set(hadIssuesInLastHour)];
     hadIssuesInLastDay = [...new Set(hadIssuesInLastDay)];
+
     hadIssuesInLastHour.sort();
     hadIssuesInLastDay.sort();
     if (hadIssuesInLastHour.length > 0 || hadIssuesInLastDay.length > 0) {
@@ -169,12 +169,11 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
             )}
         </div>
       </StandardCard>
-      {pageState.HadIssuesInLastHour.length !== 0 ||
-        (pageState.HadIssuesInLastDay.length !== 0 && (
-          <StandardCard>
-            <Description RegionName={props.RegionName} />
-          </StandardCard>
-        ))}
+      {pageState.HadIssuesInLastDay.length > 0 && (
+        <StandardCard>
+          <Description RegionName={props.RegionName} />
+        </StandardCard>
+      )}
     </>
   );
 };
@@ -227,7 +226,7 @@ const Description = (props: DescriptionProps) => {
         alternative and are tired of digging through vendor sales pages, try our{" "}
         <a
           className={"text-brand"}
-          href={"https://app.taloflow.ai"}
+          href={"https://use.taloflow.ai/guide/object-storage"}
           target={"_blank"}
         >
           object storage recommendation tool

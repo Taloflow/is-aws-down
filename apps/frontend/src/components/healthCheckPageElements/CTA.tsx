@@ -5,7 +5,7 @@ export const CTA = () => {
     <div className={"bg-neutral-dark my-24"}>
       <div className={"max-w-2xl mx-auto px-4  py-16"}>
         <p className={"text-3xl font-bold text-center text-white"}>
-          Don’t trust the honesty of AWS’s status page?
+          Get AWS outage alerts without relying on their status page
         </p>
         <p className={"text-xl text-center text-white mt-4 xl:mx-16"}>
           Be the first to know with honest AWS outage alerts delivered right to

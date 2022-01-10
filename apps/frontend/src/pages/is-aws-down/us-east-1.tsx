@@ -109,7 +109,7 @@ export default function USEastOne() {
                 SubHeadline={
                   "From his book “Invent and Wander: The Collected Writings of Jeff Bezos”"
                 }
-                Endpoint={"https://us-east-1-quote-generator.taloflow.ai/quote"}
+                Endpoint={"https://d1e63eaqx0w02n.cloudfront.net/quote"}
                 Shouldrun={Ec2IsVisible}
               />
             </InView>

@@ -21,6 +21,7 @@ broker = SQSBroker(
     namespace="dramatiq_sqs_voting_game",
     aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
+    aws_session_token=os.environ['AWS_SESSION_TOKEN'],
     region_name=os.environ['AWS_REGION'],
     endpoint_url=os.environ['AWS_SQS_ENDPOINT_URL'],
     middleware=[
@@ -37,6 +38,7 @@ dramatiq.set_broker(broker)
 db = dynamodb.DynamoDBModel(
     aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
+    aws_session_token=os.environ['AWS_SESSION_TOKEN'],
     region_name=os.environ['AWS_REGION'],
     endpoint_url=os.environ['DYNAMODB_ENDPOINT_URL']
 )

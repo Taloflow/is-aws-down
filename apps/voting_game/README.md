@@ -99,6 +99,47 @@ sudo docker build -f api.DockerFile -t api .
 sudo docker run -d --name api -p :80 --restart unless-stopped api
 ```
 
+## Deploy to AWS App Runner
+
+```bash
+# install aws cli, create your aws profile  on local machine.
+
+# Authenticate with ECR repo for Voting Game
+aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin <AWS Account ID>.dkr.ecr.us-east-1.amazonaws.com/voting-game
+
+# We don't know whether AWS App Runner uses arm64 or amd64 architecture. So install buildx locally and create multi architecture images and manifest
+
+# Prepare buildx instance and test multi platform support
+sudo docker buildx create --name voting-game-multi-arch --use
+sudo docker run --privileged --rm tonistiigi/binfmt --install all
+sudo docker buildx inspect --bootstrap
+
+# Build and push a multi platform image
+sudo docker buildx build --platform linux/amd64,linux/arm64 -f  api.DockerFile -t "<AWS Account ID>.dkr.ecr.us-east-1.amazonaws.com/voting-game:latest" --push .
+
+# Inspect images
+aws ecr describe-images --repository-name voting-game
+
+# Inspect manifest
+sudo  docker manifest inspect <AWS Account ID>.dkr.ecr.us-east-1.amazonaws.com/voting-game
+```
+
+### Create AWS App Runner service for Voting Game API
+
+* Enable automatic deployments and select 'AppRunnerECRAccessRole'
+* Security: Assign an instance role with privileges for DynamoDB, SQS and EC2. This role credentials will be assumed by app run instance. DynamoDB and SQS boto clients in our app obtain  credentials from env variables or ec2 metadata service. 
+* The default entrypoint command in api.Dockerfile used for building voting-game image points to api task. So no need to specify an entrypoint in App Runner service.
+
+### Create AWS App Runner service for Voting Game SQS task processor
+
+* Similar steps as above
+* Use below command to override entrypoint default in docker image.
+```
+dramatiq voting_game.tasks.tasks -p 1 -t 1 --queues votes
+```
+* Use port number 9191 for the service. This is the default prometheus exposition server exposed by dramatiq task processor.  As App Runner is not built for running scheduled tasks or batch jobs as in GCP Cloud Scheduler, we will need to keep the service warm by polling port 9191 at the url /metrics.  GCP Cloud Monitor task we run polls this URL continuously. See the env variable ```TM_VOTES_PROMETHEUS_URL``` in cloud_monitor health check task.
+
+
 
 ### API
 

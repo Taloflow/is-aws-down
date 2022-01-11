@@ -100,3 +100,56 @@ Build and deploy as docker images using dockerfiles
 
     * Cloud monitoring task: Dockerfile.taskrunner
     * API server: Dockerfile.api
+
+
+### Deploy Metrics API to GCP Cloud Run
+
+```bash
+cp Dockerfile.api Dockerfile
+
+# authenticate Google Cloud CLI and then
+gcloud run deploy
+
+# user source code deploynent
+# service name: aws-health-check-api
+# region: us-central (23)
+
+```
+
+Initial service deployment will fail as the service needs CloudSQL passwords, correct ports set on the service etc. Using Cloud Run UI expose the secrets as environment variable. Any env variable you set on the service overrides the value in Dockerfile used for building the image. 
+
+```bash
+TM_AWS_ACCESS_KEY_ID: #access key used for voting game and other AWS services.
+TM_AWS_SECRET_ACCESS_KEY
+DATABASE_URL: #points to metrics postgres DB
+```
+
+### Deploy Monitoring Task to GCP Cloud Run
+
+```bash
+cp Dockerfile.taskrunner Dockerfile
+
+gcloud run deploy
+
+# service name: aws-health-check-task
+# region: us-central (23)
+
+# expose secrets as env variables
+TM_AWS_ACCESS_KEY_ID
+TM_AWS_SECRET_ACCESS_KEY
+DATABASE_URL
+
+# Additional variable for EC2 uptime checks. Points to voting machine EC2 server instance ID
+TM_VOTING_EC2_INSTANCE_ID: i-078XXXXXXXXXXX
+```
+
+### Create a Cloud Scheduler task to run the monitoring task every minute
+```bash
+Timezone: GMT to avoid daylight savings causing scheduling issues
+Target Type: HTTP
+URL: <Monitoring Task Cloud Run URL>/tasks
+HTTP method: POST
+Auth Header: Add OIDC Token
+Service Account: Compute Engine default service account
+Audience: same as URL above
+```

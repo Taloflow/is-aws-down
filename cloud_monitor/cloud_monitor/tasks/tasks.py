@@ -69,7 +69,10 @@ def task_runner(db):
              tm.monitor_shades_app,
              tm.monitor_quotes_app,
              tm.monitor_s3_file,
-             tm.monitor_iam]
+             tm.monitor_iam,
+             tm.monitor_sqs,
+             tm.monitor_ec2,
+             tm.monitor_votes_processor]
 
     for func in funcs:
         try:

@@ -134,6 +134,41 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "dramatiq"
+version = "1.12.1"
+description = "Background Processing for Python 3."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+prometheus-client = ">=0.2"
+
+[package.extras]
+all = ["redis (>=2.0,<5.0)", "pika (>=1.0,<2.0)", "watchdog", "pylibmc (>=1.5,<2.0)", "watchdog-gevent", "gevent (>=1.1)"]
+dev = ["redis (>=2.0,<5.0)", "pika (>=1.0,<2.0)", "watchdog", "pylibmc (>=1.5,<2.0)", "watchdog-gevent", "gevent (>=1.1)", "alabaster", "sphinx (<1.8)", "sphinxcontrib-napoleon", "flake8", "flake8-bugbear", "flake8-quotes", "isort", "bumpversion", "hiredis", "twine", "wheel", "pytest", "pytest-benchmark", "pytest-cov", "tox"]
+gevent = ["gevent (>=1.1)"]
+memcached = ["pylibmc (>=1.5,<2.0)"]
+rabbitmq = ["pika (>=1.0,<2.0)"]
+redis = ["redis (>=2.0,<5.0)"]
+watch = ["watchdog", "watchdog-gevent"]
+
+[[package]]
+name = "dramatiq-sqs"
+version = "0.1.0"
+description = "An Amazon SQS broker for Dramatiq."
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+boto3 = "*"
+dramatiq = "*"
+
+[package.extras]
+dev = ["bumpversion", "flake8", "flake8-quotes", "isort", "mypy", "pytest", "pytest-cov", "twine"]
+
+[[package]]
 name = "fastapi"
 version = "0.70.1"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -249,6 +284,17 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [package.extras]
 dev = ["pre-commit", "tox"]
+
+[[package]]
+name = "prometheus-client"
+version = "0.12.0"
+description = "Python client for the Prometheus monitoring system."
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[package.extras]
+twisted = ["twisted"]
 
 [[package]]
 name = "psycopg2"
@@ -522,7 +568,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "18e232e4dce7c6155f93d617810c3b0676029a6e725141f29214bf6543b44648"
+content-hash = "68b72c1cb466b5228535e1fdaa019f3f32806582a658784534d1bd5a3f699fd9"
 
 [metadata.files]
 alembic = [
@@ -568,6 +614,14 @@ click = [
 colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
     {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
+]
+dramatiq = [
+    {file = "dramatiq-1.12.1-py3-none-any.whl", hash = "sha256:caf8f5baed6cb4afaf73b8379ffcd07f483de990b0f93f05d336d4efdcdfdecf"},
+    {file = "dramatiq-1.12.1.tar.gz", hash = "sha256:0aabb8e9164a7b88b3799319bbe294f9823eaf8b9fa9f701dd45affc8ea57bbe"},
+]
+dramatiq-sqs = [
+    {file = "dramatiq_sqs-0.1.0-py3-none-any.whl", hash = "sha256:246e763a8f8f55472efaf581c9e5114d43ea5d11d2c0863d54253258a21d5915"},
+    {file = "dramatiq_sqs-0.1.0.tar.gz", hash = "sha256:98cdab6c68f2201954d6359e49aeb247854716a9688fd5e44eaf7550770bccc6"},
 ]
 fastapi = [
     {file = "fastapi-0.70.1-py3-none-any.whl", hash = "sha256:5367226c7bcd7bfb2e17edaf225fd9a983095b1372281e9a3eb661336fb93748"},
@@ -719,6 +773,10 @@ packaging = [
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
+]
+prometheus-client = [
+    {file = "prometheus_client-0.12.0-py2.py3-none-any.whl", hash = "sha256:317453ebabff0a1b02df7f708efbab21e3489e7072b61cb6957230dd004a0af0"},
+    {file = "prometheus_client-0.12.0.tar.gz", hash = "sha256:1b12ba48cee33b9b0b9de64a1047cbd3c5f2d0ab6ebcead7ddda613a750ec3c5"},
 ]
 psycopg2 = [
     {file = "psycopg2-2.9.2-cp310-cp310-win32.whl", hash = "sha256:6796ac614412ce374587147150e56d03b7845c9e031b88aacdcadc880e81bb38"},

@@ -19,6 +19,7 @@ import json
 import random
 import boto3
 from datetime import timedelta, datetime
+from cloud_monitor.tasks import sqs
 
 
 logger = logging.getLogger()
@@ -85,7 +86,7 @@ def ping_lambda():
     """
     Check lambda status by invoking a function directly.
 
-    Returns: True function ran successfully.
+    Returns: True if function ran successfully.
     """
     client = boto3.client(
         'lambda',
@@ -102,30 +103,44 @@ def ping_lambda():
         return True
 
 
-def get_iam(*args, **kwargs):
+def ping_sqs():
     """
-    Call iam ping function.
+    Try enqueuing a task to SQS.
 
-    Returns
-    -------
+    Returns: True if function ran successfully.
+    """
+    sqs.hello_sqs.send()
+    return True
+
+
+def call_ping(func, description):
+    """
+    call a ping function and log the calls.
+
+    Parameters
+    ----------
+    func: ping function to call
+    description: a description of the function.
+
+    Returns:
     a tuple (timestamp, response_time, 0 or 1, {})
     """
-    logger.info('Test ping_IAM')
+    logger.info(f'Calling {description}')
 
     t1 = datetime.utcnow()
     t2 = t1 + timedelta(seconds=1800)
     value = 0
 
     try:
-        r = ping_iam()
+        r = func()
         t2 = datetime.utcnow()
 
-        logger.info(f'Response from ping_IAM  => {r}')
+        logger.info(f'Response from {description}  => {r}')
 
         if r:
             value = 1
     except Exception:
-        logger.exception('Error in ping_IAM. Indicates an issue with IAM API')
+        logger.exception(f'Error in {description}')
     finally:
         response_time = (t2 - t1) / timedelta(milliseconds=1)
 
@@ -133,6 +148,18 @@ def get_iam(*args, **kwargs):
             round(response_time),
             value,
             {})
+
+
+def check_iam(*args, **kwargs):
+    return call_ping(ping_iam, 'ping IAM')
+
+
+def check_sqs(*args, **kwargs):
+    return call_ping(ping_sqs, 'ping SQS')
+
+
+def check_ec2(*args, **kwargs):
+    return call_ping(ping_ec2, 'ping EC2')
 
 
 def get_topic(api_url, **kwargs):
@@ -289,6 +316,18 @@ def get_quotes(api_url, **kwargs):
     return _simple_get(api_url, 'get_quotes', **kwargs)
 
 
+def check_vote_processor(prometheus_url, **kwargs):
+    """
+    Check of the vote processing task based on SQS broker is running.
+
+    Parameters
+    ----------
+    prometheus_url: url of prometheus metrics exposition server created by
+    dramatic task processor, usually at port 9191
+    """
+    return _simple_get(prometheus_url, 'check_vote_processor', **kwargs)
+
+
 def get_s3_file(file_url, **kwargs):
     return _simple_get(file_url, 'get_s3_file', **kwargs)
 
@@ -310,6 +349,7 @@ def run_monitor_funcs(funcs, app_name, region, api_url):
         'DynamoDB': ping_dynamodb,
         'Lambda': ping_lambda,
         'IAM': ping_iam,
+        'SQS': ping_sqs,
     }
 
     metrics = []
@@ -383,6 +423,32 @@ def monitor_s3_file():
 
 def monitor_iam():
     region = os.environ['TM_REGION']
-    api_monitor_funcs = [(get_iam, ['IAM'])]
-    metrics = run_monitor_funcs(api_monitor_funcs, 'IAM', region, None)
+    api_monitor_funcs = [(check_iam, ['IAM'])]
+    metrics = run_monitor_funcs(api_monitor_funcs, 'Monitor - IAM', region,
+                                None)
+    return metrics
+
+
+def monitor_sqs():
+    region = os.environ['TM_REGION']
+    api_monitor_funcs = [(check_sqs, ['SQS'])]
+    metrics = run_monitor_funcs(api_monitor_funcs, 'Monitor - SQS', region,
+                                None)
+    return metrics
+
+
+def monitor_ec2():
+    region = os.environ['TM_REGION']
+    api_monitor_funcs = [(check_ec2, ['EC2'])]
+    metrics = run_monitor_funcs(api_monitor_funcs, 'Monitor - EC2', region,
+                                None)
+    return metrics
+
+
+def monitor_votes_processor():
+    api_url = os.environ['TM_VOTES_PROMETHEUS_URL']
+    region = os.environ['TM_REGION']
+    app_name = 'Monitor - Vote Processor'
+    api_monitor_funcs = [(check_vote_processor, ['SQS'])]
+    metrics = run_monitor_funcs(api_monitor_funcs, app_name, region, api_url)
     return metrics

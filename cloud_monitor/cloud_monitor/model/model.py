@@ -341,7 +341,7 @@ class Model(object):
         for chartjs.
         """
         if exclude_apps:
-            exclude_clause = "AND dimension not in ('Lambda Random Shade Generator', 'EC2 Bezos Quote Generator', 'S3 File Serving', 'SQS + EC2 Voting Game')" # noqa
+            exclude_clause = "AND dimension not in ('Lambda Random Shade Generator', 'EC2 Bezos Quote Generator', 'S3 File Serving', 'SQS + EC2 Voting Game') AND dimension not like 'Monitor %'" # noqa
         else:
             exclude_clause = ""
         session = self.Session()

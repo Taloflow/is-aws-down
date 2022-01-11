@@ -45,9 +45,6 @@ async def validation_exception_handler(request: Request,
 
 def get_db():
     return dynamodb.DynamoDBModel(
-        aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
-        aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
-        aws_session_token=os.environ['AWS_SESSION_TOKEN'],
         region_name=os.environ['AWS_REGION'],
         endpoint_url=os.environ['DYNAMODB_ENDPOINT_URL']
     )

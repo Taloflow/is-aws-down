@@ -74,7 +74,7 @@ export default function USEastOne() {
             <IdHref name={"is-sqs-down"} />
             <VotingGameContainer
               shouldPoll={votingIsVisible}
-              endpointURL={"https://us-east-1.taloflow.ai/"}
+              endpointURL={"https://d20v1ybfoa2k7c.cloudfront.net"}
             />
           </div>
         </InView>

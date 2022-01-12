@@ -42,11 +42,13 @@ export const VotingGameContainer = (props: VotingGameProps) => {
     });
 
   // Re-fetch after a vote is cast
+  // The delay is a little hacky, but it's a way to not run into cache issues from
+  // cloudfront. Because we're doing SWR of 1 second, we want to wait at least a secon
   useEffect(() => {
-    if (postedQuestionLoadingState.length > 0) {
+    if (postedQuestionLoadingState.length > 0 && !isLoading) {
       setTimeout(() => {
         refetch();
-      }, 100);
+      }, 2000);
     }
   }, [postedQuestionLoadingState]);
 

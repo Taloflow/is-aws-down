@@ -26,6 +26,7 @@ export const HealthCheckDashboardContainer = (props: DashboardProps) => {
   // when the data refreshes.
   const [activeItemSetOnce, setActiveItemSetOnce] = useState(false);
 
+  // Button open or closed state
   const [showFailedChecks, setShowFailedChecks] = useState(false);
 
   // Redux Config for the base URL for SQS Game - set at page level for visibility of page config
@@ -35,7 +36,7 @@ export const HealthCheckDashboardContainer = (props: DashboardProps) => {
 
   const { baseURL } = useAppSelector(selectMetricGraph);
 
-  const { data, isLoading, error, refetch } = useGetAllMetricsQuery("", {
+  const { data, isLoading, error } = useGetAllMetricsQuery("", {
     // Wait until the base URL is set
     skip: baseURL === "",
     // Poll every 5s in case there are status changes. It would be better to just

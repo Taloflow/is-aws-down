@@ -9,12 +9,6 @@ import { RootState } from "../../app/store";
 import { QuestionFromEndpoint, selectVotingGame } from "./votingGameSlice";
 import { base } from "next/dist/build/webpack/config/blocks/base";
 
-const rawBaseQuery = fetchBaseQuery({
-  baseUrl: "https://us-east-1.taloflow.ai/",
-  method: "GET",
-  cache: "no-cache",
-});
-
 const dynamicBaseQuery: BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -37,6 +31,10 @@ const dynamicBaseQuery: BaseQueryFn<
   const adjustedUrl = `/${urlEnd}`;
   const adjustedArgs =
     typeof args === "string" ? adjustedUrl : { ...args, url: adjustedUrl };
+  const rawBaseQuery = fetchBaseQuery({
+    baseUrl: baseURL,
+    method: "GET",
+  });
   // provide the amended url and other params to the raw base query
   return rawBaseQuery(adjustedArgs, api, extraOptions);
 };

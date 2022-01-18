@@ -17,4 +17,4 @@ ENV VIRTUAL_HOST us-east-1.taloflow.ai
 ENV LETSENCRYPT_HOST us-east-1.taloflow.ai
 ENV LETSENCRYPT_EMAIL anu@taloflow.ai
 
-CMD ["uvicorn", "voting_game.api.api:app", "--host", "0.0.0.0", "--port", "80", "--proxy-headers", "--workers", "4"]
+CMD ["uvicorn", "voting_game.api.api:app", "--host", "0.0.0.0", "--port", "80", "--proxy-headers", "--workers", "4", "--timeout-keep-alive", "65"]

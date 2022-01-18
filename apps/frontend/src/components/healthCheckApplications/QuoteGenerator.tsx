@@ -102,7 +102,7 @@ export const QuoteGenerator = (props: QuoteProps) => {
             </svg>
           </div>
           <div className={"flex flex-col"}>
-            <LargeParagraphText>{quote}</LargeParagraphText>
+            <LargeParagraphText>{quote} ...</LargeParagraphText>
             <div onClick={() => getQuote()} className={"mt-4"}>
               <RefreshButton Text={"Get Quote"} />
             </div>

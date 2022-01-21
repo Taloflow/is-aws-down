@@ -129,6 +129,11 @@ sudo  docker manifest inspect <AWS Account ID>.dkr.ecr.us-east-1.amazonaws.com/v
 * Enable automatic deployments and select 'AppRunnerECRAccessRole'
 * Security: Assign an instance role with privileges for DynamoDB, SQS and EC2. This role credentials will be assumed by app run instance. DynamoDB and SQS boto clients in our app obtain  credentials from env variables or ec2 metadata service. 
 * The default entrypoint command in api.Dockerfile used for building voting-game image points to api task. So no need to specify an entrypoint in App Runner service.
+* Using aws cli set health check to HTTP. The UI doesn't allow changing this. Without this setting container doesn't get recycled resulting in 502 errors in about 24 hours.
+
+```
+aws apprunner update-service --service-arn <arn> --health-check-configuration Protocol=HTTP,Path=/topics
+```
 
 ### Create AWS App Runner service for Voting Game SQS task processor
 

@@ -94,4 +94,7 @@ sudo  docker manifest inspect <AWS Account ID>.dkr.ecr.us-east-1.amazonaws.com/b
 # Select the ECR repo and latest tag to create BezosQuoteGenerator service.
 # This service doesn't require any other AWS permissions
 
+# Using aws cli set health check to HTTP. The UI doesn't allow changing this. Without this setting, container doesn't get recycled resulting in 502 errors in about 24 hours.
+
+aws apprunner update-service --service-arn <arn> --health-check-configuration Protocol=HTTP,Path=/quote
 ```

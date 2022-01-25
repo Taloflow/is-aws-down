@@ -18,8 +18,10 @@ cd $home
 
 source shades_api_gateway_export.bash
 
-cd $home
-
 source shades_api_gateway_import.bash
 
-cd $home
+source apprun_create_bezos.bash
+
+echo "Exiting deploy part 1. Run deploy part 2 after App Runner deployment is complete"
+
+

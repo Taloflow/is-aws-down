@@ -6,15 +6,15 @@
 # AWS_PROFILE_US_EAST: For copying sources from us-east-1
 set -euxo pipefail
 
-home=`$pwd`
+wdir=`$pwd`
 
 source dynamodb.bash
 
-cd $home
+cd $wdir
 
 source shades_lambda.bash
 
-cd $home
+cd $wdir
 
 source shades_api_gateway_export.bash
 

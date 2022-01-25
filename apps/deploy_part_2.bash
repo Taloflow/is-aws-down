@@ -6,10 +6,14 @@
 
 set -euxo pipefail
 
-home=`$pwd`
+wdir=`$pwd`
 
 source cloudfront_create_bezos.bash 
 
+source apprun_create_voting_api.bash
 
+source cloudfront_create_voting_api.bash
+
+source post_topics.bash 
 
 

@@ -12,7 +12,7 @@ aws --profile $AWS_PROFILE \
     --zip-file fileb://shade_generator.zip \
     --handler shade_generator.lambda_handler \
     --runtime python3.9 \
-    --role arn:aws:iam::$AWS_ACCOUNT_ID:role/cdm-retool-lambda-role
+    --role arn:aws:iam::${AWS_ACCOUNT_ID}:role/cdm-retool-lambda-role
 
 sleep 60
 

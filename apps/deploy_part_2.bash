@@ -6,8 +6,6 @@
 
 set -euxo pipefail
 
-wdir=`$pwd`
-
 source cloudfront_create_bezos.bash 
 
 source apprun_create_voting_api.bash
@@ -16,4 +14,8 @@ source cloudfront_create_voting_api.bash
 
 source post_topics.bash 
 
+source apprun_create_voting_task.bash
 
+source create_ec2_beacon_server.bash 
+
+source create_s3_beacon_object.bash

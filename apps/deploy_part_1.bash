@@ -4,9 +4,10 @@
 # AWS_PROFILE: AWS credential profile for the region you are deploying to
 # AWS_REGION
 # AWS_PROFILE_US_EAST: For copying sources from us-east-1
+# AWS_ACCOUNT_ID:
 set -euxo pipefail
 
-wdir=`$pwd`
+wdir=`pwd`
 
 source dynamodb.bash
 

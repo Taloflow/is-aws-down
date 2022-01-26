@@ -21,6 +21,6 @@ aws --profile $AWS_PROFILE lambda add-permission \
     --statement-id apigateway-$api_id \
     --action lambda:InvokeFunction \
     --principal apigateway.amazonaws.com \
-    --source-arn "arn:aws:execute-api:$AWS_REGION:$AWS_ACCOUNT_ID:$api_id/*/*/*"
+    --source-arn "arn:aws:execute-api:${AWS_REGION}:${AWS_ACCOUNT_ID}:$api_id/*/*/*"
 
 

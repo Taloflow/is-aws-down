@@ -326,7 +326,7 @@ class Model(object):
         return self._query_record(Metrics, **kwargs)
 
     def query_metrics_chartjs(self, exclude_apps=True, serialize=True,
-                              groupby='hour', **kwargs):
+                              groupby='hour', region='us-east-1', **kwargs):
         """
         Query metrics for last 24 hours. The output needs to be
         re ordered to meet chartjs line bar spec.
@@ -339,11 +339,18 @@ class Model(object):
         exclude: A list of dimensions to be excluded from the result.
         serialize: if set, convert SQLA objects to dicts in a format suitable
         for chartjs.
+        region: region name. Default us-east-1. Pass None for all regions.
         """
         if exclude_apps:
             exclude_clause = "AND dimension not in ('Lambda Random Shade Generator', 'EC2 Bezos Quote Generator', 'S3 File Serving', 'SQS + EC2 Voting Game') AND dimension not like 'Monitor %'" # noqa
         else:
             exclude_clause = ""
+
+        if region:
+            region_clause = f"AND region = '{region}'"
+        else:
+            region_clause = ""
+
         session = self.Session()
         stmt = f"""select
                   date_trunc('{groupby}', timestamp) as timestamp,
@@ -360,6 +367,7 @@ class Model(object):
                   where
                   m.timestamp between now() - interval '24 hours' and now()
                   {exclude_clause}
+                  {region_clause}
                   GROUP BY
                   date_trunc('{groupby}', timestamp),
                   -- extract(epoch from(current_timestamp - timestamp))/3600||'h',

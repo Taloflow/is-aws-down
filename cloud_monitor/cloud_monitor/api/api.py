@@ -86,13 +86,14 @@ def get_db():
 
 @app.get('/metrics')
 def get_metrics(response: Response, exclude_apps: bool=True,
-                groupby: str = 'hour', db=Depends(get_db)):
+                groupby: str = 'hour', region: str = 'us-east-1',
+                db=Depends(get_db)):
     """
     Accetable values for groupby: hour, minute
     """
     response.headers['Cache-Control'] = 'public, max-age=5, s-maxage=5'
     r = db.query_metrics_chartjs(serialize=True, exclude_apps=exclude_apps,
-                                 groupby=groupby)
+                                 groupby=groupby, region=region)
     return r
 
 

@@ -1,0 +1,8 @@
+#!/bin/bash 
+cd /opt/is-aws-down/apps/voting_game
+cat api.DockerFile.gunicorn.prod.template | sed "s/us-east-1/AWS_REGION/g" > api.DockerFile.gunicorn.prod
+cat dramatiq.DockerFile.prod.template | sed "s/us-east-1/AWS_REGION/g" > dramatiq.DockerFile.prod
+docker build -f api.DockerFile.gunicorn.prod -t api .
+docker build -f dramatiq.DockerFile.prod -t dramatiq .
+docker run -d --name api -p 80:80 --restart unless-stopped api
+docker run -d --name dramatiq -p 9191:9191 --restart unless-stopped dramatiq

@@ -33,6 +33,9 @@ source shades_api_gateway_import.bash
 echo "Create EC2 server for Bezos Quote Generator"
 source create_ec2_bezos.bash
 
+echo "Create EC2 server for Voting Game API and SQS Task"
+source create_ec2_voting.bash
+
 echo "Exit part 1"
 
 

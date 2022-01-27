@@ -1,4 +1,4 @@
-cat shades_api.yaml | sed 's/us-east-1/us-east-2/g' > shades_api_$AWS_REGION.yaml
+cat shades_api.yaml | sed "s/us-east-1/$AWS_REGION/g" > shades_api_$AWS_REGION.yaml
 r=`aws --profile $AWS_PROFILE apigateway import-rest-api \
     --parameters endpointConfigurationTypes=REGIONAL \
     --fail-on-warnings \

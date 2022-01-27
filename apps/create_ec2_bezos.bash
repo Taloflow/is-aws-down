@@ -1,5 +1,7 @@
 # Create an EC2 server from Bezos Quote Generator golden AMI
 
+
+
 # copy AMI to new region
 r=`aws --profile $AWS_PROFILE ec2 copy-image  \
     --description "Bezos Quote Generator" \
@@ -10,12 +12,12 @@ r=`aws --profile $AWS_PROFILE ec2 copy-image  \
 
 ami_id=`echo $r | jq .ImageId | sed 's/\"//g'`
 
-sleep 60
+sleep 900
 
 vpc_id=`aws --profile $AWS_PROFILE ec2 describe-vpcs \
     --filters Name=is-default,Values=true | jq  .Vpcs[0].VpcId | sed 's/\"//g'`
 
-sec_group_id=`aws --profile $AWS_PROFILE ec2 create-security-group \
+export sec_group_id=`aws --profile $AWS_PROFILE ec2 create-security-group \
     --group-name aws-health-check-apps \
     --description "Default security group for aws health check apps" \
     --vpc-id $vpc_id | jq .GroupId | sed 's/\"//g'`

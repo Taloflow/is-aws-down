@@ -1,6 +1,6 @@
 # set below env before running
 # VOTING_API_KEY
-# APP_RUNNER_DOMAIN_VOTING_API
+# ec2_public_dns_voting
 
 topic1='{
     "is_active": "true", 
@@ -57,9 +57,9 @@ echo $topic2
 
 curl -X POST -H "Content-Type: application/json" \
     -d "$topic1" \
-    https://$APP_RUNNER_DOMAIN_VOTING_API/topics
+    http://$ec2_public_dns_voting/topics
 
 curl -X POST -H "Content-Type: application/json" \
     -d "$topic2" \
-    https://$APP_RUNNER_DOMAIN_VOTING_API/topics
+    http://$ec2_public_dns_voting/topics
 

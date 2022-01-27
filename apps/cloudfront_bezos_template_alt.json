@@ -9,8 +9,8 @@
             "Quantity": 1,
             "Items": [
                 {
-                    "Id": "bezos-app-runner",
-                    "DomainName": "APP_RUNNER_DOMAIN_BEZOS",
+                    "Id": "bezos-ec2",
+                    "DomainName": "EC2_DOMAIN_BEZOS",
                     "OriginPath": "",
                     "CustomHeaders": {
                         "Quantity": 0
@@ -18,7 +18,7 @@
                     "CustomOriginConfig": {
                         "HTTPPort": 80,
                         "HTTPSPort": 443,
-                        "OriginProtocolPolicy": "match-viewer",
+                        "OriginProtocolPolicy": "http-only",
                         "OriginSslProtocols": {
                             "Quantity": 3,
                             "Items": [
@@ -43,7 +43,7 @@
             "Quantity": 0
         },
         "DefaultCacheBehavior": {
-            "TargetOriginId": "bezos-app-runner",
+            "TargetOriginId": "bezos-ec2",
             "TrustedSigners": {
                 "Enabled": false,
                 "Quantity": 0

@@ -17,7 +17,8 @@ source shades_lambda.bash
 
 cd $wdir
 
-source shades_api_gateway_export.bash
+# needed only once
+#source shades_api_gateway_export.bash
 
 source shades_api_gateway_import.bash
 

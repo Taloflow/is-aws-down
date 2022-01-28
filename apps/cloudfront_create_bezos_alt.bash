@@ -13,4 +13,4 @@ cat cloudfront_bezos_template_alt.json | sed "s/EC2_DOMAIN_BEZOS/$ec2_public_dns
 aws --profile $AWS_PROFILE cloudfront create-distribution \
     --cli-input-json file://_temp_cf_bezos_alt.json
 
-sleep 300
+

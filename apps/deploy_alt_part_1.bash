@@ -6,7 +6,7 @@
 # AWS_PROFILE: AWS credential profile for the region you are deploying to
 # AWS_REGION
 # AWS_PROFILE_US_EAST: For copying sources from us-east-1
-# AWS_ACCOUNT_ID:
+#   :
 
 
 set -euxo pipefail
@@ -25,12 +25,14 @@ cd $wdir
 
 
 echo "Export shades API gateway settings"
-source shades_api_gateway_export.bash
+# Needed only once to create template
+#source shades_api_gateway_export.bash
 
 echo "Create shades API gateway"
 source shades_api_gateway_import.bash
 
 echo "Create EC2 server for Bezos Quote Generator"
+# May be safer to run this manually - step through the script -  due to async delays? 
 source create_ec2_bezos.bash
 
 echo "Create EC2 server for Voting Game API and SQS Task"

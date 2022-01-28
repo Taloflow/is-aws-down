@@ -16,8 +16,13 @@ r=`aws --profile $AWS_PROFILE ec2 copy-image  \
 
 ami_id=`echo $r | jq .ImageId | sed 's/\"//g'`
 
-echo "AMI copied. Waiting for status to be available. Sleep 900"
-sleep 900
+
+echo "AMI copied. Waiting for status to be available."
+#wait till the image becomes available
+aws --profile $AWS_PROFILE ec2 \
+    wait image-available \
+    --image-ids $ami_id
+
 
 cat userdata_voting.template | sed "s/AWS_REGION/$AWS_REGION/g" > _temp_userdata.txt
 # Create ec2 instance
@@ -30,6 +35,12 @@ ec2_r=`aws --profile $AWS_PROFILE ec2 run-instances \
     --user-data file://_temp_userdata.txt `
 
 ec2_instance_id_voting=`echo $ec2_r | jq .Instances[0].InstanceId | sed 's/\"//g'`
+
+
+#wait till the instance becomes available
+aws --profile $AWS_PROFILE ec2 \
+    wait instance-running \
+    --instance-ids $ec2_instance_id_voting
 
 echo "Instance ID created $ec2_instance_id_voting"
 

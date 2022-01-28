@@ -13,7 +13,7 @@ set -euxo pipefail
 
 source cloudfront_create_bezos_alt.bash 
 
-source cloudfront_create_voting_api.bash
+source cloudfront_create_voting_api_alt.bash
 
 echo "Voting API key is set as -> $VOTING_API_KEY"
 

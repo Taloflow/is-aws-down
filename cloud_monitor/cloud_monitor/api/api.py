@@ -104,3 +104,10 @@ def post_users(user: UserRequest, db=Depends(get_db)):
     if user_from_db:
         raise HTTPException(status_code=400, detail="Email already registered")
     return db.insert_users(**user.dict())
+
+
+@app.get('/overview')
+def get_overview(response: Response, db=Depends(get_db)):
+    response.headers['Cache-Control'] = 'public, max-age=5, s-maxage=5'
+    r = db.query_metrics_overview()
+    return r

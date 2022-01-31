@@ -1,0 +1,28 @@
+{
+        "ServiceName": "BezosQuoteGenerator",
+        "SourceConfiguration": {
+            "ImageRepository": {
+                "ImageIdentifier": "AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/bezos-quote-generator:latest",
+                "ImageConfiguration": {
+                    "Port": "80"
+                },
+                "ImageRepositoryType": "ECR"
+            },
+            "AutoDeploymentsEnabled": true,
+            "AuthenticationConfiguration": {
+                "AccessRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/service-role/AppRunnerECRAccessRole"
+            }
+        },
+        "InstanceConfiguration": {
+            "Cpu": "1024",
+            "Memory": "2048"
+        },
+        "HealthCheckConfiguration": {
+            "Protocol": "HTTP",
+            "Path": "/quote",
+            "Interval": 10,
+            "Timeout": 5,
+            "HealthyThreshold": 1,
+            "UnhealthyThreshold": 5
+        }
+}

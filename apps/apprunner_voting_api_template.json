@@ -1,0 +1,36 @@
+{
+    "ServiceName": "VotingGameAPI",
+    "SourceConfiguration": {
+        "ImageRepository": {
+            "ImageIdentifier": "257500476691.dkr.ecr.us-east-1.amazonaws.com/voting-game:latest",
+            "ImageConfiguration": {
+                "Port": "80",
+                "RuntimeEnvironmentVariables": {
+                    "DYNAMODB_ENDPOINT_URL": "https://dynamodb.us-east-1.amazonaws.com",
+                    "API_CORS_ORIGINS": "https://taloflow.ai,https://www.taloflow.ai",
+                    "AWS_SQS_ENDPOINT_URL": "https://sqs.us-east-1.amazonaws.com",
+                    "API_KEY": "VOTING_API_KEY"
+                }
+            },
+            "ImageRepositoryType": "ECR"
+        },
+        "AutoDeploymentsEnabled": true,
+        "AuthenticationConfiguration": {
+            "AccessRoleArn": "arn:aws:iam::257500476691:role/service-role/AppRunnerECRAccessRole"
+        }
+    },
+    "InstanceConfiguration": {
+        "Cpu": "1024",
+        "Memory": "2048",
+        "InstanceRoleArn": "arn:aws:iam::257500476691:role/aws-health-check-apps-role"
+    },
+    "HealthCheckConfiguration": {
+        "Protocol": "HTTP",
+        "Path": "/topics",
+        "Interval": 10,
+        "Timeout": 5,
+        "HealthyThreshold": 1,
+        "UnhealthyThreshold": 5
+    }
+}
+

@@ -418,3 +418,86 @@ class Model(object):
             ],
             'series': out
         }
+
+    def query_metrics_nhours(self, hours=24, **kwargs):
+        """
+        Summary of up/down stats for last N hours.
+        """
+        stmt = f"""select
+                 dimension,
+                 region,
+                  CASE
+                    WHEN value = 0 THEN 'down'
+                    ELSE 'up'
+                  END status,
+                  count(value) as "count"
+                  from
+                  cloud_monitor.metrics m
+                  where
+                  m.timestamp between now() - interval '{hours} hours' and now()
+                  AND dimension not in ('Lambda Random Shade Generator', 'EC2 Bezos Quote Generator', 'S3 File Serving', 'SQS + EC2 Voting Game') AND dimension not like 'Monitor %'
+                  GROUP BY
+                  dimension,
+                  region,
+                  CASE
+                    WHEN value = 0 THEN 'down'
+                    ELSE 'up'
+                  END
+                  order by region, dimension asc;"""
+
+        session = self.Session()
+        return session.execute(stmt).fetchall()
+
+    def query_metrics_overview(self):
+        """
+        An overview of services affected across regions in
+            * the last 1 hour,
+            * last 24 hours.
+
+        Returns
+        -------
+        A sequence of
+        {
+         'region': 'region_name',
+            '1h': {
+                     up: 10,
+                     down: 1,
+                     services_affected': []
+                   },
+            '24h': {
+                     up: 10,
+                     down: 1,
+                     services_affected': []
+                    }
+            }
+        """
+        def _process_rows(d, rows, label):
+            for row in rows:
+                dim, region, status, count = row
+
+                if region not in d:
+                    d[region]['1h'] = {'up': 0,
+                                       'down': 0,
+                                       'services_affected': []}
+                    d[region]['24h'] = {'up': 0,
+                                        'down': 0,
+                                        'services_affected': []}
+
+                d[region][label][status] += count
+
+                if status == 'down':
+                    d[region][label]['services_affected'].append(dim)
+
+        last_1h = self.query_metrics_nhours(hours=1)
+        last_24h = self.query_metrics_nhours(hours=24)
+
+        d = defaultdict(lambda: defaultdict(dict))
+
+        _process_rows(d, last_24h, '24h')
+        _process_rows(d, last_1h, '1h')
+
+        out = [{'region': k,
+                '1h': v.get('1h', {}),
+                '24h': v.get('24h', {})}
+               for k, v in d.items()]
+        return out

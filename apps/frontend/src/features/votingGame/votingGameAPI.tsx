@@ -7,7 +7,6 @@ import {
 } from "@reduxjs/toolkit/dist/query/react";
 import { RootState } from "../../app/store";
 import { QuestionFromEndpoint, selectVotingGame } from "./votingGameSlice";
-import { base } from "next/dist/build/webpack/config/blocks/base";
 
 const dynamicBaseQuery: BaseQueryFn<
   string | FetchArgs,

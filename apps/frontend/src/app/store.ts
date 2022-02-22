@@ -9,12 +9,14 @@ import metricsReducer from "../features/metricGraph/metricGraphSlice";
 
 import { votingGameAPI } from "../features/votingGame/votingGameAPI";
 import { metricsAPI } from "../features/metricGraph/metricsGraphAPI";
+import { summaryAPI } from "../features/summaryPage/summaryAPI";
 
 const rootReducer = combineReducers({
   metricsReducer: metricsReducer,
   votingGameReducer: votingGameReducer,
   [votingGameAPI.reducerPath]: votingGameAPI.reducer,
   [metricsAPI.reducerPath]: metricsAPI.reducer,
+  [summaryAPI.reducerPath]: summaryAPI.reducer,
 });
 
 export const store = configureStore({
@@ -23,7 +25,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(votingGameAPI.middleware)
-      .concat(metricsAPI.middleware),
+      .concat(metricsAPI.middleware)
+      .concat(summaryAPI.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

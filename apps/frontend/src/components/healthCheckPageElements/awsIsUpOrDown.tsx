@@ -7,10 +7,16 @@ import { useGetAllMetricsQuery } from "../../features/metricGraph/metricsGraphAP
 import { useAppSelector } from "../../app/hooks";
 import { selectMetricGraph } from "../../features/metricGraph/metricGraphSlice";
 import { DefaultLoading } from "../general/defaultLoading";
+import { LocationSummary } from "../../features/summaryPage/summaryAPI";
+import { DataForChartJS } from "../../features/metricGraph/transformForChartJS";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query/react";
+import { SerializedError } from "@reduxjs/toolkit";
 
 type TitleOfPageProps = {
   RegionName: string; // Passed through like us-east-1
   ShouldPoll: boolean;
+  SummaryData?: LocationSummary[];
+  SummaryDataFetchError?: FetchBaseQueryError | SerializedError;
 };
 
 type PageState = {
@@ -18,12 +24,14 @@ type PageState = {
   iconPath: string;
   HadIssuesInLastHour?: string[];
   HadIssuesInLastDay?: string[];
+  RegionsWithIssues?: string[] | undefined;
 };
 
 export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
   const [pageState, setPageState] = useState<PageState | null>();
 
   const { baseURL } = useAppSelector(selectMetricGraph);
+
   const { data, isLoading, error, refetch } = useGetAllMetricsQuery("", {
     // Wait until the base URL is set
     skip: baseURL === "",
@@ -76,6 +84,52 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
     }
   }, [data]);
 
+  // If the info is passed through from the summary page, this is where we
+  // handle it
+  useEffect(() => {
+    if (!props.SummaryData) {
+      return;
+    }
+    let hadIssuesInLastHour = [] as string[];
+    let hadIssuesInLastDay = [] as string[];
+    let downRegions = [] as string[];
+    props.SummaryData.map((summaryDatum) => {
+      if (summaryDatum["1h"].down > 0) {
+        hadIssuesInLastHour.push(...summaryDatum["1h"].services_affected);
+      }
+      if (summaryDatum["24h"].down > 0) {
+        hadIssuesInLastDay.push(...summaryDatum["24h"].services_affected);
+        downRegions.push(summaryDatum.region);
+      }
+    });
+    hadIssuesInLastHour = [...new Set(hadIssuesInLastHour)];
+    hadIssuesInLastDay = [...new Set(hadIssuesInLastDay)];
+    if (hadIssuesInLastDay.length > 0) {
+      setPageState({
+        PageTitle: `Some AWS services have had issues in the last day`,
+        iconPath: process.env.NEXT_PUBLIC_CDN_HOST + "/icons8-fire.gif",
+        HadIssuesInLastHour: hadIssuesInLastHour,
+        HadIssuesInLastDay: hadIssuesInLastDay,
+        RegionsWithIssues: downRegions,
+      });
+    } else {
+      setPageState({
+        PageTitle: `Our health check show AWS is up!`,
+        iconPath: process.env.NEXT_PUBLIC_CDN_HOST + "/icons8-scroll-up.gif",
+      });
+    }
+  }, [props.SummaryData]);
+
+  if (props.SummaryDataFetchError) {
+    return (
+      <StandardCard>
+        <BodyText extraClasses={"text-danger font-bold"}>
+          Error fetching dashboard data from GCP.
+        </BodyText>
+      </StandardCard>
+    );
+  }
+
   if (error) {
     return (
       <StandardCard>
@@ -89,10 +143,11 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
   }
 
   if (isLoading || !pageState) {
+    console.log("1");
     return <DefaultLoading />;
   }
 
-  if (!data || !pageState) {
+  if ((!data && !props.SummaryData) || !pageState) {
     return <DefaultLoading />;
   }
 
@@ -131,6 +186,22 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
                 </LargeParagraphText>
               </div>
             )}
+          {pageState.RegionsWithIssues?.length > 0 && (
+            <>
+              <LargeParagraphText extraClasses={"mt-4"}>
+                These regions have had failures in the last day:
+              </LargeParagraphText>
+              <ul
+                className={
+                  "list-disc pl-6 !-mt-0 text-lg sm:text-xl font-medium leading-relaxed"
+                }
+              >
+                {pageState.RegionsWithIssues.map((item) => {
+                  return <li key={item}>{item}</li>;
+                })}
+              </ul>
+            </>
+          )}
           {pageState.HadIssuesInLastHour.length > 0 && (
             <>
               <LargeParagraphText extraClasses={"mt-4"}>
@@ -182,35 +253,81 @@ type DescriptionProps = {
   RegionName: string;
 };
 
-const Description = (props: DescriptionProps) => {
+const SummaryPageDescription = () => {
   return (
     <div className={"space-y-6"}>
       <LargeParagraphText>
-        We’re running several small applications on{" "}
-        <span className={"font-mono bg-neutral-text text-white px-2"}>
-          {props.RegionName}
-        </span>{" "}
-        servers and checking uptime for
+        We are running health checks to multiple
       </LargeParagraphText>
+      <LargeParagraphText>
+        Built by the engineers at Taloflow. If you’re looking for an{" "}
+        <a href={"https://www.taloflow.ai/blog/8-amazon-s3-alternatives"}>
+          S3 alternative
+        </a>{" "}
+        and are tired of digging through vendor sales pages, try our{" "}
+        <a
+          className={"text-brand"}
+          href={"https://use.taloflow.ai/guide/object-storage"}
+          target={"_blank"}
+        >
+          object storage recommendation tool
+        </a>
+        .
+      </LargeParagraphText>
+    </div>
+  );
+};
+
+const Description = (props: DescriptionProps) => {
+  return (
+    <div className={"space-y-6"}>
+      {props.RegionName === "" ? (
+        <LargeParagraphText>
+          We’re running several services on AWS and executing health checks
+          every minute across ten regions. Click through to any region to see
+          those services live. We check:
+        </LargeParagraphText>
+      ) : (
+        <LargeParagraphText>
+          We’re running several small applications on{" "}
+          <span className={"font-mono bg-neutral-text text-white px-2"}>
+            {props.RegionName}
+          </span>{" "}
+          servers and checking uptime for
+        </LargeParagraphText>
+      )}
+
       <ul
         className={
           "list-disc pl-6 !-mt-0 text-lg sm:text-xl font-medium leading-relaxed"
         }
       >
         <li>
-          <a href={"#stats"}>IAM</a>
+          {props.RegionName === "" ? <p>IAM</p> : <a href={"#stats"}>IAM</a>}
         </li>
         <li>
-          <a href={"#is-sqs-down"}>SQS</a>
+          {props.RegionName === "" ? (
+            <p>SQS</p>
+          ) : (
+            <a href={"#is-sqs-down"}>SQS</a>
+          )}
         </li>
         <li>
-          <a href={"#is-s3-down"}>S3</a>
+          {props.RegionName === "" ? <p>S3</p> : <a href={"#is-s3-down"}>S3</a>}
         </li>
         <li>
-          <a href={"#is-ec2-down"}>EC2</a>
+          {props.RegionName === "" ? (
+            <p>EC2</p>
+          ) : (
+            <a href={"#is-ec2-down"}>EC2</a>
+          )}
         </li>
         <li>
-          <a href={"#is-lambda-down"}>Lambda</a>
+          {props.RegionName === "" ? (
+            <p>Lambda</p>
+          ) : (
+            <a href={"#is-lambda-down"}>Lambda</a>
+          )}
         </li>
       </ul>
       <LargeParagraphText>

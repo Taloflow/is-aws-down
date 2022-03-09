@@ -17,9 +17,7 @@
         @apply text-neutral-text;
         @apply bg-neutral-light;
     }
-    a{
-        text-decoration: underline;
-    }
+
     p{
         @apply leading-loose;
     }

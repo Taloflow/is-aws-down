@@ -16,8 +16,6 @@ import { DataForChartJS } from "../../features/metricGraph/transformForChartJS";
 
 export default function IsAwsDown() {
   const { data, isLoading, error } = useGetStatsQuery("");
-  const dispatch = useAppDispatch();
-  dispatch(setBaseURL("https://gcp-dashboard-generator.taloflow.ai"));
 
   if (isLoading) {
     return (
@@ -64,6 +62,7 @@ export default function IsAwsDown() {
           ShouldPoll={true}
           SummaryData={data}
           SummaryDataFetchError={error}
+          regionNameForEndpoint={""}
         />
       </div>
       <div

@@ -17,6 +17,7 @@ type TitleOfPageProps = {
   ShouldPoll: boolean;
   SummaryData?: LocationSummary[];
   SummaryDataFetchError?: FetchBaseQueryError | SerializedError;
+  regionNameForEndpoint: string;
 };
 
 type PageState = {
@@ -32,13 +33,16 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
 
   const { baseURL } = useAppSelector(selectMetricGraph);
 
-  const { data, isLoading, error, refetch } = useGetAllMetricsQuery("", {
-    // Wait until the base URL is set
-    skip: baseURL === "",
-    // Poll every 5s in case there are status changes. It would be better to just
-    // push the changes and merge the data in local state, but that's a future optimization
-    pollingInterval: props.ShouldPoll && 5000,
-  });
+  const { data, isLoading, error, refetch } = useGetAllMetricsQuery(
+    props.regionNameForEndpoint,
+    {
+      // Wait until the base URL is set
+      skip: baseURL === "",
+      // Poll every 5s in case there are status changes. It would be better to just
+      // push the changes and merge the data in local state, but that's a future optimization
+      pollingInterval: props.ShouldPoll && 5000,
+    }
+  );
 
   useEffect(() => {
     if (!data) {
@@ -143,7 +147,6 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
   }
 
   if (isLoading || !pageState) {
-    console.log("1");
     return <DefaultLoading />;
   }
 

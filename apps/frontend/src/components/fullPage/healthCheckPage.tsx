@@ -1,19 +1,30 @@
-import { HealthCheckDashboardContainer } from "../../components/healthCheckApplications/dashboard/healthCheckDashboard";
-import { MainTitle } from "../../components/blocks/text/mainTitle";
-import { VotingGameContainer } from "../../components/healthCheckApplications/votingGame/votingGameContainer";
-import { S3 } from "../../components/healthCheckApplications/s3";
-import { QuoteGenerator } from "../../components/healthCheckApplications/QuoteGenerator";
-import { ShadeGenerator } from "../../components/healthCheckApplications/shadeGenerator";
 import { useState } from "react";
-import { HNAlert } from "../../components/healthCheckPageElements/HNAlert";
-import { Navbar } from "../../components/healthCheckPageElements/navbar";
+import { Navbar } from "../healthCheckPageElements/navbar";
 import { InView } from "react-intersection-observer";
-import { IdHref } from "../../components/blocks/idHref";
-import { Footer } from "../../components/healthCheckPageElements/footer";
-import { AWSIsUpOrDown } from "../../components/healthCheckPageElements/awsIsUpOrDown";
-import { CTA } from "../../components/healthCheckPageElements/CTA";
+import { AWSIsUpOrDown } from "../healthCheckPageElements/awsIsUpOrDown";
+import { HNAlert } from "../healthCheckPageElements/HNAlert";
+import { IdHref } from "../blocks/idHref";
+import { HealthCheckDashboardContainer } from "../healthCheckApplications/dashboard/healthCheckDashboard";
+import { CTA } from "../healthCheckPageElements/CTA";
+import { MainTitle } from "../blocks/text/mainTitle";
+import { VotingGameContainer } from "../healthCheckApplications/votingGame/votingGameContainer";
+import { S3 } from "../healthCheckApplications/s3";
+import { QuoteGenerator } from "../healthCheckApplications/QuoteGenerator";
+import { ShadeGenerator } from "../healthCheckApplications/shadeGenerator";
+import { Footer } from "../healthCheckPageElements/footer";
 
-export default function USEastOne() {
+export type FullPageProps = {
+  regionNameForURL: string; // For https://gcp-dashboard-generator.taloflow.ai/metrics?region=us-west-2&groupby=minute
+  regionNameLowerCase: string;
+  regionNameUpperCase: string;
+  votingGameEndpoint: string;
+  dashBoardEndpoint: string;
+  S3Endpoint: string;
+  QuoteEndpoint: string;
+  LambdaEndpoint: string;
+};
+
+export const HealthCheckPage = (props: FullPageProps) => {
   // I have all these pieces of state at the page level to:
   // 1. Let the navbar highlight when something is in view
   // 2. Only poll some of the applications when the component is in view
@@ -41,9 +52,9 @@ export default function USEastOne() {
         >
           <div className={"xl:mx-24 2xl:mx-48"}>
             <AWSIsUpOrDown
+              regionNameForEndpoint={props.regionNameForURL}
               ShouldPoll={titleSectionIsVisible}
-              RegionName={"us east-1"}
-              regionNameForEndpoint={"us-east-1"}
+              RegionName={props.regionNameLowerCase}
             />
           </div>
         </InView>
@@ -58,14 +69,16 @@ export default function USEastOne() {
           <IdHref name={"stats"} />
           <HealthCheckDashboardContainer
             AnalyticsSource={"GCP"}
-            EndPoint={"https://gcp-dashboard.b-cdn.net"}
+            EndPoint={props.dashBoardEndpoint}
             ShouldPoll={statsIsVisible}
           />
         </section>
       </InView>
       <CTA />
       <section className={"main-column pt-12 sm:pt-24 mx-auto"}>
-        <MainTitle>Applications Running on US East-1</MainTitle>
+        <MainTitle>
+          Applications Running on {props.regionNameUpperCase}
+        </MainTitle>
         <InView
           as="div"
           rootMargin={"-25%"}
@@ -75,7 +88,7 @@ export default function USEastOne() {
             <IdHref name={"is-sqs-down"} />
             <VotingGameContainer
               shouldPoll={votingIsVisible}
-              endpointURL={"https://d20v1ybfoa2k7c.cloudfront.net"}
+              endpointURL={props.votingGameEndpoint}
             />
           </div>
         </InView>
@@ -87,10 +100,8 @@ export default function USEastOne() {
             onChange={(inview, entry) => setS3IsVisible(inview)}
           >
             <S3
-              Endpoint={
-                "https://taloflow-aws-health-check.s3.amazonaws.com/if-i-get-requested-s3-is-up.jpg"
-              }
-              Region={"us east 1"}
+              Endpoint={props.S3Endpoint}
+              Region={props.regionNameLowerCase}
               AltText={"Jeff Bezos looking regal in an astronaut suit"}
               ServiceName={"S3"}
             />
@@ -110,7 +121,7 @@ export default function USEastOne() {
                 SubHeadline={
                   "From his book “Invent and Wander: The Collected Writings of Jeff Bezos”"
                 }
-                Endpoint={"https://d1e63eaqx0w02n.cloudfront.net/quote"}
+                Endpoint={props.QuoteEndpoint}
                 Shouldrun={Ec2IsVisible}
               />
             </InView>
@@ -129,9 +140,7 @@ export default function USEastOne() {
                 SubHeadline={
                   "Runs through API gateway. Hate something about a cloud provider that you want added?"
                 }
-                Endpoint={
-                  "https://6bitdsm1cl.execute-api.us-east-1.amazonaws.com/prod/shades"
-                }
+                Endpoint={props.LambdaEndpoint}
                 ShouldRun={LambdaIsVisible}
               />
             </div>
@@ -141,4 +150,4 @@ export default function USEastOne() {
       <Footer />
     </div>
   );
-}
+};

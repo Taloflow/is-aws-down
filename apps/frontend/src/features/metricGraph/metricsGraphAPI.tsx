@@ -51,7 +51,7 @@ export const metricsAPI = createApi({
   baseQuery: dynamicBaseQuery,
   endpoints: (builder) => ({
     getAllMetrics: builder.query<DataForChartJS[] | null, string>({
-      query: () => `/metrics?groupby=minute`,
+      query: (regionName) => `/metrics?region=${regionName}&groupby=minute`,
       transformResponse: (response) =>
         TransformDataForCache(response as MetricsData),
     }),

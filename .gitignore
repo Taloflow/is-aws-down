@@ -149,3 +149,5 @@ dmypy.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/apps/frontend/.next/
+/apps/frontend/node_modules/

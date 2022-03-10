@@ -36,7 +36,7 @@ export const HealthCheckDashboardContainer = (props: DashboardProps) => {
 
   const { baseURL } = useAppSelector(selectMetricGraph);
 
-  const { data, isLoading, error } = useGetAllMetricsQuery("", {
+  const { data, isLoading, error } = useGetAllMetricsQuery(props.EndPoint, {
     // Wait until the base URL is set
     skip: baseURL === "",
     // Poll every 5s in case there are status changes. It would be better to just

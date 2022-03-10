@@ -111,7 +111,7 @@ export const OptionAndVote = (props: OptionAndVoteProps) => {
               transform: `${
                 voteValue === 0
                   ? `translate(-99.5%)`
-                  : `translate(-${100 - props.VotePercentOfMax}%)`
+                  : `translate(-${103 - props.VotePercentOfMax}%)`
               }`,
             }}
           >

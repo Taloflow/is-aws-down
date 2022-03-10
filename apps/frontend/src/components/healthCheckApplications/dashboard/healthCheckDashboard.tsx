@@ -15,6 +15,7 @@ type DashboardProps = {
   AnalyticsSource: string; // Like GCP or wherever the health check service is hosted
   EndPoint: string; // fully qualified URL where the data is stored
   ShouldPoll: boolean;
+  Region: string;
 };
 
 export const HealthCheckDashboardContainer = (props: DashboardProps) => {
@@ -36,7 +37,7 @@ export const HealthCheckDashboardContainer = (props: DashboardProps) => {
 
   const { baseURL } = useAppSelector(selectMetricGraph);
 
-  const { data, isLoading, error } = useGetAllMetricsQuery("", {
+  const { data, isLoading, error } = useGetAllMetricsQuery(props.Region, {
     // Wait until the base URL is set
     skip: baseURL === "",
     // Poll every 5s in case there are status changes. It would be better to just

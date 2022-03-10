@@ -68,6 +68,7 @@ export const HealthCheckPage = (props: FullPageProps) => {
         <section className={"main-column mx-auto mt-24"}>
           <IdHref name={"stats"} />
           <HealthCheckDashboardContainer
+            Region={props.regionNameForURL}
             AnalyticsSource={"GCP"}
             EndPoint={props.dashBoardEndpoint}
             ShouldPoll={statsIsVisible}

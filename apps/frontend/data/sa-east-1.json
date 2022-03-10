@@ -1,0 +1,10 @@
+{
+  "regionNameForURL": "sa-east-1",
+  "regionNameLowerCase": "sa east-1",
+  "regionNameUpperCase": "SA East 1",
+  "dashBoardEndpoint": "https://gcp-dashboard.b-cdn.net",
+  "votingGameEndpoint": "https://d1wnwc2a8zec4v.cloudfront.net",
+  "S3Endpoint": "https://taloflow-aws-health-check-sa-east-1.s3.sa-east-1.amazonaws.com/if-i-get-requested-s3-is-up.jpg",
+  "QuoteEndpoint": "https://d21dz2r8mtqleg.cloudfront.net/quote",
+  "LambdaEndpoint": "https://avcafv5xob.execute-api.sa-east-1.amazonaws.com/prod/shades"
+}

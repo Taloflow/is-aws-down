@@ -1,0 +1,10 @@
+{
+  "regionNameForURL": "us-west-1",
+  "regionNameLowerCase": "us west-1",
+  "regionNameUpperCase": "US West 1",
+  "dashBoardEndpoint": "https://gcp-dashboard.b-cdn.net",
+  "votingGameEndpoint": "https://d3gn2vvzcbeq2i.cloudfront.net",
+  "S3Endpoint": "https://taloflow-aws-health-check-us-west-1.s3.us-west-1.amazonaws.com/if-i-get-requested-s3-is-up.jpg",
+  "QuoteEndpoint": "https://d1xn5l6gyayv03.cloudfront.net/quote",
+  "LambdaEndpoint": "https://kt842upk8i.execute-api.us-west-1.amazonaws.com/prod/shades"
+}

@@ -126,7 +126,6 @@ export const HealthCheckPage = (props: FullPageProps) => {
               />
             </InView>
           </div>
-
           <InView
             as="div"
             className={"flex-1"}

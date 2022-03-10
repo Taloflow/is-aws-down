@@ -1,0 +1,10 @@
+{
+  "regionNameForURL": "ap-south-1",
+  "regionNameLowerCase": "ap south-1",
+  "regionNameUpperCase": "AP South 1",
+  "dashBoardEndpoint": "https://gcp-dashboard.b-cdn.net",
+  "votingGameEndpoint": "https://d3ujdiu1mh2tgm.cloudfront.net",
+  "S3Endpoint": "https://taloflow-aws-health-check-ap-south-1.s3.ap-south-1.amazonaws.com/if-i-get-requested-s3-is-up.jpg",
+  "QuoteEndpoint": "https://ds5tm4y4yiad6.cloudfront.net/quote",
+  "LambdaEndpoint": "https://itszhbtnzk.execute-api.ap-south-1.amazonaws.com/prod/shades"
+}

@@ -1,0 +1,10 @@
+{
+  "regionNameForURL": "eu-west-2",
+  "regionNameLowerCase": "eu west-2",
+  "regionNameUpperCase": "EU West 2",
+  "dashBoardEndpoint": "https://gcp-dashboard.b-cdn.net",
+  "votingGameEndpoint": "https://d11ihucd6q34jq.cloudfront.net",
+  "S3Endpoint": "https://taloflow-aws-health-check-eu-west-2.s3.eu-west-2.amazonaws.com/if-i-get-requested-s3-is-up.jpg",
+  "QuoteEndpoint": "https://d1bt4njdojyyxk.cloudfront.net/quote",
+  "LambdaEndpoint": "https://myxpso3fn3.execute-api.eu-west-2.amazonaws.com/prod/shades"
+}

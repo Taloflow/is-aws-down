@@ -4,6 +4,7 @@ import {
 } from "../../features/summaryPage/summaryAPI";
 import Link from "next/link";
 import { LargeParagraphText } from "../blocks/text/largeParagraphText";
+import { BodyText } from "../blocks/text/bodyText";
 
 type ComponentProps = {
   Summary: LocationSummary;
@@ -15,7 +16,7 @@ export const RegionCard = (props: ComponentProps) => {
       <a
         className={`my-8 ${
           props.Summary["24h"].down > 0 ? "bg-[#F9E0E0]" : "bg-white"
-        } px-6 py-6 mx-4 rounded-lg shadow-md hover:shadow-xl transition-all`}
+        } px-6 py-6 mx-4 rounded-lg shadow-md hover:shadow-xl transition-all h-fit`}
         key={props.Summary.region}
       >
         <span
@@ -53,7 +54,7 @@ const SummaryLine = (props: summaryComponentProps) => {
 
   if (thereIsAnError([props.Affected1H, props.Affected24H])) {
     return (
-      <div>
+      <div className={"h-fit"}>
         <LargeParagraphText extraClasses={"text-left"}>
           These services have had errors:
         </LargeParagraphText>
@@ -68,17 +69,57 @@ const SummaryLine = (props: summaryComponentProps) => {
             </ul>
           );
         })}
+        <BodyText extraClasses={"flex mx-auto mt-2"}>
+          <span className={"flex underline mx-auto items-center"}>
+            view detailed stats
+            <svg
+              className={"ml-2"}
+              width="10"
+              height="14"
+              viewBox="0 0 10 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.916992 1.75L2.70024 0L9.66699 7L2.70024 14L0.916992 12.25L6.16699 7L0.916992 1.75Z"
+                fill="#414141"
+              />
+            </svg>
+          </span>
+        </BodyText>
       </div>
     );
   } else {
     return (
-      <div
-        className={"bg-[#B2E9B7] text-[#134606] font-medium px-6 rounded-lg"}
-      >
-        <LargeParagraphText extraClasses={"text-center"}>
-          There are no errors
-        </LargeParagraphText>
-      </div>
+      <>
+        <div
+          className={
+            "bg-[#B2E9B7] text-[#134606] font-medium px-6 rounded-lg max-h-[fit-content] h-fit"
+          }
+        >
+          <LargeParagraphText extraClasses={"text-center"}>
+            There are no errors
+          </LargeParagraphText>
+        </div>
+        <BodyText extraClasses={"flex mx-auto mt-2"}>
+          <span className={"flex underline mx-auto items-center"}>
+            view detailed stats
+            <svg
+              className={"ml-2"}
+              width="10"
+              height="14"
+              viewBox="0 0 10 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.916992 1.75L2.70024 0L9.66699 7L2.70024 14L0.916992 12.25L6.16699 7L0.916992 1.75Z"
+                fill="#414141"
+              />
+            </svg>
+          </span>
+        </BodyText>
+      </>
     );
   }
 };

@@ -176,8 +176,8 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
             </span>
           </MainTitle>
           {/*Show a dialog box if there have been no errors*/}
-          {pageState.HadIssuesInLastHour.length === 0 &&
-            pageState.HadIssuesInLastDay.length === 0 && (
+          {pageState.HadIssuesInLastHour?.length === 0 &&
+            pageState.HadIssuesInLastDay?.length === 0 && (
               <div
                 className={
                   "rounded-lg bg-success bg-opacity-40 mx-auto max-w-[fit-content] font-bold mb-8 text-[#134606] px-8 py-2 text-2xl"
@@ -205,7 +205,7 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
               </ul>
             </>
           )}
-          {pageState.HadIssuesInLastHour.length > 0 && (
+          {pageState.HadIssuesInLastHour?.length > 0 && (
             <>
               <LargeParagraphText extraClasses={"mt-4"}>
                 These services have had failures in the last hour:
@@ -221,7 +221,7 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
               </ul>
             </>
           )}
-          {pageState.HadIssuesInLastDay.length > 0 && (
+          {pageState.HadIssuesInLastDay?.length > 0 && (
             <>
               <LargeParagraphText extraClasses={"mt-4"}>
                 These services have had failures in the last day:
@@ -237,13 +237,13 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
               </ul>
             </>
           )}
-          {pageState.HadIssuesInLastHour.length === 0 &&
-            pageState.HadIssuesInLastDay.length === 0 && (
+          {pageState.HadIssuesInLastHour?.length === 0 &&
+            pageState.HadIssuesInLastDay?.length === 0 && (
               <Description RegionName={props.RegionName} />
             )}
         </div>
       </StandardCard>
-      {pageState.HadIssuesInLastDay.length > 0 && (
+      {pageState.HadIssuesInLastDay?.length > 0 && (
         <StandardCard>
           <Description RegionName={props.RegionName} />
         </StandardCard>

@@ -147,7 +147,6 @@ export const HealthCheckPage = (props: FullPageProps) => {
           </InView>
         </div>
       </section>
-      <Footer />
     </div>
   );
 };

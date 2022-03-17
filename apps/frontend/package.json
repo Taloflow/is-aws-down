@@ -14,6 +14,7 @@
     "@types/react-beforeunload": "^2.1.1",
     "chart.js": "^3.7.0",
     "final-form": "^4.20.6",
+    "gray-matter": "^4.0.3",
     "next": "12.0.5",
     "react": "17.0.2",
     "react-chartjs-2": "^4.0.0",
@@ -21,11 +22,14 @@
     "react-final-form": "^6.5.7",
     "react-intersection-observer": "^8.33.1",
     "react-lottie": "^1.2.3",
+    "react-markdown": "^8.0.1",
     "react-redux": "^7.2.6",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.2",
     "@types/gtag.js": "0.0.8",
+    "@types/markdown-it": "^12.2.3",
     "@types/node": "^16.11.6",
     "@types/react": "^17.0.34",
     "@types/react-autosuggest": "^10.1.5",

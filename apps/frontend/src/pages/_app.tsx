@@ -6,6 +6,7 @@ import "tippy.js/dist/tippy.css"; // optional
 import { store } from "../app/store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Footer } from "../components/general/legalFooter";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -31,6 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Head>
         <Component {...pageProps} />
       </Provider>
+      <Footer />
     </>
   );
 }

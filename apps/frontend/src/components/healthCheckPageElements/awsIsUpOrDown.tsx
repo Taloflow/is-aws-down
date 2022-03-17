@@ -18,6 +18,7 @@ type TitleOfPageProps = {
   SummaryData?: LocationSummary[];
   SummaryDataFetchError?: FetchBaseQueryError | SerializedError;
   regionNameForEndpoint: string;
+  IsSummaryPage?: boolean;
 };
 
 type PageState = {
@@ -175,6 +176,7 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
               {pageState.PageTitle}
             </span>
           </MainTitle>
+
           {/*Show a dialog box if there have been no errors*/}
           {pageState.HadIssuesInLastHour?.length === 0 &&
             pageState.HadIssuesInLastDay?.length === 0 && (
@@ -241,6 +243,9 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
             pageState.HadIssuesInLastDay?.length === 0 && (
               <Description RegionName={props.RegionName} />
             )}
+          {!pageState.RegionsWithIssues && (
+            <Description RegionName={props.RegionName} />
+          )}
         </div>
       </StandardCard>
       {pageState.HadIssuesInLastDay?.length > 0 && (
@@ -284,6 +289,12 @@ const SummaryPageDescription = () => {
 const Description = (props: DescriptionProps) => {
   return (
     <div className={"space-y-6"}>
+      <LargeParagraphText>
+        If you think your services are down, you can head to our{" "}
+        <a className={"underline"} href={"/is-aws-down#debug"}>
+          troubleshooting section
+        </a>
+      </LargeParagraphText>
       {props.RegionName === "" ? (
         <LargeParagraphText>
           We’re running several services on AWS and executing health checks

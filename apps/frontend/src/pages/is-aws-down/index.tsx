@@ -101,12 +101,9 @@ export default function IsAwsDown({ frontmatter, content }) {
 
 export async function getStaticProps() {
   // MDX text - can be from a local file, database, anywhere
-  console.log("here");
   let filePath = path.join("posts", "check-if-aws-is-down.md");
-  console.log("here2");
 
   let file = fs.readFileSync(filePath, "utf-8");
-  console.log("here3");
 
   const { data: frontmatter, content } = matter(file);
 

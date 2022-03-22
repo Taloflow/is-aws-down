@@ -243,9 +243,6 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
             pageState.HadIssuesInLastDay?.length === 0 && (
               <Description RegionName={props.RegionName} />
             )}
-          {!pageState.RegionsWithIssues && (
-            <Description RegionName={props.RegionName} />
-          )}
         </div>
       </StandardCard>
       {pageState.HadIssuesInLastDay?.length > 0 && (
@@ -259,31 +256,6 @@ export const AWSIsUpOrDown = (props: TitleOfPageProps) => {
 
 type DescriptionProps = {
   RegionName: string;
-};
-
-const SummaryPageDescription = () => {
-  return (
-    <div className={"space-y-6"}>
-      <LargeParagraphText>
-        We are running health checks to multiple
-      </LargeParagraphText>
-      <LargeParagraphText>
-        Built by the engineers at Taloflow. If you’re looking for an{" "}
-        <a href={"https://www.taloflow.ai/blog/8-amazon-s3-alternatives"}>
-          S3 alternative
-        </a>{" "}
-        and are tired of digging through vendor sales pages, try our{" "}
-        <a
-          className={"text-brand"}
-          href={"https://use.taloflow.ai/guide/object-storage"}
-          target={"_blank"}
-        >
-          object storage recommendation tool
-        </a>
-        .
-      </LargeParagraphText>
-    </div>
-  );
 };
 
 const Description = (props: DescriptionProps) => {

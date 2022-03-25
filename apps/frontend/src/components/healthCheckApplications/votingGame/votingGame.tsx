@@ -53,6 +53,7 @@ export const VotingGame = (props: QuestionFromEndpoint) => {
         {props?.choices?.map((choice, i) => {
           return (
             <OptionAndVote
+              EndpointURL={props.endpointURL}
               key={choice.id}
               TopicID={props.id}
               id={choice.id}

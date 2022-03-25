@@ -12,6 +12,7 @@ interface OptionAndVoteProps extends QuestionChoice {
   VotePercentOfMax: number; // Used to calculate how large the option bar is
   IsFinalAnswer: boolean; // useful for if we should display the <hr/> on mobile beneath the question
   TopicID: string; // back end needs to know the topic ID
+  EndpointURL: string;
 }
 
 export const OptionAndVote = (props: OptionAndVoteProps) => {
@@ -51,13 +52,13 @@ export const OptionAndVote = (props: OptionAndVoteProps) => {
     return "bg-[#FCBF64]";
   };
   // Sends vote
-  const handleVote = async () => {
+  const handleVote = async (url: string) => {
     AddPlusOne();
     dispatch(updateLoading({ loading: true, id: props.TopicID }));
     // if (voteValue < 100) {
     //   setVoteValue(voteValue + 1);
     // }
-    fetch("https://us-east-1.taloflow.ai/votes", {
+    fetch(`${url}/votes`, {
       method: "POST",
       headers: [["Content-Type", "application/json"]],
       body: JSON.stringify({
@@ -131,7 +132,7 @@ export const OptionAndVote = (props: OptionAndVoteProps) => {
           <p className={"opacity-0"}>+1</p>
         </div>
         <button
-          onClick={() => handleVote()}
+          onClick={() => handleVote(props.EndpointURL)}
           className={
             "bg-brand-accent sm:mt-0 sm:mt-4 flex-initial w-[196px] text-center mr-6 h-full text-lg px-6 py-2 text-white rounded-lg"
           }

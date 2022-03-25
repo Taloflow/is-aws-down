@@ -110,7 +110,7 @@ export const VotingGameContainer = (props: VotingGameProps) => {
       {data.map((item) => {
         return (
           <div className={"my-8"} key={item.id}>
-            <VotingGame {...item} />
+            <VotingGame endpointURL={props.endpointURL} {...item} />
           </div>
         );
       })}

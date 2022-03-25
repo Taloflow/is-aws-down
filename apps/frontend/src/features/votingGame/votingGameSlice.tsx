@@ -6,6 +6,7 @@ export interface QuestionFromEndpoint {
   id: string;
   title: string;
   choices: QuestionChoice[];
+  endpointURL: string;
 }
 
 export interface QuestionChoice {

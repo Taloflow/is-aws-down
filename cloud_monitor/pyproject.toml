@@ -16,6 +16,8 @@ fastapi = "^0.70.1"
 uvicorn = {extras = ["standard"], version = "^0.16.0"}
 dramatiq = "^1.12.1"
 dramatiq-sqs = "^0.1.0"
+google-cloud-pubsub = "^2.12.0"
+customerio = "^1.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.6"

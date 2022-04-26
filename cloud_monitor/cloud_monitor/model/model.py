@@ -448,6 +448,28 @@ class Model(object):
         session = self.Session()
         return session.execute(stmt).fetchall()
 
+    def query_metrics_outages(self, minutes=5, **kwargs):
+        """
+        Simple outage count for N minutes.
+        """
+        stmt = f"""select
+                  dimension,
+                  region,
+                  count(value) as "count"
+                 from
+                  cloud_monitor.metrics m
+                 where
+                  m.timestamp between now() - interval '{minutes} minutes' and now()
+                  AND dimension not in ('Lambda Random Shade Generator', 'EC2 Bezos Quote Generator', 'S3 File Serving', 'SQS + EC2 Voting Game') AND dimension not like 'Monitor %'
+                  AND value = 0
+                  GROUP BY
+                  dimension,
+                  region
+                  having count(value) > 0;"""
+
+        session = self.Session()
+        return session.execute(stmt).fetchall()
+
     def query_metrics_overview(self):
         """
         An overview of services affected across regions in

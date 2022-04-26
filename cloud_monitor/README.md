@@ -153,3 +153,46 @@ Auth Header: Add OIDC Token
 Service Account: Compute Engine default service account
 Audience: same as URL above
 ```
+
+### Deploy a task to check for outages(trigger_alerts)
+
+```bash
+cp Dockerfile.trigger_alerts Dockerfile
+gcloud run deploy
+...follow same steps as other services. Set below env variables on the service.
+
+TM_AWS_SQS_ENDPOINT_URL
+TM_REGION
+TM_ALERTS_OUTAGE_WINDOW: in minutes
+GOOGLE_PROJECT_ID
+GOOGLE_PUBSUB_TOPIC_ID
+DATABASE_URL
+TM_AWS_ACCESS_KEY_ID
+TM_AWS_SECRET_ACCESS_KEY
+```
+
+### Deploy a task to send emails
+
+```bash
+cp Dockerfile.trigger_alerts Dockerfile
+gcloud run deploy
+...follow same steps as other services. Set below env variables on the service.
+
+TM_AWS_SQS_ENDPOINT_URL
+TM_REGION
+TM_ALERTS_OUTAGE_WINDOW: in minutes
+GOOGLE_PROJECT_ID
+GOOGLE_PUBSUB_TOPIC_ID
+DATABASE_URL
+TM_AWS_ACCESS_KEY_ID
+TM_AWS_SECRET_ACCESS_KEY
+TM_ALERTS_TEST_MODE: set to 0 for prod. 1 to route all emails to test email
+TM_ALERTS_TEST_EMAIL: test email id
+TM_ALERTS_EMAIL_TEMPLATE: /code/email_template.html
+TM_ALERTS_TRANSACT_MESSAGE_ID: from customer io
+TM_ALERTS_FROM_ADDR: from customer io
+TM_ALERTS_TEST_EMAIL_CUSTOMER_ID: UUID of test email user
+TM_ALERTS_CUTOMER_IO_API_KEY: customer io api key
+```
+
+

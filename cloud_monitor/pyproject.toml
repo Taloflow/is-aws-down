@@ -18,6 +18,7 @@ dramatiq = "^1.12.1"
 dramatiq-sqs = "^0.1.0"
 google-cloud-pubsub = "^2.12.0"
 customerio = "^1.4"
+google-api-core = "2.7.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.6"

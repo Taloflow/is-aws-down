@@ -58,6 +58,7 @@ class AlertCadence(str, Enum):
 class UserRequest(BaseModel):
     signup_for: Optional[List[SignUpFor]] = None
     service_alerts: Optional[List[Services]] = None
+    service_regions: Optional[List[str]] = None
     alert_cadence: Optional[AlertCadence] = None
     email: str
 

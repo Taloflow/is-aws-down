@@ -176,10 +176,27 @@ def check_outage(db):
         logger.info(f'User {user.id} '
                     f'email {user.email} '
                     f'service_alerts {user.service_alerts} '
+                    f'service_regions {user.service_regions} '
                     f'cadence {user.alert_cadence}')
         for service, region, count in outages:
             logger.info(f'service {service}, rgn {region}, count {count}')
-            if user.service_alerts and service in user.service_alerts:
+
+            if user.service_region:
+                is_subscribed_region = (True if region in user.service_region
+                                        else False)
+            else:
+                # null -> subscribed to all regions because a lot of users
+                # registered when UI didn't let them specify a region. So let
+                # them continue to receive alerts.
+                is_subscribed_region = True
+
+            if user.service_alerts:
+                is_subscribed_alert = (True if service in user.service_alerts
+                                       else False)
+            else:
+                is_subscribed_alert = False
+
+            if is_subscribed_region and is_subscribed_alert:
                 if count < 3:
                     if user.alert_cadence == 'every':
                         alert_recipients.add((str(user.id), user.email))

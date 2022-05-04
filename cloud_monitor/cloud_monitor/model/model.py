@@ -84,6 +84,7 @@ class Users(Base):
                       nullable=False)
     signup_for = Column(ARRAY(String))
     service_alerts = Column(ARRAY(String))
+    service_regions = Column(ARRAY(String))
     alert_cadence = Column(String)
     _email = Column('email', String, nullable=False)
 

@@ -181,8 +181,8 @@ def check_outage(db):
         for service, region, count in outages:
             logger.info(f'service {service}, rgn {region}, count {count}')
 
-            if user.service_region:
-                is_subscribed_region = (True if region in user.service_region
+            if user.service_regions:
+                is_subscribed_region = (True if region in user.service_regions
                                         else False)
             else:
                 # null -> subscribed to all regions because a lot of users

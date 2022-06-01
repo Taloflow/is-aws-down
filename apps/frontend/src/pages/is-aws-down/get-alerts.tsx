@@ -72,8 +72,7 @@ export default function GetAlerts() {
             A Better Way To Get AWS Alerts
           </SecondaryTitle>
           <BodyText extraClasses={"font-medium"}>
-            Only get alerted on what you care about. In February, you’ll be able
-            to set alerts based on:
+            Only get alerted on what you care about. You can set alerts based on:
           </BodyText>
           <ul
             className={
@@ -96,9 +95,6 @@ export default function GetAlerts() {
       </section>
       <section className={"inner-column mx-auto"}>
         <StandardCard>
-          <p className={"sm:px-8 text-success"}>
-            The first version of alerts (below) will be launched on 1/15
-          </p>
           <Form
             onSubmit={onSubmit}
             initialValues={InitialValues}
@@ -156,11 +152,38 @@ export default function GetAlerts() {
                         Value: "S3",
                       },
                       {
+                        Description: "DynamoDB",
+                        Value: "DynamoDB",
+                      },
+                      {
+                        Description: "API Gateway",
+                        Value: "API Gateway"
+                      },
+                      {
                         Description: "Lambda",
                         Value: "Lambda",
                       },
+                      { Description: "us-east-1", Value: "us-east-1" },
+
+                      { Description: "us-east-2", Value: "us-east-2" },
+
+                      { Description: "us-west-1", Value: "us-west-1" },
+
+                      { Description: "us-west-2", Value: "us-west-2" },
+
+                      { Description: "eu-west-1", Value: "eu-west-1" },
+
+                      { Description: "eu-west-2", Value: "eu-west-2" },
+
+                      { Description: "sa-east-1", Value: "sa-east-1" },
+
+                      { Description: "ap-south-1", Value: "ap-south-1" },
+
+                      { Description: "ap-southeast-2", Value: "ap-southeast-2" },
+
+                      { Description: "ca-central-1", Value: "ca-central-1" },
                     ]}
-                    TitleName={"Available Services to monitor in US East-1"}
+                    TitleName={"Available Services to monitor"}
                   />
                   <RadioOrCheckBoxFormChoices
                     Type={"radio"}
@@ -195,11 +218,6 @@ export default function GetAlerts() {
                         />
 
                         <span className={"text-xl pl-4"}>{"Email"}</span>
-                        <span className={"block pl-8 font-light"}>
-                          We will attempt to send an email via 6 different email
-                          providers because as it turns out, a few of them rely
-                          on AWS
-                        </span>
                       </label>
                     </div>
                     <p className={"text-2xl font-light pt-4"}>

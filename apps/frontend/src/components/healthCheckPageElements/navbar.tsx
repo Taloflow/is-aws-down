@@ -4,6 +4,8 @@ type NavBarProps = {
   S3IsVisible: boolean;
   EC2IsVisible: boolean;
   LambdaIsVisible: boolean;
+  DynamoDBIsVisible: boolean;
+  APIGatewayIsVisible: boolean;
 };
 
 export const Navbar = (props: NavBarProps) => {
@@ -56,6 +58,18 @@ export const Navbar = (props: NavBarProps) => {
               isActive={props.LambdaIsVisible}
             >
               Lambda
+            </NavbarLink>
+            <NavbarLink
+              link={"#is-dynamodb-down"}
+              isActive={props.DynamoDBIsVisible}
+            >
+              DynamoDB
+            </NavbarLink>
+            <NavbarLink
+              link={"#is-api-gateway-down"}
+              isActive={props.APIGatewayIsVisible}
+            >
+              API Gateway
             </NavbarLink>
           </div>
           <div>

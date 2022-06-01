@@ -33,6 +33,8 @@ export const HealthCheckPage = (props: FullPageProps) => {
   const [S3IsVisible, setS3IsVisible] = useState(false);
   const [Ec2IsVisible, setEc2IsVisible] = useState(false);
   const [LambdaIsVisible, setLambdaIsVisible] = useState(false);
+  // const [DynamoDBIsVisible, setDynamoDBIsVisible] = useState(false);
+  // const [APIGatewayIsVisible, setAPIGatewayIsVisible] = useState(false);
   const [titleSectionIsVisible, setTitleSectionIsVisible] = useState(false);
 
   return (
@@ -43,6 +45,8 @@ export const HealthCheckPage = (props: FullPageProps) => {
         S3IsVisible={S3IsVisible}
         EC2IsVisible={Ec2IsVisible}
         LambdaIsVisible={LambdaIsVisible}
+        DynamoDBIsVisible={false}
+        APIGatewayIsVisible={false}
       />
       <main className={"main-column mx-auto mt-48"}>
         <InView

@@ -315,6 +315,20 @@ const Description = (props: DescriptionProps) => {
             <a href={"#is-lambda-down"}>Lambda</a>
           )}
         </li>
+        <li>
+          {props.RegionName === "" ? (
+            <p>DynamoDB</p>
+          ) : (
+            <a href={"#is-dynamodb-down"}>DynamoDB</a>
+          )}
+        </li>
+        <li>
+          {props.RegionName === "" ? (
+            <p>API Gateway</p>
+          ) : (
+            <a href={"#is-api-gateway-down"}>API Gateway</a>
+          )}
+        </li>
       </ul>
       <LargeParagraphText>
         Our health checks use the AWS API to invoke services directly. If the
@@ -325,7 +339,7 @@ const Description = (props: DescriptionProps) => {
         issues that you do not, or vice versa.
       </LargeParagraphText>
       <LargeParagraphText>
-        If you&apos;re looking alternatives to AWS and are tired of digging through vendor sales pages to run good comparisons, <a href="https://use.taloflow.ai/start/" target={"_blank"}>try our tool</a>.
+        If you&apos;re looking alternatives to AWS and are tired of digging through vendor sales pages to run good comparisons, <a className={"text-brand"} href="https://use.taloflow.ai/start/" target={"_blank"}>try our tool</a>.
       </LargeParagraphText>
     </div>
   );

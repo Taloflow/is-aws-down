@@ -16,7 +16,24 @@ export type FormSubmission = {
 };
 
 type SignUpFor = "actionsLaunch" | "taloflowLaunch";
-type Services = "SQS" | "IAM" | "Lambda" | "S3" | "EC2";
+type Services = |
+  "SQS" | 
+  "IAM" | 
+  "Lambda" | 
+  "S3" | 
+  "EC2" | 
+  "API Gateway" | 
+  "Lambda" |
+  "us-east-1" |
+  "us-east-2" |
+  "us-west-1" |
+  "us-west-2" |
+  "eu-west-1" |
+  "eu-west-2" |
+  "sa-east-1" |
+  "ap-south-1" |
+  "ap-southeast-2" |
+  "ca-central-1";
 
 export default function GetAlerts() {
   const [submitting, setSubmitting] = useState(false);

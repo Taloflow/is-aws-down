@@ -325,19 +325,7 @@ const Description = (props: DescriptionProps) => {
         issues that you do not, or vice versa.
       </LargeParagraphText>
       <LargeParagraphText>
-        Built by the engineers at Taloflow. If you’re looking for an{" "}
-        <a href={"https://www.taloflow.ai/blog/8-amazon-s3-alternatives"}>
-          S3 alternative
-        </a>{" "}
-        and are tired of digging through vendor sales pages, try our{" "}
-        <a
-          className={"text-brand"}
-          href={"https://use.taloflow.ai/guide/object-storage"}
-          target={"_blank"}
-        >
-          object storage recommendation tool
-        </a>
-        .
+        If you&apos;re looking alternatives to AWS and are tired of digging through vendor sales pages to run good comparisons, <a href="https://use.taloflow.ai/start/" target={"_blank"}>try our tool</a>.
       </LargeParagraphText>
     </div>
   );

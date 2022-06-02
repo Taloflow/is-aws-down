@@ -23,7 +23,9 @@ type Services = |
   "S3" | 
   "EC2" | 
   "API Gateway" | 
-  "Lambda" |
+  "Lambda";
+  
+type Regions = |
   "us-east-1" |
   "us-east-2" |
   "us-west-1" |
@@ -180,27 +182,25 @@ export default function GetAlerts() {
                         Description: "Lambda",
                         Value: "Lambda",
                       },
-                      { Description: "us-east-1", Value: "us-east-1" },
-
-                      { Description: "us-east-2", Value: "us-east-2" },
-
-                      { Description: "us-west-1", Value: "us-west-1" },
-
-                      { Description: "us-west-2", Value: "us-west-2" },
-
-                      { Description: "eu-west-1", Value: "eu-west-1" },
-
-                      { Description: "eu-west-2", Value: "eu-west-2" },
-
-                      { Description: "sa-east-1", Value: "sa-east-1" },
-
-                      { Description: "ap-south-1", Value: "ap-south-1" },
-
-                      { Description: "ap-southeast-2", Value: "ap-southeast-2" },
-
-                      { Description: "ca-central-1", Value: "ca-central-1" },
                     ]}
                     TitleName={"Available Services to monitor"}
+                  />
+                  <RadioOrCheckBoxFormChoices
+                    Type={"checkbox"}
+                    FormName={"service_regions"}
+                    Options={[
+                      { Description: "us-east-1", Value: "us-east-1" },
+                      { Description: "us-east-2", Value: "us-east-2" },
+                      { Description: "us-west-1", Value: "us-west-1" },
+                      { Description: "us-west-2", Value: "us-west-2" },
+                      { Description: "eu-west-1", Value: "eu-west-1" },
+                      { Description: "eu-west-2", Value: "eu-west-2" },
+                      { Description: "sa-east-1", Value: "sa-east-1" },
+                      { Description: "ap-south-1", Value: "ap-south-1" },
+                      { Description: "ap-southeast-2", Value: "ap-southeast-2" },
+                      { Description: "ca-central-1", Value: "ca-central-1" },
+                    ]}
+                    TitleName={"Available Regions"}
                   />
                   <RadioOrCheckBoxFormChoices
                     Type={"radio"}

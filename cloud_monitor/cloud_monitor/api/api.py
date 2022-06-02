@@ -48,6 +48,8 @@ class Services(str, Enum):
     lambda_ = 'Lambda'
     s3 = 'S3'
     ec2 = 'EC2'
+    dynamo_db = 'DynamoDB'
+    api_gateway = 'API Gateway'
 
 
 class AlertCadence(str, Enum):

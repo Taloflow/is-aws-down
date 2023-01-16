@@ -31,3 +31,10 @@ export TM_ALERTS_FROM_ADDR="Taloflow <team@taloflow.ai>"
 export GOOGLE_APPLICATION_CREDENTIALS="/Users/anujoy/GoogleDrive_CX/MyCode/Cartographix/taloflow/is-aws-down/cloud_monitor/strange-retina-336712-ca73d3d1edb3.json"
 export GOOGLE_PROJECT_ID=strange-retina-336712
 export GOOGLE_PUBSUB_TOPIC_ID=alert_emails
+export GOOGLE_PUBSUB_TOPIC_ID_TWITTER=alert_tweets
+
+# twitter client
+export TWITTER_ACCESS_TOKEN=test
+export TWITTER_ACCESS_TOKEN_SECRET=test
+export TWITTER_API_KEY=test
+export TWITTER_API_SECRET=test

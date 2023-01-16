@@ -40,6 +40,7 @@ ENV TM_ALERTS_FROM_ADDR "Taloflow <team@taloflow.ai>"
 ENV GOOGLE_APPLICATION_CREDENTIALS /code/gcp-service-account.json
 ENV GOOGLE_PROJECT_ID strange-retina-336712
 ENV GOOGLE_PUBSUB_TOPIC_ID alert_emails
+ENV GOOGLE_PUBSUB_TOPIC_ID_TWITTER alert_tweets
 
 EXPOSE 80
 

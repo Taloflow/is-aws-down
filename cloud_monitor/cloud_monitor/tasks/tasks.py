@@ -10,6 +10,7 @@ import os
 import io
 import base64
 import json
+import tweepy
 from fastapi import Depends, FastAPI, Request, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
@@ -107,23 +108,26 @@ def task_runner(db):
     logger.info('END monitor task runner')
 
 
-def get_topic_path(publisher):
+def get_topic_path(publisher, topic_type='email'):
     """
     Get topic path for google Pub Sub
 
     Keeping this simple as we use PubSub only for senidng alerts for now.
     """
     project_id = os.environ['GOOGLE_PROJECT_ID']
-    topic_id = os.environ['GOOGLE_PUBSUB_TOPIC_ID']
+    if topic_type == 'email':
+        topic_id = os.environ['GOOGLE_PUBSUB_TOPIC_ID']
+    else:
+        topic_id = os.environ['GOOGLE_PUBSUB_TOPIC_ID_TWITTER']
     return publisher.topic_path(project_id, topic_id)
 
 
-def post_topic(data):
+def post_topic(data, topic_type='email'):
     """
     Post a message to google Pub Sub topic
     """
     publisher = pubsub_v1.PublisherClient()
-    topic_path = get_topic_path(publisher)
+    topic_path = get_topic_path(publisher, topic_type=topic_type)
     message = json.dumps(data)
     future = publisher.publish(topic_path, message.encode('utf-8'))
     logger.info(f'Message published to topic. Message id {future.result()}')
@@ -212,7 +216,10 @@ def check_outage(db):
         event = {'outages': outages,
                  'email': email,
                  'user_id': _id}
-        post_topic(event)
+        if email == 'awsdown@twitter':
+            post_topic(event, topic_type='twitter')
+        else:
+            post_topic(event, topic_type='email')
 
     logger.info('END check_outage()')
     logger.info('... \n')
@@ -266,6 +273,35 @@ def send_email(message):
     logger.info('... \n')
 
 
+def send_tweet(message):
+    """
+    Consume pubsub event and post a tweet using awsdown@twitter.com account.
+    """
+    event = decode_pubsub_payload(message)
+
+    logger.info('Start send_tweet()')
+    logger.info(f'Processing \n {event}')
+
+    client = tweepy.Client(
+        consumer_key=os.environ['TWITTER_API_KEY'],
+        consumer_secret=os.environ['TWITTER_API_SECRET'],
+        access_token=os.environ['TWITTER_ACCESS_TOKEN'],
+        access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET']
+    )
+
+    base_url = 'https://www.taloflow.ai/is-aws-down'
+    for service, region, count in event['outages']:
+        tweet = (f"AWS Is Down. Our health checks for "
+                 f"#{service.replace(' ', '')} in #AWS {region} "
+                 f"failed {count} times. {base_url}/{region}")
+        logger.info('Sending tweet')
+        response = client.create_tweet(text=tweet)
+        logger.info(f'Response from Twitter {response}')
+
+        logger.info('END send_tweet()')
+        logger.info('... \n')
+
+
 # default route. Not renaming now as its being used by many services.
 @app.post('/tasks')
 def get_metrics(db=Depends(get_db)):
@@ -311,6 +347,27 @@ async def send_email_post(request: Request):
     try:
         payload = await request.json()
         send_email(payload.get('message'))
+        return {
+            'detail': {
+                'status_code': 200,
+                'log': logfile.getvalue()
+            }
+        }
+    except Exception:
+        logger.exception('Internal error')
+        raise HTTPException(status_code=500,
+                            detail={'status_code': 500,
+                                    'log': logfile.getvalue()})
+
+
+@app.post('/send_tweet')
+async def send_tweet_post(request: Request):
+    """
+    Read from pubsub and tweet alerts.
+    """
+    try:
+        payload = await request.json()
+        send_tweet(payload.get('message'))
         return {
             'detail': {
                 'status_code': 200,

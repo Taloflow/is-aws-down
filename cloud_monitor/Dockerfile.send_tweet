@@ -42,6 +42,11 @@ ENV GOOGLE_PROJECT_ID strange-retina-336712
 ENV GOOGLE_PUBSUB_TOPIC_ID alert_emails
 ENV GOOGLE_PUBSUB_TOPIC_ID_TWITTER alert_tweets
 
+ENV TWITTER_ACCESS_TOKEN test
+ENV TWITTER_ACCESS_TOKEN_SECRET test
+ENV TWITTER_API_KEY test
+ENV TWITTER_API_SECRET test
+
 EXPOSE 80
 
 CMD ["uvicorn", "cloud_monitor.tasks.tasks:app", "--host", "0.0.0.0", "--port", "80", "--proxy-headers"]

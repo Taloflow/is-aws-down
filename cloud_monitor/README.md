@@ -166,6 +166,7 @@ TM_REGION
 TM_ALERTS_OUTAGE_WINDOW: in minutes
 GOOGLE_PROJECT_ID
 GOOGLE_PUBSUB_TOPIC_ID
+GOOGLE_PUBSUB_TOPIC_ID_TWITTER
 DATABASE_URL
 TM_AWS_ACCESS_KEY_ID
 TM_AWS_SECRET_ACCESS_KEY
@@ -194,5 +195,19 @@ TM_ALERTS_FROM_ADDR: from customer io
 TM_ALERTS_TEST_EMAIL_CUSTOMER_ID: UUID of test email user
 TM_ALERTS_CUTOMER_IO_API_KEY: customer io api key
 ```
+
+### Deploy a task to send tweets
+
+```bash
+cp Dockerfile.send_tweet Dockerfile
+gcloud run deploy
+...follow same steps as other services. Set below env variables on the service.
+
+GOOGLE_PROJECT_ID
+TWITTER_ACCESS_TOKEN_SECRET
+TWITTER_API_KEY
+TWITTER_API_SECRET
+```
+
 
 

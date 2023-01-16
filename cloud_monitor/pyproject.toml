@@ -18,7 +18,12 @@ dramatiq = "^1.12.1"
 dramatiq-sqs = "^0.1.0"
 google-cloud-pubsub = "^2.12.0"
 customerio = "^1.4"
-google-api-core = {version = "2.8.1", extras = ["grpc"]}
+google-api-core = {extras = ["grpc"], version = "^2.11.0"}
+tweepy = "^4.12.1"
+googleapis-common-protos = "^1.58.0"
+protobuf = "^4.21.12"
+grpcio = "<2.0dev"
+grpcio-status = "^1.51.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.6"

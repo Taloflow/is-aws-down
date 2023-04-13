@@ -5,32 +5,34 @@ import {
 import Link from "next/link";
 import { LargeParagraphText } from "../blocks/text/largeParagraphText";
 import { BodyText } from "../blocks/text/bodyText";
+import clsx from "clsx";
 
 type ComponentProps = {
-  Summary: LocationSummary;
+  summary: LocationSummary;
 };
 
-export const RegionCard = (props: ComponentProps) => {
+export const RegionCard = ({ summary }: ComponentProps) => {
   return (
-    <Link href={"/is-aws-down/" + props.Summary.region}>
-      <a
-        className={`my-8 ${
-          props.Summary["24h"].down > 0 ? "bg-[#F9E0E0]" : "bg-white"
-        } px-6 py-6 mx-4 rounded-lg shadow-md hover:shadow-xl transition-all h-fit`}
-        key={props.Summary.region}
+    <Link
+      href={`/${summary.region}`}
+      className={clsx(
+        'my-8 px-6 py-6 mx-4 rounded-lg shadow-md hover:shadow-xl transition-all h-fit',
+        {
+        'bg-[#F9E0E0]': summary["24h"].down > 0,
+        'bg-white': summary['24h'].down <= 0
+      })}
+    >
+      <span
+        className={
+          "text-2xl font-medium underline text-center mb-3 block cursor-pointer"
+        }
       >
-        <span
-          className={
-            "text-2xl font-medium underline text-center mb-3 block cursor-pointer"
-          }
-        >
-          {props.Summary.region.replaceAll("-", " ")}
-        </span>
-        <SummaryLine
-          Affected1H={props.Summary["1h"]}
-          Affected24H={props.Summary["24h"]}
-        />
-      </a>
+        {summary.region.replaceAll("-", " ")}
+      </span>
+      <SummaryLine
+        Affected1H={summary["1h"]}
+        Affected24H={summary["24h"]}
+      />
     </Link>
   );
 };
@@ -55,7 +57,7 @@ const SummaryLine = (props: summaryComponentProps) => {
   if (thereIsAnError([props.Affected1H, props.Affected24H])) {
     return (
       <div className={"h-fit"}>
-        <LargeParagraphText extraClasses={"text-left"}>
+        <LargeParagraphText className={"text-left"}>
           These services have had errors:
         </LargeParagraphText>
         {props.Affected24H.services_affected.map((hadError) => {
@@ -97,7 +99,7 @@ const SummaryLine = (props: summaryComponentProps) => {
             "bg-[#B2E9B7] text-[#134606] font-medium px-6 rounded-lg max-h-[fit-content] h-fit"
           }
         >
-          <LargeParagraphText extraClasses={"text-center"}>
+          <LargeParagraphText className={"text-center"}>
             There are no errors
           </LargeParagraphText>
         </div>

@@ -1,12 +1,9 @@
-import { DefaultOptions } from "../lottie/defaultOptions";
-import animationData from "../lottie/simple-fire.json";
-import Lottie from "react-lottie";
-import fire from "../../../public/icons8-fire.gif";
+import { ReactNode } from "react";
 
 export const FailureState = ({
   children,
 }: {
-  children: React.ReactChild | React.ReactChild[];
+  children?: ReactNode
 }) => {
   return (
     <div
@@ -16,11 +13,6 @@ export const FailureState = ({
     >
       <div className={"flex justify-center flex-col"}>
         {children}
-        {/*<Lottie*/}
-        {/*  options={DefaultOptions(animationData)}*/}
-        {/*  height={200}*/}
-        {/*  width={200}*/}
-        {/*/>*/}
         <div className={"h-[200px] w-[200px] mx-auto"}>
           <img src={process.env.NEXT_PUBLIC_CDN_HOST + "/icons8-fire.gif"} />
         </div>

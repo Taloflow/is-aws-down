@@ -17,7 +17,7 @@ export interface ServicesAffected {
 export const summaryAPI = createApi({
   reducerPath: "summaryAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://gcp-dashboard-generator.taloflow.ai",
+    baseUrl: "",
   }),
   endpoints: (builder) => ({
     getStats: builder.query<LocationSummary[], string>({

@@ -8,7 +8,7 @@ type ComponentProps = {
 export const SEO = (props: ComponentProps) => {
   return (
     <Head>
-      <title>{props.Title} | Taloflow</title>
+      <title>{`${props.Title} | Taloflow`}</title>
       <meta name={"description"} content={props.Description} />
       <link
         href="https://uploads-ssl.webflow.com/5c553e9fc3ddd3400fe58821/5c5dde805cf96a735a45c676_taloflow-favicon.png"

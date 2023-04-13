@@ -1,11 +1,12 @@
-import { BlankNavbar } from "../../components/general/blankNavBar";
-import { MainTitle } from "../../components/blocks/text/mainTitle";
-import { StandardCard } from "../../components/blocks/containers/standardCard";
-import { SecondaryTitle } from "../../components/blocks/text/secondaryTitle";
-import { BodyText } from "../../components/blocks/text/bodyText";
+import { BlankNavbar } from "~/components/general/blankNavBar";
+import { MainTitle } from "~/components/blocks/text/mainTitle";
+import { StandardCard } from "~/components/blocks/containers/standardCard";
+import { SecondaryTitle } from "~/components/blocks/text/secondaryTitle";
+import { BodyText } from "~/components/blocks/text/bodyText";
 import { Form, Field } from "react-final-form";
-import { CtaButton } from "../../components/blocks/buttons/ctaButton";
+import { CtaButton } from "~/components/blocks/buttons/ctaButton";
 import { useState } from "react";
+import Head from "next/head";
 
 // What the data for the form submission looks like
 export type FormSubmission = {
@@ -78,6 +79,9 @@ export default function GetAlerts() {
 
   return (
     <div>
+      <Head>
+        <title>Get AWS Status Alerts | Taloflow</title>
+      </Head>
       <BlankNavbar />
       <section className={"inner-column sm:text-center mx-auto  pt-12"}>
         <MainTitle>

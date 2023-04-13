@@ -5,14 +5,6 @@ const isProd = process.env.NODE_ENV === "production";
  */
 module.exports = {
   // Use the CDN in production and localhost for development.
-  assetPrefix: isProd ? "https://is-aws-down.pages.dev" : "",
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/is-aws-down',
-        permanent: false
-      }
-    ]
-  }
+  basePath: '/is-aws-down',
+  assetPrefix: isProd ? "https://is-aws-down.pages.dev" : ""
 };

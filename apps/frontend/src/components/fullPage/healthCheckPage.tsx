@@ -12,6 +12,7 @@ import { S3 } from "../healthCheckApplications/s3";
 import { QuoteGenerator } from "../healthCheckApplications/QuoteGenerator";
 import { ShadeGenerator } from "../healthCheckApplications/shadeGenerator";
 import { Footer } from "../healthCheckPageElements/footer";
+import Head from "next/head";
 
 export type FullPageProps = {
   regionNameForURL: string; // For https://gcp-dashboard-generator.taloflow.ai/metrics?region=us-west-2&groupby=minute
@@ -22,6 +23,7 @@ export type FullPageProps = {
   S3Endpoint: string;
   QuoteEndpoint: string;
   LambdaEndpoint: string;
+  title: string;
 };
 
 export const HealthCheckPage = (props: FullPageProps) => {
@@ -39,6 +41,9 @@ export const HealthCheckPage = (props: FullPageProps) => {
 
   return (
     <div>
+      <Head>
+        <title>{props.title}</title>
+      </Head>
       <Navbar
         StatsIsVisible={statsIsVisible}
         VotingGameIsVisible={votingIsVisible}

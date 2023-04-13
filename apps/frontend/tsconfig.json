@@ -19,6 +19,10 @@
     "jsx": "preserve",
     "incremental": true,
     "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
   },
   "exclude": [
     "node_modules"

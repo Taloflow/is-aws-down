@@ -1,38 +1,36 @@
-import { Provider } from "react-redux";
 import Head from "next/head";
-import { AppProps } from "next/app";
 import "../styles/index.css";
 import "tippy.js/dist/tippy.css"; // optional
-import { store } from "../app/store";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { Footer } from "../components/general/legalFooter";
+import { AppPropsWithLayout } from "~/types";
+import { DefaultPageLayout } from "~/components/DefaultPageLayout";
+import { useState } from "react";
+import { Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const isProduction = process.env.NODE_ENV === "production";
-
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const [queryClient] = useState(() => new QueryClient())
+  const getLayout = Component.getLayout ?? DefaultPageLayout
   return (
     <>
-      <Provider store={store}>
-        <Head>
-          <title>AWS US-East-1 Status | Taloflow</title>
-          <link
-            href="https://uploads-ssl.webflow.com/5c553e9fc3ddd3400fe58821/5c5dde805cf96a735a45c676_taloflow-favicon.png"
-            rel="shortcut icon"
-            type="image/x-icon"
-          />
-          <link
-            href="https://uploads-ssl.webflow.com/5c553e9fc3ddd3400fe58821/5c575ffe0464303a96b26dc7_taloflow-webclip.png"
-            rel="apple-touch-icon"
-          />
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
-        <Component {...pageProps} />
-      </Provider>
-      <Footer />
+      <Head>
+        <link
+          href="https://uploads-ssl.webflow.com/5c553e9fc3ddd3400fe58821/5c5dde805cf96a735a45c676_taloflow-favicon.png"
+          rel="shortcut icon"
+          type="image/x-icon"
+        />
+        <link
+          href="https://uploads-ssl.webflow.com/5c553e9fc3ddd3400fe58821/5c575ffe0464303a96b26dc7_taloflow-webclip.png"
+          rel="apple-touch-icon"
+        />
+        <meta
+          name="viewport"
+          content="initial-scale=1.0, width=device-width"
+        />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          {getLayout(<Component {...pageProps} />)}
+        </Hydrate>
+      </QueryClientProvider>
     </>
   );
 }

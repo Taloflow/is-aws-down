@@ -1,5 +1,5 @@
 import { ReactNode, useMemo } from "react"
-import { cdnImage } from "~/util/get-image"
+import { cdnImage } from "~/utils/get-image"
 
 type HealthCheckCardHeaderProps = {
     status: 'down' | 'up'

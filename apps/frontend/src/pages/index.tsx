@@ -5,7 +5,7 @@ import { AWSStats } from "~/components/AWSStats";
 import { IndexPageLayout } from "~/components/IndexPageLayout";
 import { fetchAWSStatusOverview } from "~/hooks/use-aws-status-overview";
 import { NextPageWithLayout } from "~/types";
-import { getMDXPost } from "~/util/get-mdx-post";
+import { getMDXPost } from "~/utils/get-mdx-post";
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient()

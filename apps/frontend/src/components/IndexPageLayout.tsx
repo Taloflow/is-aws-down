@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { Footer } from "./general/legalFooter";
 import { SEO } from "./seo";
 
 export const IndexPageLayout = (page: ReactElement) => {
@@ -9,6 +10,7 @@ export const IndexPageLayout = (page: ReactElement) => {
                 Description={"Debug Steps and Monitoring Of 10 Regions "}
             />
             {page}
+            <Footer />
         </>
     )
 }

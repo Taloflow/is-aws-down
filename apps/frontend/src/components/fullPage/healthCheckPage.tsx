@@ -7,10 +7,10 @@ import { IdHref } from "../blocks/idHref";
 import { HealthCheckDashboardContainer } from "../healthCheckApplications/dashboard/healthCheckDashboard";
 import { CTA } from "../healthCheckPageElements/CTA";
 import { MainTitle } from "../blocks/text/mainTitle";
-import { VotingGameContainer } from "../healthCheckApplications/votingGame/votingGameContainer";
-import { S3 } from "../healthCheckApplications/s3";
-import { QuoteGenerator } from "../healthCheckApplications/QuoteGenerator";
-import { ShadeGenerator } from "../healthCheckApplications/shadeGenerator";
+import { VotingApp } from "../VotingApp";
+import { S3 } from "../S3Image";
+import { QuoteGenerator } from "../QuoteGenerator";
+import { ShadeGenerator } from "../ShadeGenerator";
 import { Footer } from "../healthCheckPageElements/footer";
 import Head from "next/head";
 
@@ -41,18 +41,6 @@ export const HealthCheckPage = (props: FullPageProps) => {
 
   return (
     <div>
-      <Head>
-        <title>{props.title}</title>
-      </Head>
-      <Navbar
-        StatsIsVisible={statsIsVisible}
-        VotingGameIsVisible={votingIsVisible}
-        S3IsVisible={S3IsVisible}
-        EC2IsVisible={Ec2IsVisible}
-        LambdaIsVisible={LambdaIsVisible}
-        DynamoDBIsVisible={false}
-        APIGatewayIsVisible={false}
-      />
       <main className={"main-column mx-auto mt-48"}>
         <InView
           as="div"
@@ -96,7 +84,7 @@ export const HealthCheckPage = (props: FullPageProps) => {
         >
           <div className={"pt-8"}>
             <IdHref name={"is-sqs-down"} />
-            <VotingGameContainer
+            <VotingApp
               shouldPoll={votingIsVisible}
               endpointURL={props.votingGameEndpoint}
             />

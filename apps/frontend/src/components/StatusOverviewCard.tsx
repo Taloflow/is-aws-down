@@ -2,7 +2,7 @@ import Link from "next/link"
 import { useMemo } from "react"
 import { LocationSummary } from "~/hooks/use-aws-status-overview"
 import { useStatusOverviewIssues } from "~/hooks/use-status-overview-issues"
-import { serviceListNames } from "~/util/service-list"
+import { serviceListNames } from "~/utils/service-list"
 import { StandardCard } from "./blocks/containers/standardCard"
 import { LargeParagraphText } from "./blocks/text/largeParagraphText"
 import { HealthCheckCard } from "./HealthCheckCard"
@@ -58,33 +58,6 @@ export const StatusOverviewCard = ({ data }: StatusOverviewCardProps) => {
           </CheckIssueList>
         )}
       </HealthCheckCard>
-      <StandardCard>
-        <div className={"space-y-6"}>
-          <LargeParagraphText>
-            If you think your services are down, you can head to our{" "}
-            <Link href='/#debug' className="underline">
-              troubleshooting section
-            </Link>
-          </LargeParagraphText>
-          <LargeParagraphText>
-            We&apos;re running several services on AWS and executing health checks
-            every minute across ten regions. Click through to any region to see
-            those services live. We check:
-          </LargeParagraphText>
-          <ServiceList services={serviceListNames} />
-          <LargeParagraphText>
-            Our health checks use the AWS API to invoke services directly. If the
-            service does not respond in 30 seconds we mark it as failed.
-          </LargeParagraphText>
-          <LargeParagraphText>
-            Due to how AWS sets up their availability zones, we may experience
-            issues that you do not, or vice versa.
-          </LargeParagraphText>
-          <LargeParagraphText>
-            If you&apos;re looking alternatives to AWS and are tired of digging through vendor sales pages to run good comparisons, <a className={"text-brand"} href="https://use.taloflow.ai/start/" target={"_blank"}>try our tool</a>.
-          </LargeParagraphText>
-        </div>
-      </StandardCard>
     </>
   )
 }

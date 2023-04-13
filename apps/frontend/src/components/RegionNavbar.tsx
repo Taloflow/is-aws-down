@@ -12,18 +12,24 @@ type NavLinkProps = {
 }
 
 const NavLink = ({ children, href, isActive = false }: NavLinkProps) => (
-    <Link
-        href={href}
-        className={clsx(
-            "font-medium hover:bg-brand-accent hover:bg-opacity-60 px-4 py-2 rounded-lg transition-colors",
-            {
-                "no-underline": !isActive,
-                "text-danger underline-offset-4 underline": isActive
-            }
-        )}
+    <div
+        className="relative hidden md:inline-block"
     >
-        {children}
-    </Link>
+        <Link
+            href={href}
+            className={clsx(
+                "no-underline font-medium hover:bg-brand-accent hover:bg-opacity-60 px-4 py-2 rounded-lg transition-colors"
+            )}
+        >
+            {children}
+        <div
+            className={clsx('h-2 w-full bg-brand-accent absolute transition-opacity -bottom-4', {
+                'opacity-100': isActive,
+                'opacity-0': !isActive
+            })}
+        />
+        </Link>
+    </div>
 )
 
 const navItems = [

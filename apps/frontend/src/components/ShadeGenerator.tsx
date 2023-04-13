@@ -1,25 +1,21 @@
-import { StandardCard } from "../blocks/containers/standardCard";
-import { LargeParagraphText } from "../blocks/text/largeParagraphText";
-import { RefreshButton } from "../blocks/buttons/refreshButton";
-import { TruncatedTextContainer } from "../blocks/containers/truncatedTextContainer";
-import { BodyText } from "../blocks/text/bodyText";
+import { StandardCard } from "./blocks/containers/standardCard";
+import { LargeParagraphText } from "./blocks/text/largeParagraphText";
+import { RefreshButton } from "./blocks/buttons/refreshButton";
+import { TruncatedTextContainer } from "./blocks/containers/truncatedTextContainer";
+import { BodyText } from "./blocks/text/bodyText";
 import { useEffect, useState } from "react";
-import { DefaultOptions } from "../lottie/defaultOptions";
-import animationData from "../lottie/simple-fire.json";
-import Lottie from "react-lottie";
-import { FailureState } from "./failureState";
-import { GetStringOrFail } from "../../api/getString";
-import { Spinner } from "../blocks/spinner";
-import { tryParsePattern } from "next/dist/build/webpack/plugins/jsconfig-paths-plugin";
+import { FailureState } from "./FailureState";
+import { GetStringOrFail } from "../api/getString";
+import { Spinner } from "./blocks/spinner";
 
-type ShadeProps = {
+type ShadeGeneratorProps = {
   Title: string;
   SubHeadline: string;
   Endpoint: string;
   ShouldRun: boolean;
 };
 
-export const ShadeGenerator = (props: ShadeProps) => {
+export const ShadeGenerator = (props: ShadeGeneratorProps) => {
   const [hasFailed, setHasFailed] = useState(false);
   const [shade, setShade] = useState("");
   const [isLoading, setIsLoading] = useState(false);

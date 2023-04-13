@@ -1,12 +1,12 @@
-import { StandardCard } from "../blocks/containers/standardCard";
-import { LargeParagraphText } from "../blocks/text/largeParagraphText";
-import { RefreshButton } from "../blocks/buttons/refreshButton";
-import { TruncatedTextContainer } from "../blocks/containers/truncatedTextContainer";
-import { BodyText } from "../blocks/text/bodyText";
+import { StandardCard } from "./blocks/containers/standardCard";
+import { LargeParagraphText } from "./blocks/text/largeParagraphText";
+import { RefreshButton } from "./blocks/buttons/refreshButton";
+import { TruncatedTextContainer } from "./blocks/containers/truncatedTextContainer";
+import { BodyText } from "./blocks/text/bodyText";
 import { useEffect, useState } from "react";
-import { FailureState } from "./failureState";
-import { GetStringOrFail } from "../../api/getString";
-import { Spinner } from "../blocks/spinner";
+import { FailureState } from "./FailureState";
+import { GetStringOrFail } from "../api/getString";
+import { Spinner } from "./blocks/spinner";
 
 type QuoteProps = {
   Title: string;

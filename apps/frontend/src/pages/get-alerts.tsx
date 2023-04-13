@@ -3,7 +3,6 @@ import { MainTitle } from "~/components/blocks/text/mainTitle";
 import { StandardCard } from "~/components/blocks/containers/standardCard";
 import { SecondaryTitle } from "~/components/blocks/text/secondaryTitle";
 import { BodyText } from "~/components/blocks/text/bodyText";
-import { Form, Field } from "react-final-form";
 import { CtaButton } from "~/components/blocks/buttons/ctaButton";
 import { useState } from "react";
 import Head from "next/head";

@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { useMemo } from "react"
+import { useRegionMetrics } from "~/hooks/use-region-metrics"
 import { useRegionMetricsIssues } from "~/hooks/use-region-metrics-issues"
 import { RegionChartMetric } from "~/hooks/use-region-metrics/transform"
-import { serviceListNames } from "~/util/service-list"
+import { serviceList, serviceListNames } from "~/utils/service-list"
 import { StandardCard } from "./blocks/containers/standardCard"
 import { LargeParagraphText } from "./blocks/text/largeParagraphText"
 import { HealthCheckCard } from "./HealthCheckCard"
@@ -12,25 +13,26 @@ import { ServiceList } from "./ServiceList"
 
 type RegionStatusCardProps = {
     regionName: string;
-    data: RegionChartMetric[];
+    regionURL: string;
 }
 
-export const RegionStatusCard = ({ regionName, data }: RegionStatusCardProps) => {
-    const { lastDay, lastHour } = useRegionMetricsIssues(data)
-    const status = useMemo(() => lastDay.size > 0 || lastHour.size > 0 ? 'down' : 'up', [lastDay])
+export const RegionStatusCard = ({ regionName, regionURL }: RegionStatusCardProps) => {
+    const { data } = useRegionMetrics(regionURL, '')
+    const { lastDay, lastHour } = useRegionMetricsIssues(data ?? [])
+    const regionStatus = useMemo(() => lastDay.size > 0 || lastHour.size > 0 ? 'down' : 'up', [lastDay])
     const title = useMemo(() => {
-        if (status === 'down') {
+        if (regionStatus === 'down') {
             return `AWS services in ${regionName.toUpperCase()} have had issues in the last ${lastHour.size > 0 ? "hour" : "day"}`
         }
         return `AWS ${regionName.toUpperCase()} is up!`
-    }, [status])
+    }, [regionStatus])
     const hadIssues = useMemo(() => lastHour.size > 0 || lastDay.size > 0, [lastDay, lastHour])
 
     return (
         <>
             <HealthCheckCard
                 title={title}
-                status={status}
+                status={regionStatus}
             >
                 {!hadIssues && (
                     <InfoBox>
@@ -67,7 +69,7 @@ export const RegionStatusCard = ({ regionName, data }: RegionStatusCardProps) =>
                         </span>{" "}
                         servers and checking uptime for
                     </LargeParagraphText>
-                    <ServiceList services={serviceListNames} />
+                    <ServiceList services={serviceList} />
                     <LargeParagraphText>
                         Our health checks use the AWS API to invoke services directly. If the
                         service does not respond in 30 seconds we mark it as failed.

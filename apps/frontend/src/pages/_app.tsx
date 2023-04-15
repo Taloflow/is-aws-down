@@ -1,5 +1,6 @@
 import Head from "next/head";
-import "../styles/index.css";
+import "~/styles/fonts.css";
+import "~/styles/index.css";
 import "tippy.js/dist/tippy.css"; // optional
 import { AppPropsWithLayout } from "~/types";
 import { DefaultPageLayout } from "~/components/DefaultPageLayout";

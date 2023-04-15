@@ -1,11 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import url('./fonts.css');
-
-
-/* Your own custom component styles */
-
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer utilities {
 
@@ -27,13 +22,13 @@
     .inner-column{
         @apply container max-w-4xl px-4 sm:px-8
     }
+    .loader {
+        border-top-color: white;
+        -webkit-animation: spinner 1.5s linear infinite;
+        animation: spinner 1.5s linear infinite;
+    }
 }
 
-.loader {
-    border-top-color: white;
-    -webkit-animation: spinner 1.5s linear infinite;
-    animation: spinner 1.5s linear infinite;
-}
 
 @-webkit-keyframes spinner {
     0% {

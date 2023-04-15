@@ -7,7 +7,8 @@ export const IndexPageLayout = (page: ReactElement) => {
         <>
             <SEO
                 Title={"Is AWS Down? AWS Health Checks And Debugging Steps"}
-                Description={"Debug Steps and Monitoring Of 10 Regions "}
+                Description={"Debug Steps and Monitoring Of 10 Regions"}
+                canonicalURL='https://www.taloflow.ai/is-aws-down'
             />
             {page}
             <Footer />

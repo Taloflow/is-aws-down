@@ -60,6 +60,7 @@ export const getStaticProps = async ({ params }) => {
   const file = await fs.readFile(filePath, "utf8");
   const data = JSON.parse(file) as RegionFile;
   const pageTitle = `AWS ${data['regionNameUpperCase'].replace(/\s/gi, '-')} Status`
+  const canonicalURL = `https://www.taloflow.ai/is-aws-down/${params.slug}`
 
   const region = {
     name: {
@@ -79,6 +80,7 @@ export const getStaticProps = async ({ params }) => {
   const props = {
     region,
     pageTitle,
+    canonicalURL,
     dehydratedState: dehydrate(queryClient)
   } as const
 
@@ -90,13 +92,15 @@ export const getStaticProps = async ({ params }) => {
 
 type RegionPageProps = InferGetStaticPropsType<typeof getStaticProps>
 
-const RegionPage: NextPageWithLayout<RegionPageProps> = ({ pageTitle, region }) => {
+const RegionPage: NextPageWithLayout<RegionPageProps> = ({ canonicalURL, pageTitle, region }) => {
   return (
     <>
       <main className={"main-column mx-auto mt-48"}>
-        {/* <SEO
+      <SEO
         Title={pageTitle}
-      /> */}
+        Description={'Debug Steps and Monitoring Of 10 Regions'}
+        canonicalURL={canonicalURL}
+      />
         <RegionStatusCard
           regionName={region.name.capitalized}
           regionURL={region.name.forURL}

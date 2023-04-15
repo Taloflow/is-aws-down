@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from "next";
+import { GetStaticPaths, GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from "next";
 import { NextPageWithLayout } from "~/types";
 import { SEO } from "~/components/seo";
 import { RegionPageLayout } from "~/components/RegionPageLayout";
@@ -32,7 +32,7 @@ type RegionFile = {
   LambdaEndpoint: string;
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const filePath = path.join("data");
   const files = await fs.readdir(filePath);
 
@@ -49,19 +49,18 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async ({ params }: GetStaticPropsContext<{ slug: string; }>) => {
   const queryClient = new QueryClient()
+  const slug = params!.slug
 
-  if (!params) return { notFound: true }
-
-  await queryClient.prefetchQuery(['regions', params.slug, 'metrics'], async () => {
-    const metrics = await fetchRegionMetrics(params.slug)
+  await queryClient.prefetchQuery(['regions', slug, 'metrics'], async () => {
+    const metrics = await fetchRegionMetrics(slug)
     return transformData(metrics)
   })
 
-  const filePath = path.join(process.cwd(), "data", params.slug + ".json");
+  const filePath = path.join(process.cwd(), "data", slug + ".json");
   const file = await fs.readFile(filePath, "utf8");
   const data = JSON.parse(file) as RegionFile;
   const pageTitle = `AWS ${data['regionNameUpperCase'].replace(/\s/gi, '-')} Status`
-  const canonicalURL = `https://www.taloflow.ai/is-aws-down/${params.slug}`
+  const canonicalURL = `https://www.taloflow.ai/is-aws-down/${slug}`
 
   const region = {
     name: {

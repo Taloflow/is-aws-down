@@ -153,7 +153,7 @@ const getMetrics = (upDownMetrics: UpDown[]): number[] => {
 
   upDownMetrics.map((metric) => {
     // helps us ensure the data graph works
-    if (window?.location?.href.includes("debug-data")) {
+    if (typeof document !== 'undefined' && typeof window !== 'undefined' && window?.location?.href.includes("debug-data")) {
       metric.down = metric.down + Math.floor(Math.random() * 30);
       numberArr.push(metric.down / metric.up);
     } else {

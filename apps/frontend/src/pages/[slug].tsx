@@ -3,15 +3,12 @@ import fs from "fs/promises";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetStaticPropsResult, InferGetStaticPropsType } from "next";
 import { NextPageWithLayout } from "~/types";
-import Head from "next/head";
 import { SEO } from "~/components/seo";
 import { RegionPageLayout } from "~/components/RegionPageLayout";
 import { HNAlert } from "~/components/healthCheckPageElements/HNAlert";
 import { CTA } from "~/components/healthCheckPageElements/CTA";
 import { MainTitle } from "~/components/blocks/text/mainTitle";
 import { S3Image } from "~/components/S3Image";
-// import { QuoteGenerator } from "~/components/healthCheckApplications/QuoteGenerator";
-// import { ShadeGenerator } from "~/components/healthCheckApplications/shadeGenerator";
 import { fetchRegionMetrics } from '~/hooks/use-region-metrics'
 import { transformData } from "~/hooks/use-region-metrics/transform";
 import { RegionLiveChart } from "~/components/RegionLiveChart";
@@ -21,6 +18,8 @@ import { TruncatedTextContainer } from "~/components/blocks/containers/truncated
 import { BodyText } from "~/components/blocks/text/bodyText";
 import { VotingApp } from "~/components/VotingApp";
 import { StandardCard } from "~/components/blocks/containers/standardCard";
+import { QuoteGenerator } from "~/components/QuoteGenerator";
+import { ShadeGenerator } from "~/components/ShadeGenerator";
 
 type RegionFile = {
   regionNameForURL: string;
@@ -96,11 +95,11 @@ const RegionPage: NextPageWithLayout<RegionPageProps> = ({ canonicalURL, pageTit
   return (
     <>
       <main className={"main-column mx-auto mt-48"}>
-      <SEO
-        Title={pageTitle}
-        Description={'Debug Steps and Monitoring Of 10 Regions'}
-        canonicalURL={canonicalURL}
-      />
+        <SEO
+          Title={pageTitle}
+          Description={'Debug Steps and Monitoring Of 10 Regions'}
+          canonicalURL={canonicalURL}
+        />
         <RegionStatusCard
           regionName={region.name.capitalized}
           regionURL={region.name.forURL}
@@ -145,48 +144,63 @@ const RegionPage: NextPageWithLayout<RegionPageProps> = ({ canonicalURL, pageTit
               alt="Jeff Bezos looking regal in an astronaut suit"
               error={
                 <span className={"text-danger text-center block"}>
-                Requesting{" "}
-                <a href={region.resource.storage} target={"_blank"}>
-                  this image
-                </a>{" "}
-                failed. S3 in {region.name.lowerCase} might be down
-              </span>
+                  Requesting{" "}
+                  <a href={region.resource.storage} target={"_blank"}>
+                    this image
+                  </a>{" "}
+                  failed. S3 in {region.name.lowerCase} might be down
+                </span>
               }
             >
               <div className={"mt-4 sm:my-auto sm:ml-6  "}>
-              <LargeParagraphText>
-                This image is served from S3 in {region.name.lowerCase}{" "}
-                Suggest a new image on our{" "}
-                <a href={"https://github.com/Taloflow/is-aws-down/discussions"} target={"_blank"} rel='noopener noreferrer'>
-                  GitHub community
-                </a>
-                .
-              </LargeParagraphText>
-            </div>
+                <LargeParagraphText>
+                  This image is served from S3 in {region.name.lowerCase}{" "}
+                  Suggest a new image on our{" "}
+                  <a href={"https://github.com/Taloflow/is-aws-down/discussions"} target={"_blank"} rel='noopener noreferrer'>
+                    GitHub community
+                  </a>
+                  .
+                </LargeParagraphText>
+              </div>
             </S3Image>
           </StandardCard>
         </div>
 
         <div className={"flex sm:flex-row flex-col mt-16 sm:mt-36 pb-64"} id='is-ec2-down' data-section>
           <div className={"flex-1"}>
-            {/* <QuoteGenerator
-                Title={"EC2 Bezos Quote Generator"}
-                SubHeadline={
-                  "From his book “Invent and Wander: The Collected Writings of Jeff Bezos”"
-                }
-                Endpoint={region.resource.quote}
-                // Shouldrun={Ec2IsVisible}
-              /> */}
+            <div className={"flex flex-col relative"}>
+              <LargeParagraphText>
+                <span className={"font-bold"}>{"EC2 Bezos Quote Generator"}</span>
+              </LargeParagraphText>
+              <TruncatedTextContainer>
+                <BodyText>{"From his book “Invent and Wander: The Collected Writings of Jeff Bezos”"}</BodyText>
+              </TruncatedTextContainer>
+              <QuoteGenerator
+                apiURL={region.resource.quote}
+                sectionId='is-ec2-down'
+                regionURL={region.name.forURL}
+              />
+            </div>
           </div>
           <div className={"sm:ml-8 mt-8 sm:mt-0"} data-section id='is-lambda-down'>
-            {/* <ShadeGenerator
-                Title={"Lambda Random Shade Generator"}
-                SubHeadline={
-                  "Runs through API gateway. Hate something about a cloud provider that you want added?"
-                }
-                Endpoint={region.resource.lambda}
-                // ShouldRun={LambdaIsVisible}
-              /> */}
+            <div className={"flex flex-col"}>
+              <LargeParagraphText>
+                <span className={"font-bold"}>{"Lambda Random Shade Generator"}</span>
+              </LargeParagraphText>
+              <TruncatedTextContainer>
+                <BodyText>
+                  {"Runs through API gateway. Hate something about a cloud provider that you want added?"}{" "}
+                  <a href="https://github.com/Taloflow/is-aws-down/discussions/6">
+                    Tell us what it is here.
+                  </a>
+                </BodyText>
+              </TruncatedTextContainer>
+              <ShadeGenerator
+                apiURL={region.resource.lambda}
+                regionURL={region.name.forURL}
+                sectionId='is-lambda-down'
+              />
+            </div>
           </div>
         </div>
       </section>

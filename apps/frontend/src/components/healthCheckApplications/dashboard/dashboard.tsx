@@ -11,7 +11,7 @@ import {
   BarElement,
   BarController,
 } from "chart.js";
-import { DataForChartJS } from "../../../features/metricGraph/transformForChartJS";
+import { RegionChartMetric } from "~/hooks/use-region-metrics/transform";
 
 ChartJS.register(
   LineController,
@@ -65,7 +65,7 @@ export const options = {
       min: -1,
       max: 1,
       ticks: {
-        callback: function (value, index) {
+        callback: function (value: number, index: number) {
           if (value === 1) {
             return "success";
           } else if (value === -1) {
@@ -89,11 +89,11 @@ export const options = {
   },
 };
 
-export const Dashboard = ({ data }: { data: DataForChartJS[] }) => {
+export const Dashboard = ({ data }: { data: RegionChartMetric[] }) => {
   return (
     <div className={"h-[300px] sm:h-[400px]"}>
       <Chart
-        options={options}
+        options={options as any}
         type={"bar"}
         datasetIdKey={"combined"}
         data={{

@@ -1,20 +1,20 @@
 import { HTMLInputTypeAttribute } from "react";
-import { Controller, ControllerProps } from "react-hook-form"
+import { Controller, ControllerProps, FieldValues } from "react-hook-form"
 
-type FieldProps = {
+type FieldProps<Schema extends FieldValues = FieldValues> = {
     id: string;
     label: string;
     type?: HTMLInputTypeAttribute
-} & Omit<ControllerProps, 'render'>
+} & Omit<ControllerProps<Schema>, 'render'>
 
-export const Field = ({
+export const Field = <Schema extends FieldValues = FieldValues>({
     label,
     id,
     type = "text",
     ...props
-}: FieldProps) => {
+}: FieldProps<Schema>) => {
     return (
-        <Controller
+        <Controller<Schema>
             {...props}
             render={({ field }) => (
                 <div className='flex flex-row items-center'>

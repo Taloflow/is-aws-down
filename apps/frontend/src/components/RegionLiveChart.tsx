@@ -75,7 +75,7 @@ export const RegionLiveChart = ({ analyticsSourceName, regionURL }: RegionLiveCh
       </div>
       <StandardCard>
         <div className={"mb-6 flex flex-wrap "}>
-          {data.map((item, index) => {
+          {data?.map((item) => {
             return (
               <div className={"mr-2 mb-4"} key={item.label}>
                 <button
@@ -97,7 +97,7 @@ export const RegionLiveChart = ({ analyticsSourceName, regionURL }: RegionLiveCh
             );
           })}
         </div>
-        <Dashboard data={data.filter((datum) => activeItem === datum.label)} />
+        <Dashboard data={data?.filter((datum) => activeItem === datum.label) ?? []} />
         <button
           className={
             "text-brand-accent items-center font-bold mt-8 text-lg px-4 py-2 rounded-lg hover:bg-brand-accent hover:bg-opacity-20 transition-colors flex"
@@ -134,7 +134,10 @@ export const RegionLiveChart = ({ analyticsSourceName, regionURL }: RegionLiveCh
         <div className={"mt-2"}>
           {showFailedChecks &&
             data
-              .filter((item) => item.timeStampsOfFailures?.length > 0)
+              ?.filter((item) => {
+                const itemLength = item.timeStampsOfFailures?.length ?? 0
+                return itemLength > 0
+              })
               .map((healthCheck) => {
                 return (
                   <div key={healthCheck.label}>
@@ -142,7 +145,7 @@ export const RegionLiveChart = ({ analyticsSourceName, regionURL }: RegionLiveCh
                       {healthCheck.label}
                     </BodyText>
                     <div>
-                      {healthCheck.timeStampsOfFailures.map((timeStamp) => {
+                      {healthCheck?.timeStampsOfFailures?.map((timeStamp) => {
                         return <BodyText key={timeStamp}>{timeStamp}</BodyText>;
                       })}
                     </div>

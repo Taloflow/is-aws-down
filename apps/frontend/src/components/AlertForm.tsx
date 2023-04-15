@@ -36,14 +36,26 @@ const formSchema = z.object({
     'communication-preference': z.enum(communicationPreferences),
     email: z.string().email(),
     'signup-for': z.array(z.enum(futureServices)),
-    'service-alerts': z.object(serviceAlerts.reduce((acc, curr) => {
-        acc[curr] = z.boolean().default(false)
-        return acc
-    }, {})),
-    'service-regions': z.object(serviceRegions.reduce((acc, curr) => {
-        acc[curr] = z.boolean().default(false)
-        return acc
-    }, {}))
+    'service-alerts': z.object({
+        DynamoDB: z.boolean().default(false),
+        EC2: z.boolean().default(false),
+        IAM: z.boolean().default(false),
+        Lambda: z.boolean().default(false),
+        S3: z.boolean().default(false),
+        SQS: z.boolean().default(false),
+    }),
+    'service-regions': z.object({
+        'us-east-1': z.boolean().default(false),
+        'us-east-2': z.boolean().default(false),
+        'us-west-1': z.boolean().default(false),
+        'us-west-2': z.boolean().default(false),
+        'eu-west-1': z.boolean().default(false),
+        'eu-west-2': z.boolean().default(false),
+        'sa-east-1': z.boolean().default(false),
+        'ap-south-1': z.boolean().default(false),
+        'ap-southeast-2': z.boolean().default(false),
+        'ca-central-1': z.boolean().default(false)
+    })
 })
 
 type FormSchema = z.infer<typeof formSchema>

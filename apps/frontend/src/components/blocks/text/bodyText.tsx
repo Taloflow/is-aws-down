@@ -1,8 +1,10 @@
+import type { ReactNode } from "react";
+
 export const BodyText = ({
   children,
   extraClasses,
 }: {
-  children: React.ReactChild | React.ReactChild[];
+  children: ReactNode
   extraClasses?: string;
 }) => {
   return (

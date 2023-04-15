@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { GetStaticPropsResult, InferGetStaticPropsType } from "next";
+import { GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from "next";
 import { NextPageWithLayout } from "~/types";
 import { SEO } from "~/components/seo";
 import { RegionPageLayout } from "~/components/RegionPageLayout";
@@ -47,8 +47,10 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps = async ({ params }: GetStaticPropsContext<{ slug: string; }>) => {
   const queryClient = new QueryClient()
+
+  if (!params) return { notFound: true }
 
   await queryClient.prefetchQuery(['regions', params.slug, 'metrics'], async () => {
     const metrics = await fetchRegionMetrics(params.slug)

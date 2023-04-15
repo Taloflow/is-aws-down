@@ -1,11 +1,8 @@
-import {
-  LocationSummary,
-  ServicesAffected,
-} from "../features/summaryPage/summaryAPI";
 import Link from "next/link";
 import { LargeParagraphText } from "./blocks/text/largeParagraphText";
 import { BodyText } from "./blocks/text/bodyText";
 import clsx from "clsx";
+import { LocationSummary, ServicesAffected } from "~/hooks/use-aws-status-overview";
 
 type ComponentProps = {
   summary: LocationSummary;

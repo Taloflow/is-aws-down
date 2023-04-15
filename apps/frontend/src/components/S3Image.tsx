@@ -11,21 +11,18 @@ type S3ImageProps = {
 
 export const S3Image = ({ children, error, ...props }: S3ImageProps) => {
   const [imageFailed, setImageFailed] = useState<boolean>(false);
-  const imageContainer = useRef(null);
-  const testImage = () => {
+  const imageContainerRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
     const testImage = new Image();
     testImage.addEventListener("error", function () {
       setImageFailed(true);
     });
     testImage.src = props.src;
     testImage.alt = props.alt;
-    if (!imageContainer.current) {
-      return;
+    const imageContainer = imageContainerRef.current
+    if (imageContainer) {
+      imageContainer.appendChild(testImage);
     }
-    imageContainer.current.appendChild(testImage);
-  };
-  useEffect(() => {
-    testImage();
   }, []);
   if (imageFailed) {
     return (
@@ -38,7 +35,7 @@ export const S3Image = ({ children, error, ...props }: S3ImageProps) => {
   }
   return (
     <div className={"flex flex-col sm:flex-row justify-center"}>
-      <div ref={imageContainer} />
+      <div ref={imageContainerRef} />
       {children}
     </div>
   );

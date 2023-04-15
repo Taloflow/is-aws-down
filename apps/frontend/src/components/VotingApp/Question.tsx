@@ -1,8 +1,7 @@
 import { LargeParagraphText } from "../blocks/text/largeParagraphText";
 import { Choice } from "./Choice";
 import { useForm } from 'react-hook-form'
-import { useMemo, useRef } from "react";
-import { QuestionFromEndpoint } from "~/features/votingGame/votingGameSlice";
+import { useRef } from "react";
 import { getUUID } from "~/utils";
 import { useVoteSubmitMutation, VoteSubmitMutationInput } from "./use-vote-submit-mutation";
 import { VoteAppQuestionChoice } from "./use-vote-questions-query";
@@ -65,7 +64,10 @@ export const Question = (props: QuestionProps) => {
       return 0;
     }
     let answerValues = [] as number[];
-    Answers.map((answer) => answerValues.push(answer.votes));
+    Answers.forEach(answer => {
+      if (!answer || typeof answer.votes !== 'number') return;
+      answerValues.push(answer.votes)
+    });
     const maxValue = Math.max.apply(null, answerValues);
     return (currentValue / maxValue) * 100;
   };
@@ -83,10 +85,10 @@ export const Question = (props: QuestionProps) => {
     pNode.id = newID;
     plusOneContainer.current.appendChild(pNode);
     setTimeout(() => {
-      document.getElementById(newID).classList.add("opacity-0");
+      document.getElementById(newID)?.classList.add("opacity-0");
     }, 100);
     setTimeout(() => {
-      document.getElementById(newID).remove();
+      document.getElementById(newID)?.remove();
     }, 250);
   };
 
@@ -126,7 +128,6 @@ export const Question = (props: QuestionProps) => {
                 className={
                   "bg-brand-accent sm:mt-4 flex-initial w-[196px] text-center mr-6 h-full text-lg px-6 py-2 text-white rounded-lg"
                 }
-                name='choice'
                 value={choice.id}
                 {...form.register('choiceId')}
                 onClick={triggerPlusOne}

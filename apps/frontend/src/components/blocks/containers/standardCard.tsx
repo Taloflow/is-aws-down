@@ -1,8 +1,10 @@
+import type { ReactNode } from "react";
+
 export const StandardCard = ({
   children,
   extraClasses,
 }: {
-  children: React.ReactChild | React.ReactChild[];
+  children: ReactNode
   extraClasses?: string;
 }) => {
   return (

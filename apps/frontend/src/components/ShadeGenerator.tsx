@@ -1,11 +1,8 @@
 import { StandardCard } from "./blocks/containers/standardCard";
 import { LargeParagraphText } from "./blocks/text/largeParagraphText";
 import { RefreshButton } from "./blocks/buttons/refreshButton";
-import { TruncatedTextContainer } from "./blocks/containers/truncatedTextContainer";
-import { BodyText } from "./blocks/text/bodyText";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FailureState } from "./FailureState";
-import { GetStringOrFail } from "../api/getString";
 import { Spinner } from "./blocks/spinner";
 import { useShadeGeneratorQuery } from "./ShadeGenerator/useShadeGeneratorQuery";
 import { useAtomValue } from "jotai";

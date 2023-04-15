@@ -1,4 +1,4 @@
-import { RegionMetrics } from "./types";
+import { RegionMetrics, RegionService } from "./types";
 
 export type RegionChartMetric = {
   totalNumberOfChecks: number;
@@ -17,17 +17,19 @@ export type RegionChartMetric = {
 export const transformData = (
   metrics: RegionMetrics
 ): RegionChartMetric[] | null => {
+  let chart = [] as RegionChartMetric[];
   try {
     // Make sure the data isn't null
     if (!metrics || !metrics.summary) {
       console.warn("no response data");
       return null;
     }
-    let chart = [] as RegionChartMetric[];
     for (const [key, value] of Object.entries(metrics.series)) {
       // Get colors for the button depending on the key
       let colors = getColors(key);
-      if (!metrics.summary[0] || !metrics.summary[0][key]) {
+      let [firstSummary] = metrics.summary
+      let summaryService = firstSummary[key as RegionService | 'all']
+      if (!firstSummary || !summaryService) {
         console.warn("missing summary for", key);
         console.warn("missing summary for", key);
         continue;
@@ -35,8 +37,7 @@ export const transformData = (
 
       chart.push({
         timeStampsOfFailures: getTimeStampsOfFailures(value),
-        totalNumberOfChecks:
-          metrics.summary[0][key].down + metrics.summary[0][key].up,
+        totalNumberOfChecks: summaryService.down + summaryService.up,
         // Store data as 0% or percent of health checks failed
         numberOfOutagesSummary: getOutageCount(value),
         uniqueColor: colors.backgroundColor,
@@ -64,10 +65,14 @@ export const transformData = (
       }
       return 0;
     });
-    chart = [createSummaryItem(chart), ...chart];
-    return chart;
+    const summaryItem = createSummaryItem(chart)
+    if (summaryItem) {
+      chart = [summaryItem, ...chart];
+    }
   } catch (e) {
     console.warn("failed to transform to chart readable format", e);
+  } finally {
+    return chart;
   }
 };
 
@@ -187,15 +192,15 @@ const getBGColors = (series: UpDown[]): string[] => {
 // Create an "all" view that has all of the failures
 // This is a Quick and dirty implementation that has the following problems:
 // 1. We redo a lot of calculations
-// 2. We can't guarantee that each individual MetricsChart[] has the same number of health checks
+// 2. We can't guarantee that each individual RegionChartMetric[] has the same number of health checks
 // This might be a problem, but we'll assume it isn't for now based on how the front end handles the
 // SQL query (it doesn't _need_ a health check with a timeframe to return a value)
 // Although if this is true, it shows that we're computing labels when we don't have to on each
 // object. Either way, not a problem to solve right now
-const createSummaryItem = (Items: MetricsChart[]): MetricsChart | null => {
+const createSummaryItem = (Items: RegionChartMetric[]): RegionChartMetric | null => {
   if (!Items[0]) {
     console.warn("issue when creating combined data object, no items present");
-    return;
+    return null;
   }
   let data = [] as UpDown[];
   Items.forEach((dataObject, dataObjectIndex) => {
@@ -231,5 +236,5 @@ const createSummaryItem = (Items: MetricsChart[]): MetricsChart | null => {
     backgroundColor: getBGColors(data),
     data: getMetrics(data),
     labels: Items[0].labels,
-  } as MetricsChart;
+  } as RegionChartMetric;
 };

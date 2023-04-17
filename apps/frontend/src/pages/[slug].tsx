@@ -185,7 +185,7 @@ const RegionPage: NextPageWithLayout<RegionPageProps> = ({ canonicalURL, pageTit
                   />
                 </div>
               </div>
-              <div className={"sm:ml-8 mt-8 sm:mt-0"} data-section id='is-lambda-down'>
+              <div className={"sm:ml-8 mt-8 sm:mt-0"}>
                 <div className={"flex flex-col"}>
                   <LargeParagraphText>
                     <span className={"font-bold"}>{"Lambda Random Shade Generator"}</span>
@@ -201,7 +201,7 @@ const RegionPage: NextPageWithLayout<RegionPageProps> = ({ canonicalURL, pageTit
                   <ShadeGenerator
                     apiURL={region.resource.lambda}
                     regionURL={region.name.forURL}
-                    sectionId='is-lambda-down'
+                    sectionId='is-ec2-down'
                   />
                 </div>
               </div>

@@ -1,9 +1,8 @@
 import { LargeParagraphText } from "../blocks/text/largeParagraphText";
 import { Choice } from "./Choice";
-import { useForm } from 'react-hook-form'
-import { useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { getUUID } from "~/utils";
-import { useVoteSubmitMutation, VoteSubmitMutationInput } from "./use-vote-submit-mutation";
+import { useVoteSubmitMutation } from "./use-vote-submit-mutation";
 import { VoteAppQuestionChoice } from "./use-vote-questions-query";
 
 const availableColors = [
@@ -48,31 +47,36 @@ type QuestionProps = {
   apiURL: string;
 }
 
-export const Question = (props: QuestionProps) => {
-  const form = useForm<VoteSubmitMutationInput>()
-  const submitVoteMutation = useVoteSubmitMutation(props.apiURL, props.regionURL)
+const getChoicesVotes = (choices: VoteAppQuestionChoice[]) => {
+  const votes: number[] = []
+  for (let choice of choices) {
+    if (typeof choice.votes !== 'number') continue;
+    votes.push(choice.votes)
+  }
+  return votes
+}
+
+export const Question = ({ apiURL, choices, regionURL, title, topicId }: QuestionProps) => {
+  const submitVoteMutation = useVoteSubmitMutation(apiURL, regionURL)
   const plusOneContainersRef = useRef<Record<string, HTMLDivElement>>({});
 
   // The length of the vote column is defined as the percent of the max value
   // if an answer has a vote count of 50 and another is 10, the column will appear
   // as 20% as large as the vote count of 50
-  const getVotePercentOfMax = (
-    Answers: VoteAppQuestionChoice[],
-    currentValue: number | null
-  ): number => {
-    if (!currentValue) {
-      return 0;
+  const votePercentagesOfMax = useMemo(() => {
+    const choicesVotes = getChoicesVotes(choices)
+    const maxValue = Math.max(...choicesVotes)
+    const percentages: Record<string, number> = {}
+    for (let choice of choices) {
+      const votes = choice.votes ?? 0
+      const percentage = (votes / maxValue) * 100
+      percentages[choice.id] = isNaN(percentage) ? 0 : percentage
     }
-    let answerValues = [] as number[];
-    Answers.forEach(answer => {
-      if (!answer || typeof answer.votes !== 'number') return;
-      answerValues.push(answer.votes)
-    });
-    const maxValue = Math.max.apply(null, answerValues);
-    return (currentValue / maxValue) * 100;
-  };
+    return percentages
+  }, [choices])
 
-  const triggerPlusOne = (choiceId: string) => {
+
+  const triggerPlusOne = useCallback((choiceId: string) => {
     const choices = plusOneContainersRef.current
     if (!choices) {
       return undefined;
@@ -95,11 +99,15 @@ export const Question = (props: QuestionProps) => {
     setTimeout(() => {
       document.getElementById(newID)?.remove();
     }, 250);
-  };
+  }, []);
 
-  const onSubmit = async (data: VoteSubmitMutationInput) => {
-    triggerPlusOne(data.choiceId)
-    await submitVoteMutation.mutateAsync(data)
+  const handleVote = useCallback((choiceId: string) => async () => {
+    triggerPlusOne(choiceId)
+    await submitVoteMutation.mutateAsync({ topicId: topicId, choiceId })
+  }, [topicId])
+
+  const handlePlusContainerMount = (choiceId: string) => (el: HTMLDivElement) => {
+    plusOneContainersRef.current[choiceId] = el;
   }
 
 
@@ -111,16 +119,12 @@ export const Question = (props: QuestionProps) => {
     >
       <LargeParagraphText>
         <span className={"text-center block max-w-xl mx-auto"}>
-          {props.title}
+          {title}
         </span>
       </LargeParagraphText>
-      <form className={"space-y-6 sm:space-y-4 mt-6 divide-x"} onSubmit={form.handleSubmit(onSubmit)}>
-        <input type="hidden" {...form.register('topicId')} defaultValue={props.topicId} />
-        {props.choices.map((choice, index) => {
-          const percentage = getVotePercentOfMax(props.choices, choice.votes)
-          const handlePlusContainerMount = (el: HTMLDivElement) => {
-            plusOneContainersRef.current[choice.id] = el;
-          }
+      <div className={"space-y-6 sm:space-y-4 mt-6 divide-x"}>
+        {choices.map((choice, index) => {
+          const percentage = votePercentagesOfMax[choice.id]
           return (
             <Choice
               key={choice.id}
@@ -128,16 +132,15 @@ export const Question = (props: QuestionProps) => {
               color={getColor(index)}
               percentage={percentage}
             >
-              <div ref={handlePlusContainerMount} className={"relative flex w-4 h-full"}>
+              <div ref={handlePlusContainerMount(choice.id)} className={"relative flex w-4 h-full"}>
                 <p className={"opacity-0"}>+1</p>
               </div>
               <button
-                type='submit'
+                type='button'
                 className={
                   "bg-brand-accent sm:mt-4 flex-initial w-[196px] text-center mr-6 h-full text-lg px-6 py-2 text-white rounded-lg"
                 }
-                value={choice.id}
-                {...form.register('choiceId')}
+                onClick={handleVote(choice.id)}
               >
 
                 {choice.description}
@@ -145,7 +148,7 @@ export const Question = (props: QuestionProps) => {
             </Choice>
           );
         })}
-      </form>
+      </div>
     </div>
   );
 };

@@ -51,7 +51,7 @@ type QuestionProps = {
 export const Question = (props: QuestionProps) => {
   const form = useForm<VoteSubmitMutationInput>()
   const submitVoteMutation = useVoteSubmitMutation(props.apiURL, props.regionURL)
-  const plusOneContainer = useRef<null | HTMLDivElement>(null);
+  const plusOneContainersRef = useRef<Record<string, HTMLDivElement>>({});
 
   // The length of the vote column is defined as the percent of the max value
   // if an answer has a vote count of 50 and another is 10, the column will appear
@@ -72,9 +72,14 @@ export const Question = (props: QuestionProps) => {
     return (currentValue / maxValue) * 100;
   };
 
-  const triggerPlusOne = () => {
-    if (!plusOneContainer.current) {
-      return;
+  const triggerPlusOne = (choiceId: string) => {
+    const choices = plusOneContainersRef.current
+    if (!choices) {
+      return undefined;
+    }
+    const choiceContainer = choices[choiceId]
+    if (!choiceContainer) {
+      return undefined;
     }
     const pNode = document.createElement("p");
     pNode.innerText = "+1";
@@ -83,7 +88,7 @@ export const Question = (props: QuestionProps) => {
     pNode.style.transform = "translate(-50%, -50%)";
     const newID = getUUID().replaceAll("-", "");
     pNode.id = newID;
-    plusOneContainer.current.appendChild(pNode);
+    choiceContainer.appendChild(pNode);
     setTimeout(() => {
       document.getElementById(newID)?.classList.add("opacity-0");
     }, 100);
@@ -93,7 +98,7 @@ export const Question = (props: QuestionProps) => {
   };
 
   const onSubmit = async (data: VoteSubmitMutationInput) => {
-    triggerPlusOne()
+    triggerPlusOne(data.choiceId)
     await submitVoteMutation.mutateAsync(data)
   }
 
@@ -113,6 +118,9 @@ export const Question = (props: QuestionProps) => {
         <input type="hidden" {...form.register('topicId')} defaultValue={props.topicId} />
         {props.choices.map((choice, index) => {
           const percentage = getVotePercentOfMax(props.choices, choice.votes)
+          const handlePlusContainerMount = (el: HTMLDivElement) => {
+            plusOneContainersRef.current[choice.id] = el;
+          }
           return (
             <Choice
               key={choice.id}
@@ -120,7 +128,7 @@ export const Question = (props: QuestionProps) => {
               color={getColor(index)}
               percentage={percentage}
             >
-              <div ref={plusOneContainer} className={"relative flex w-4 h-full"}>
+              <div ref={handlePlusContainerMount} className={"relative flex w-4 h-full"}>
                 <p className={"opacity-0"}>+1</p>
               </div>
               <button
@@ -130,7 +138,6 @@ export const Question = (props: QuestionProps) => {
                 }
                 value={choice.id}
                 {...form.register('choiceId')}
-                onClick={triggerPlusOne}
               >
 
                 {choice.description}

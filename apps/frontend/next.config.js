@@ -5,5 +5,5 @@
  */
 module.exports = {
   basePath: '/is-aws-down',
-  assetPrefix: process.env.CF_PAGES === '1' ? `https://${process.env.CF_PAGES_URL}` ?? "/" : "/"
+  assetPrefix: process.env.CF_PAGES === '1' ? process.env.CF_PAGES_URL ?? "/" : "/"
 };

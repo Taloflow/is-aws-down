@@ -101,7 +101,7 @@ const RegionPage: NextPageWithLayout<RegionPageProps> = ({ canonicalURL, pageTit
           Description={'Debug Steps and Monitoring Of 10 Regions'}
           canonicalURL={canonicalURL}
         />
-        <div className="main-column mx-auto">
+        <div className="main-column mx-auto flex flex-col gap-4">
           <RegionStatusCard
             regionName={region.name.capitalized}
             regionURL={region.name.forURL}

@@ -75,19 +75,18 @@ export const QuoteGenerator = ({ regionURL, apiURL, sectionId }: QuoteGeneratorP
           </svg>
         </div>
         <div className={"flex flex-col"}>
-          {status === 'loading' ? (
+          {data && (
             <LargeParagraphText>
-              <Spinner />
+              {data} ...
             </LargeParagraphText>
-          ) : (
-            <>
-              <LargeParagraphText>
-                {data} ...
-              </LargeParagraphText>
-            </>
           )}
-          <div className={"mt-4"}>
+          <div className={"mt-4 flex flex-row items-center"}>
             <RefreshButton disabled={isLoading} onClick={() => refetch()}>Get Quote</RefreshButton>
+            {status === 'loading' && (
+              <LargeParagraphText className="h-8 w-8 ml-auto">
+                <Spinner />
+              </LargeParagraphText>
+            )}
           </div>
         </div>
       </StandardCard>

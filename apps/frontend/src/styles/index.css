@@ -15,7 +15,7 @@
         @apply leading-loose;
     }
     .main-column{
-        @apply container  px-4 xl:px-36 md:px-8
+        @apply container px-4 xl:px-36 md:px-8
     }
     .inner-column{
         @apply container max-w-4xl px-4 sm:px-8

@@ -53,7 +53,7 @@ export const VotingApp = (props: VotingAppProps) => {
   if (status === 'loading') {
     return (
       <div className={"flex items-center w-full"}>
-        <div className="loader mt-4 mx-auto ease-linear rounded-full border-4 border-t-4 border-neutral-text h-8 w-8" />
+        <div className="loader mt-4 mx-auto ease-linear rounded-full border-4 border-t-4 border-neutral-text h-8 w-8 animate-pulse" />
       </div>
     );
   }

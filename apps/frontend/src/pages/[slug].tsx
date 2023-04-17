@@ -95,116 +95,120 @@ type RegionPageProps = InferGetStaticPropsType<typeof getStaticProps>
 const RegionPage: NextPageWithLayout<RegionPageProps> = ({ canonicalURL, pageTitle, region }) => {
   return (
     <>
-      <main className={"main-column mx-auto mt-48"}>
+      <main className={"mt-48 flex flex-col gap-8 pb-24"}>
         <SEO
           Title={pageTitle}
           Description={'Debug Steps and Monitoring Of 10 Regions'}
           canonicalURL={canonicalURL}
         />
-        <RegionStatusCard
-          regionName={region.name.capitalized}
-          regionURL={region.name.forURL}
-        />
-      </main>
-      <HNAlert />
-      <section data-section className={"main-column mx-auto mt-24"} id="stats">
-        <RegionLiveChart
-          regionURL={region.name.forURL}
-          analyticsSourceName={"GCP"}
-        />
-      </section>
-      <CTA />
-      <section className={"main-column pt-12 sm:pt-24 mx-auto"}>
-        <MainTitle>
-          Applications Running on {region.name.capitalized}
-        </MainTitle>
-        <div data-section id='is-sqs-down' className={"pt-8"}>
-          <LargeParagraphText>
-            <span className={"font-bold"}>SQS + EC2 Voting Game</span>
-          </LargeParagraphText>
-          <div className={"pt-2"}>
-            <TruncatedTextContainer>
-              <BodyText>
-                Only the last 100 votes are tallied. There are no limits to how
-                many times you can vote. Go crazy.
-              </BodyText>
-            </TruncatedTextContainer>
-          </div>
-          <VotingApp
-            endpointURL={region.resource.voting}
+        <div className="main-column mx-auto">
+          <RegionStatusCard
+            regionName={region.name.capitalized}
             regionURL={region.name.forURL}
           />
+          <HNAlert />
+          <section data-section id="stats">
+            <RegionLiveChart
+              regionURL={region.name.forURL}
+              analyticsSourceName={"GCP"}
+            />
+          </section>
         </div>
-        <div className={"mt-16 sm:mt-36"} data-section id='is-s3-down'>
-          <LargeParagraphText>
-            <span className={"font-bold"}>S3 File Serving</span>
-          </LargeParagraphText>
-          <StandardCard>
-            <S3Image
-              src={region.resource.storage}
-              alt="Jeff Bezos looking regal in an astronaut suit"
-              error={
-                <span className={"text-danger text-center block"}>
-                  Requesting{" "}
-                  <a href={region.resource.storage} target={"_blank"}>
-                    this image
-                  </a>{" "}
-                  failed. S3 in {region.name.lowerCase} might be down
-                </span>
-              }
-            >
-              <div className={"mt-4 sm:my-auto sm:ml-6  "}>
-                <LargeParagraphText>
-                  This image is served from S3 in {region.name.lowerCase}{" "}
-                  Suggest a new image on our{" "}
-                  <a href={"https://github.com/Taloflow/is-aws-down/discussions"} target={"_blank"} rel='noopener noreferrer'>
-                    GitHub community
-                  </a>
-                  .
-                </LargeParagraphText>
+        <CTA />
+        <section className="main-column mx-auto">
+          <MainTitle>
+            Applications Running on {region.name.capitalized}
+          </MainTitle>
+          <div className="flex flex-col gap-32">
+            <div data-section id='is-sqs-down' className={"pt-8"}>
+              <LargeParagraphText>
+                <span className={"font-bold"}>SQS + EC2 Voting Game</span>
+              </LargeParagraphText>
+              <div className={"pt-2"}>
+                <TruncatedTextContainer>
+                  <BodyText>
+                    Only the last 100 votes are tallied. There are no limits to how
+                    many times you can vote. Go crazy.
+                  </BodyText>
+                </TruncatedTextContainer>
               </div>
-            </S3Image>
-          </StandardCard>
-        </div>
-
-        <div className={"flex sm:flex-row flex-col mt-16 sm:mt-36 pb-64"} id='is-ec2-down' data-section>
-          <div className={"flex-1"}>
-            <div className={"flex flex-col relative"}>
-              <LargeParagraphText>
-                <span className={"font-bold"}>{"EC2 Bezos Quote Generator"}</span>
-              </LargeParagraphText>
-              <TruncatedTextContainer>
-                <BodyText>{"From his book “Invent and Wander: The Collected Writings of Jeff Bezos”"}</BodyText>
-              </TruncatedTextContainer>
-              <QuoteGenerator
-                apiURL={region.resource.quote}
-                sectionId='is-ec2-down'
+              <VotingApp
+                endpointURL={region.resource.voting}
                 regionURL={region.name.forURL}
               />
             </div>
-          </div>
-          <div className={"sm:ml-8 mt-8 sm:mt-0"} data-section id='is-lambda-down'>
-            <div className={"flex flex-col"}>
+            <div data-section id='is-s3-down'>
               <LargeParagraphText>
-                <span className={"font-bold"}>{"Lambda Random Shade Generator"}</span>
+                <span className={"font-bold"}>S3 File Serving</span>
               </LargeParagraphText>
-              <TruncatedTextContainer>
-                <BodyText>
-                  {"Runs through API gateway. Hate something about a cloud provider that you want added?"}{" "}
-                  <a href="https://github.com/Taloflow/is-aws-down/discussions/6">
-                    Tell us what it is here.
-                  </a>
-                </BodyText>
-              </TruncatedTextContainer>
-              <ShadeGenerator
-                apiURL={region.resource.lambda}
-                regionURL={region.name.forURL}
-                sectionId='is-lambda-down'
-              />
+              <StandardCard>
+                <S3Image
+                  src={region.resource.storage}
+                  alt="Jeff Bezos looking regal in an astronaut suit"
+                  error={
+                    <span className={"text-danger text-center block"}>
+                      Requesting{" "}
+                      <a href={region.resource.storage} target={"_blank"}>
+                        this image
+                      </a>{" "}
+                      failed. S3 in {region.name.lowerCase} might be down
+                    </span>
+                  }
+                >
+                  <div className={"mt-4 sm:my-auto sm:ml-6  "}>
+                    <LargeParagraphText>
+                      This image is served from S3 in {region.name.lowerCase}{" "}
+                      Suggest a new image on our{" "}
+                      <a href={"https://github.com/Taloflow/is-aws-down/discussions"} target={"_blank"} rel='noopener noreferrer'>
+                        GitHub community
+                      </a>
+                      .
+                    </LargeParagraphText>
+                  </div>
+                </S3Image>
+              </StandardCard>
+            </div>
+            <div className={"grid grid-cols-1 sm:grid-cols-2 gap-4"} id='is-ec2-down' data-section>
+              {/* flex sm:flex-row flex-col mt-16 sm:mt-36 pb-64 */}
+              <div className={"flex-1"}>
+                <div className={"flex flex-col relative"}>
+                  <LargeParagraphText>
+                    <span className={"font-bold"}>{"EC2 Bezos Quote Generator"}</span>
+                  </LargeParagraphText>
+                  <TruncatedTextContainer>
+                    <BodyText>{"From his book “Invent and Wander: The Collected Writings of Jeff Bezos”"}</BodyText>
+                  </TruncatedTextContainer>
+                  <QuoteGenerator
+                    apiURL={region.resource.quote}
+                    sectionId='is-ec2-down'
+                    regionURL={region.name.forURL}
+                  />
+                </div>
+              </div>
+              <div className={"sm:ml-8 mt-8 sm:mt-0"} data-section id='is-lambda-down'>
+                <div className={"flex flex-col"}>
+                  <LargeParagraphText>
+                    <span className={"font-bold"}>{"Lambda Random Shade Generator"}</span>
+                  </LargeParagraphText>
+                  <TruncatedTextContainer>
+                    <BodyText>
+                      {"Runs through API gateway. Hate something about a cloud provider that you want added?"}{" "}
+                      <a href="https://github.com/Taloflow/is-aws-down/discussions/6">
+                        Tell us what it is here.
+                      </a>
+                    </BodyText>
+                  </TruncatedTextContainer>
+                  <ShadeGenerator
+                    apiURL={region.resource.lambda}
+                    regionURL={region.name.forURL}
+                    sectionId='is-lambda-down'
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
     </>
   )
 }

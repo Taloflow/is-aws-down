@@ -2,7 +2,7 @@ import { CtaLink } from "../blocks/buttons/ctaButton";
 
 export const CTA = () => {
   return (
-    <div className={"bg-neutral-dark my-24"}>
+    <div className={"bg-neutral-dark"}>
       <div className={"max-w-2xl mx-auto px-4  py-16"}>
         <p className={"text-3xl font-bold text-center text-white"}>
           Get AWS outage alerts without relying on their status page

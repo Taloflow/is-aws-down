@@ -2,7 +2,6 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 import * as snippet from "@segment/snippet";
 import { Router } from "next/router";
 
-
 const DEFAULT_WRITE_KEY = "pXZJ3AzXJmrxGPRiWNqSpEDQdobjqWkf";
 
 function renderSnippet() {

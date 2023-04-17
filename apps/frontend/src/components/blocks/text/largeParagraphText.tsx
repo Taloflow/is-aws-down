@@ -1,14 +1,16 @@
+import { ReactNode } from "react";
+
 export const LargeParagraphText = ({
   children,
-  extraClasses,
+  className,
 }: {
-  children: React.ReactChild | React.ReactChild[];
-  extraClasses?: string;
+  children?: ReactNode
+  className?: string;
 }) => {
   return (
     <p
       className={
-        "text-lg sm:text-xl font-medium leading-relaxed " + extraClasses
+        "text-lg sm:text-xl font-medium leading-relaxed " + className
       }
     >
       {children}

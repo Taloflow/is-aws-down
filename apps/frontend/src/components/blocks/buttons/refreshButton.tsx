@@ -1,13 +1,19 @@
+import type { MouseEventHandler, ReactNode } from "react";
+
 type ButtonProps = {
-  Text: string;
+  children?: ReactNode
+  disabled?: boolean
+  onClick?: MouseEventHandler<HTMLButtonElement>
 };
 
-export const RefreshButton = (props: ButtonProps) => {
+export const RefreshButton = ({ children, disabled = false }: ButtonProps) => {
   return (
     <button
+      type='button'
       className={
         "flex rounded-lg w-[fit-content] items-center text-lg border-2 border-brand px-4 py-2 text-brand"
       }
+      disabled={disabled}
     >
       <svg
         className={"mr-2"}
@@ -22,7 +28,7 @@ export const RefreshButton = (props: ButtonProps) => {
           fill="#2464F6"
         />
       </svg>
-      {props.Text}
+      {children}
     </button>
   );
 };

@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 type NavBarProps = {
   StatsIsVisible: boolean;
   VotingGameIsVisible: boolean;
@@ -92,7 +94,7 @@ export const Navbar = (props: NavBarProps) => {
 type NavbarLinkProps = {
   link: string;
   isActive: boolean;
-  children: React.ReactChild | React.ReactChild[];
+  children: ReactNode
 };
 
 const NavbarLink = (props: NavbarLinkProps) => {

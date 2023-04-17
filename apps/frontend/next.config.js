@@ -6,5 +6,5 @@
 module.exports = {
   basePath: '/is-aws-down',
   // assetPrefix: isProd ? "https://is-aws-down.pages.dev" : ""
-  assetPrefix: '/'
+  // assetPrefix: '/'
 };

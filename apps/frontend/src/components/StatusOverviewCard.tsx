@@ -16,7 +16,7 @@ type StatusOverviewCardProps = {
 
 const statusTitle = {
   down: 'Some AWS services have had issues in the last day',
-  up: 'Our health check show AWS is up!'
+  up: 'Our health check shows AWS is up!'
 } as const
 
 export const StatusOverviewCard = ({ data }: StatusOverviewCardProps) => {

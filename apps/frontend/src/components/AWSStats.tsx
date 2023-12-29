@@ -68,7 +68,7 @@ export const AWSStats = () => {
                             issues that you do not, or vice versa.
                         </LargeParagraphText>
                         <LargeParagraphText>
-                            If you&apos;re looking alternatives to AWS and are tired of digging through vendor sales pages to run good comparisons, <a className={"text-brand"} href="https://use.taloflow.ai/start/" target={"_blank"}>try our tool</a>.
+                            If you&apos;re looking alternatives to AWS and are tired of digging through vendor sales pages to run good comparisons, <a className={"text-brand"} href="https://www.taloflow.ai?utm_source=is_aws_down" target={"_blank"}>try our tool</a>.
                         </LargeParagraphText>
                     </div>
                 </StandardCard>

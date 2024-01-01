@@ -8,6 +8,7 @@ import { serviceListNames } from "~/utils/service-list";
 import { StandardCard } from "./blocks/containers/standardCard";
 import { ServiceList } from "./ServiceList";
 import { StatusOverviewCard } from "./StatusOverviewCard";
+import { AdAlternatives } from "./ads/Sponsored";
 
 export const AWSStats = () => {
     const { data, status } = useAWSStatusOverview()
@@ -34,6 +35,9 @@ export const AWSStats = () => {
         <>
             <div className={"container max-w-[900px] mx-auto mt-24"}>
                 <StatusOverviewCard data={data} />
+                <div className="mt-8">
+                    <AdAlternatives />
+                </div>
             </div>
             <div
                 className={
@@ -68,7 +72,7 @@ export const AWSStats = () => {
                             issues that you do not, or vice versa.
                         </LargeParagraphText>
                         <LargeParagraphText>
-                            If you&apos;re looking alternatives to AWS and are tired of digging through vendor sales pages to run good comparisons, <a className={"text-brand"} href="https://use.taloflow.ai/start/" target={"_blank"}>try our tool</a>.
+                            If you&apos;re looking alternatives to AWS and are tired of digging through vendor sales pages to run good comparisons, <a className={"text-brand"} href="https://www.taloflow.ai?utm_source=is_aws_down" target={"_blank"}>try our tool</a>.
                         </LargeParagraphText>
                     </div>
                 </StandardCard>

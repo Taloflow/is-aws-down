@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 type NavBarProps = {
@@ -20,7 +21,7 @@ export const Navbar = (props: NavBarProps) => {
       >
         <div className={"max-w-7xl mx-auto justify-between flex"}>
           <div>
-            <a href={"https://www.taloflow.ai"} className={"inline-block mr-4"}>
+            <Link href={"/"} className={"inline-block mr-4"}>
               <svg
                 width="40"
                 height="100%"
@@ -39,7 +40,7 @@ export const Navbar = (props: NavBarProps) => {
                   fill="white"
                 />
               </svg>
-            </a>
+            </Link>
             <NavbarLink link={"#stats"} isActive={props.StatsIsVisible}>
               Stats
             </NavbarLink>

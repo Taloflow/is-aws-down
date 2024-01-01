@@ -14,7 +14,7 @@ type RegionLiveChartProps = {
 export const RegionLiveChart = ({ analyticsSourceName, regionURL }: RegionLiveChartProps) => {
     const { data, status } = useRegionMetrics(regionURL, 'stats')
       // The names of the errors shown on the dashboard
-  const [activeItem, setActiveItem] = useState<'all' | string>("all");
+  const [activeItem, setActiveItem] = useState<'All' | string>("All");
   // This field allows the user to have zero items selected, without items then being auto selected
   // when the data refreshes.
   const [activeItemSetOnce, setActiveItemSetOnce] = useState(false);

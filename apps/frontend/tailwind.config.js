@@ -10,8 +10,10 @@ module.exports = {
       neutral: {
         text: "#414141",
         light: "#F4F6F7",
+        darker: "#9F9F9F",
         dark: "#0A0C24",
       },
+      blue: colors.blue,
       white: colors.white,
       brand: {
         DEFAULT: "#2464F6",

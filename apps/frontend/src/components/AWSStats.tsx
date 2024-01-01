@@ -8,6 +8,7 @@ import { serviceListNames } from "~/utils/service-list";
 import { StandardCard } from "./blocks/containers/standardCard";
 import { ServiceList } from "./ServiceList";
 import { StatusOverviewCard } from "./StatusOverviewCard";
+import { AdAlternatives } from "./ads/Sponsored";
 
 export const AWSStats = () => {
     const { data, status } = useAWSStatusOverview()
@@ -34,6 +35,9 @@ export const AWSStats = () => {
         <>
             <div className={"container max-w-[900px] mx-auto mt-24"}>
                 <StatusOverviewCard data={data} />
+                <div className="mt-8">
+                    <AdAlternatives />
+                </div>
             </div>
             <div
                 className={

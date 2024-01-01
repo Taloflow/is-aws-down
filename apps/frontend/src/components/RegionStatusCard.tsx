@@ -10,6 +10,7 @@ import { HealthCheckCard } from "./HealthCheckCard"
 import { CheckIssueList } from "./HealthCheckCard/CheckIssueList"
 import { InfoBox } from "./InfoBox"
 import { ServiceList } from "./ServiceList"
+import { AdAlternatives } from "./ads/Sponsored"
 
 type RegionStatusCardProps = {
     regionName: string;
@@ -54,6 +55,9 @@ export const RegionStatusCard = ({ regionName, regionURL }: RegionStatusCardProp
                     </CheckIssueList>
                 )}
             </HealthCheckCard>
+            <div className="mt-8">
+                <AdAlternatives />
+            </div>
             <StandardCard>
                 <div className={"space-y-6"}>
                     <LargeParagraphText>

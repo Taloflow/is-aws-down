@@ -3,8 +3,8 @@
   "regionNameLowerCase": "us east-2",
   "regionNameUpperCase": "US East 2",
   "dashBoardEndpoint": "https://gcp-dashboard.b-cdn.net",
-  "votingGameEndpoint": "https://https://d2zqq4fmg95cy4.cloudfront.net",
+  "votingGameEndpoint": "https://d2zqq4fmg95cy4.cloudfront.net",
   "S3Endpoint": "https://taloflow-aws-health-check-us-east-2.s3.us-east-2.amazonaws.com/if-i-get-requested-s3-is-up.jpg",
-  "QuoteEndpoint": "https://https://d2lgqllar6jk22.cloudfront.net/quote",
+  "QuoteEndpoint": "https://d2lgqllar6jk22.cloudfront.net/quote",
   "LambdaEndpoint": "https://jolm3thn8i.execute-api.us-east-2.amazonaws.com/prod/shades"
 }
